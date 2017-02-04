@@ -34,7 +34,8 @@ export const DefaultSettings: ISettings = {
                 ]
             },
             diver: {
-                end_turn: "backspace"
+                end_turn: "backspace",
+                open_chat: "return"
             },
             spell: [
                 "",

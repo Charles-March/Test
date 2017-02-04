@@ -432,6 +432,7 @@ export module Option {
 
         export class Diver {
             private _end_turn: string;
+            private _open_chat: string;
 
             get end_turn(): string {
                 return this._end_turn;
@@ -442,8 +443,18 @@ export module Option {
                 this._end_turn = end_turn;
             }
 
+            get open_chat(): string {
+                return this._open_chat;
+            }
+
+            set open_chat(open_chat: string) {
+                settings.setSync('option.shortcuts.diver.open_chat', open_chat);
+                this._open_chat = open_chat;
+            }
+
             constructor() {
                 this.end_turn = settings.getSync('option.shortcuts.diver.end_turn');
+                this.open_chat = settings.getSync('option.shortcuts.diver.open_chat');
             }
         }
     }
