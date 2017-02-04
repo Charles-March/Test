@@ -90,8 +90,9 @@ export class GameComponent implements OnInit, AfterViewInit {
         });
 
         (<any>this.tab.window).gui.on("disconnect", () => {
-            this.unBindEventIG();
+            //this.unBindEventIG();
             //this.
+            this.unBindShortcuts();
             this.zone.run(() => {
                 this.tab.isLogged = false;
                 this.tab.character = null;
