@@ -7,10 +7,13 @@ import {DefaultSettings} from './default.settings';
 import {GameWindow} from './game-window';
 import {UpdateWindow} from './update-window';
 
+const neutrino = require("neutrino-metrics");
+neutrino("SyxamT87ux");
+
 export class Application {
 
     public website: string = "http://dofustouch.no-emu.com";
-    public cmdOptions: any;
+    public static cmdOptions: any;
     public devMode: boolean = false;
     private gameWindows: GameWindow[] = [];
     private updateWindow: UpdateWindow;
@@ -26,7 +29,7 @@ export class Application {
             settings.resetToDefaultsSync(); // debug
         }
 
-        this.cmdOptions = cmdOptions;
+        Application.cmdOptions = cmdOptions;
         this.devMode = cmdOptions.devmode;
         this.updateWindow = new UpdateWindow(this);
     }
@@ -77,7 +80,7 @@ export class Application {
                 this.addWindow();
                 this.updateWindow.win.close();
 
-                if(this.cmdOptions.changelog){
+                if(Application.cmdOptions.changelog){
                     ChangeLogWindow.run(this);
                 }
             });
@@ -88,7 +91,7 @@ export class Application {
 
                 let appPath = app.getAppPath();
 
-                if (this.cmdOptions.devmode) {
+                if (Application.cmdOptions.devmode) {
                     appPath = __dirname + '/../../';
                 }
 
