@@ -12,19 +12,19 @@ DofusTouch No-Emu fonctionne sur :
 ## Sommaire
 - [À propos](#)
 - [Fonctionnalités principales](#)
-- [Installation :](#)
+- [Installation](#)
     - [Prérequis](#)
-        - [Node.js :](#)
+        - [Node.js](#)
     - [No-Emu](#)
-- [Utilisation :](#)
-- [Build Distribution :](#)
+- [Utilisation](#)
+- [Build Distribution](#)
     - [Windows](#)
         - [Docker](#)
     - [Linux](#)
     - [Mac (OS X)](#)
-- [Développement :](#)
-    - [Introduction :](#)
-    - [Structure des dossiers :](#)
+- [Développement](#)
+    - [Introduction](#)
+    - [Structure des dossiers](#)
 - [License](#)
  
 ## Fonctionnalités principales
@@ -35,9 +35,9 @@ DofusTouch No-Emu fonctionne sur :
 
 
 
-## Installation :
+## Installation
 ### Prérequis
-#### Node.js :
+#### Node.js
 - Windows : [Website](https://nodejs.org)
 - Linux
 ```sh
@@ -47,6 +47,10 @@ apt-get install nodejs
 ```sh
 brew install nodejs
 ```
+#### Gulp
+```sh
+npm install -g gulp
+```
 
 ### No-Emu
 ```sh
@@ -54,7 +58,7 @@ $ git clone https://github.com/scapain/dofustouch-noemu.git -b angular2-typescri
 $ cd dofustouch-noemu
 $ npm install
 ```
-## Utilisation :
+## Utilisation
 Avancer de lancer no-emu vous devez compiler les sources typescript via gulp avec la commande :
 ```sh
 $ gulp serve
@@ -66,7 +70,7 @@ Vous pouvez ensuite lancer no-emu via la commande :
 $ npm run start
 ```
 
-## Build Distribution :
+## Build Distribution
 ### Windows
 Pour build la distribution de windows vous devez être sous windows (sinon voir plus bas)
 ```sh
@@ -88,13 +92,13 @@ $ npm run build-linux
 $ npm run build-mac
 ```
 
-## Développement :
+## Développement
 
-### Introduction :
+### Introduction
 No-Emu est developpé sous angular 2 avec typescript. Il faut distinguer ainsi 2 contexts,
  celui du navigateur et celui de electron (context node.js). Le principe est de simuler l'environnement de Dofus Touch pour faire fonctionner ce dernier sur PC.
 
-### Structure des dossiers :
+### Structure des dossiers
     
     ├── build                         # contient les fichiers utiles pour buid les distributions (icons, etc)                       
     ├── dist                          # dossier de sortie lors de la création des builds
