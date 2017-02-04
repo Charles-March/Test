@@ -79,7 +79,7 @@ $ npm run start
 ### Windows
 Pour build la distribution de windows vous devez être sous windows (sinon voir plus bas)
 ```sh
-$ npm run build-win
+$ npm run dist-win
 ```
 #### Docker
 Si vous êtes sur mac/linux vous pouvez build une version windows via notre image docker:
@@ -89,12 +89,12 @@ $ docker-compose up
 
 ### Linux
 ```sh
-$ npm run build-linux
+$ npm run dist-linux
 ```
 
 ### Mac (OS X)
 ```sh
-$ npm run build-mac
+$ npm run dist-mac
 ```
 
 ## Développement
