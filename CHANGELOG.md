@@ -3,6 +3,9 @@
 ## [TODO]
 - Fixer les dépendances d'angular 
 
+## [Prochainement]
+- Fix du bug PM et interface
+
 
 ## [3.0.1] - 2017-02-02
 - Résolution des problèmes liés à la V3

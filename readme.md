@@ -10,29 +10,34 @@ DofusTouch No-Emu fonctionne sur :
  - Linux (x86/x86_64)
  
 ## Sommaire
-- [À propos](#)
-- [Fonctionnalités principales](#)
-- [Installation](#)
-    - [Prérequis](#)
-        - [Node.js](#)
-    - [No-Emu](#)
-- [Utilisation](#)
-- [Build Distribution](#)
-    - [Windows](#)
-        - [Docker](#)
-    - [Linux](#)
-    - [Mac (OS X)](#)
-- [Développement](#)
-    - [Introduction](#)
-    - [Structure des dossiers](#)
-- [License](#)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+ 
+
+- [Fonctionnalités principales](#fonctionnalit%C3%A9s-principales)
+- [Installation](#installation)
+  - [Prérequis](#pr%C3%A9requis)
+    - [Node.js](#nodejs)
+    - [Gulp](#gulp)
+  - [No-Emu](#no-emu)
+- [Utilisation](#utilisation)
+- [Build Distribution](#build-distribution)
+  - [Windows](#windows)
+    - [Docker](#docker)
+  - [Linux](#linux)
+  - [Mac (OS X)](#mac-os-x)
+- [Développement](#d%C3%A9veloppement)
+  - [Introduction](#introduction)
+  - [Structure des dossiers](#structure-des-dossiers)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
  
 ## Fonctionnalités principales
 - Raccourcis en jeu
 - Système de notification
 - Multi-compte
 - Chargement automatique des versions
-
 
 
 ## Installation
