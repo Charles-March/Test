@@ -25,6 +25,7 @@ export interface ISettings {
             }
             diver: {
                 end_turn: string;
+                open_chat: string;
             }
             spell: Array<string>;
             item: Array<string>;
