@@ -175,7 +175,16 @@ export class GameMenuTemplate {
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             ChangeLogWindow.run(application);
                         }
-                    }
+                    },
+                    {
+                        label: 'Re-télécharger les fichiers de jeu',
+                        click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
+                            settings.setSync('appVersion', null);
+                            settings.setSync('buildVersion', null);
+                            app.relaunch();
+                            app.exit(0);
+                        }
+                    },
                 ]
             },
             {
