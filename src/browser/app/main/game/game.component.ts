@@ -197,6 +197,11 @@ export class GameComponent implements OnInit, AfterViewInit {
             (<any>this.tab.window).gui.fightManager.finishTurn()
         });
 
+        // open chat
+        this.shortCuts.bind(this.settingsService.option.shortcuts.diver.open_chat, () => {
+            (<any>this.tab.window).gui.chat.activate()
+        });
+
         // spell
         async.forEachOf(this.settingsService.option.shortcuts.spell, (shortcut: string, index: number) => {
             this.shortCuts.bind(shortcut, () => {
