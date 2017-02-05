@@ -74,7 +74,7 @@ export class Application {
             this.getAppVersion(),
             this.getBuildVersion(),
         ]).then(([newAppVersion, newBuildVersion]) => {
-            settings.setSync('option.appVersion', newAppVersion);
+            settings.setSync('appVersion', newAppVersion);
 
             this.updateWindow.run().then(() => {
                 this.addWindow();
