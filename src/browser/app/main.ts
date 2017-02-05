@@ -5,9 +5,9 @@ const {Application} = (<any>global).nodeRequire('electron').remote.require('./ap
 
 if(Application.cmdOptions.devmode){
     console.info('- No-Emu is in dev mode');
-    enableProdMode();
 }else{
     console.info('- No-Emu is in prod mode');
+    enableProdMode();
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule);
