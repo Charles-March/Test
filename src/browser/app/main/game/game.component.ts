@@ -34,6 +34,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     private shortCuts: ShortCuts;
     private gamePath: string;
     private gameLoaded: boolean = false;
+    private backupMaxZoom: number;
 
     constructor(@Inject('Window') private window: Window,
                 private ipcRendererService: IpcRendererService,
@@ -59,6 +60,7 @@ export class GameComponent implements OnInit, AfterViewInit {
 
         if (this.gameLoaded) {
             this.setEventListener();
+            this.checkMaxZoom();
         }
 
         this.gameLoaded = true;
@@ -69,6 +71,7 @@ export class GameComponent implements OnInit, AfterViewInit {
         // event -> resize window game
         this.tab.window.onresize = () => {
             (<any>this.tab.window).gui._resizeUi();
+            this.checkMaxZoom();
         };
 
 
@@ -156,6 +159,14 @@ export class GameComponent implements OnInit, AfterViewInit {
                 });
             };
         }
+    }
+
+    private checkMaxZoom() {
+        if (!this.backupMaxZoom) this.backupMaxZoom = (<any>this.tab.window).isoEngine.mapScene.camera.maxZoom;
+        (<any>this.tab.window).isoEngine.mapScene.camera.maxZoom = Math.max(
+            this.backupMaxZoom,
+            this.backupMaxZoom + ((<any>this.tab.window).isoEngine.mapScene.canvas.height / 800 - 1)
+        );
     }
 
     private bindEventIG(): void {
