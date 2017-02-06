@@ -462,6 +462,7 @@ export module Option {
     export class General {
 
         private _hidden_shop: boolean;
+        private _hidden_tabs: boolean;
         private _developper_mode: boolean;
         private _resolution: {
             x: boolean;
@@ -475,6 +476,15 @@ export module Option {
         set hidden_shop(hidden_shop: boolean) {
             settings.setSync('option.general.hidden_shop', hidden_shop);
             this._hidden_shop = hidden_shop;
+        }
+
+        get hidden_tabs(): boolean {
+            return this._hidden_tabs;
+        }
+
+        set hidden_tabs(hidden_tabs: boolean) {
+            settings.setSync('option.general.hidden_tabs', hidden_tabs);
+            this._hidden_tabs = hidden_tabs;
         }
 
         get developper_mode() {
@@ -497,6 +507,7 @@ export module Option {
 
         constructor() {
             this.hidden_shop = settings.getSync('option.general.hidden_shop');
+            this.hidden_tabs = settings.getSync('option.general.hidden_tabs');
             this.developper_mode = settings.getSync('option.general.developper_mode');
             this.resolution = settings.getSync('option.general.resolution');
         }

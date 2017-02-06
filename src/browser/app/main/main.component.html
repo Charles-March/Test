@@ -1,4 +1,4 @@
-<ul class="nav nav-pills">
+<ul class="nav nav-pills" [class.hiddenTabs]="settingsService.option.general.hidden_tabs">
     <li *ngFor="let tab of tabs; let i = index;" class="nav-item game-tab">
         <a class="nav-link" [class.active]="tab.isFocus" [class.notification]="tab.notification" href="#">
             <span (click)="selectTab(tab)" [ngSwitch]="tab.character">

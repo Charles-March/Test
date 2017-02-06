@@ -6,6 +6,7 @@ export const DefaultSettings: ISettings = {
     option: {
         general: {
             hidden_shop: false,
+            hidden_tabs: false,
             developper_mode: false,
             stay_connected: true,
             resolution: {

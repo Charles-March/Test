@@ -1,1 +1,1 @@
-<iframe id="Frame{{tab.id}}" (load)="gameReady()" [src]="gamePath | safe"></iframe>
+<iframe id="Frame{{tab.id}}" (load)="gameReady()" [src]="gamePath | safe" [class.hiddenTabs]="settingsService.option.general.hidden_tabs"></iframe>
