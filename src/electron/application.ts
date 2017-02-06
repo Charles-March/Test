@@ -1,6 +1,6 @@
 import {ChangeLogWindow} from "./changelog-window";
 const settings = require('electron-settings');
-import {app, ipcMain} from 'electron';
+import {app, ipcMain, dialog, BrowserWindow} from 'electron';
 import * as request from 'request';
 
 import {DefaultSettings} from './default.settings';
@@ -25,7 +25,7 @@ export class Application {
 
 
         // if wrong settings -> reset
-        if(!settings.getSync('buildVersion')){
+        if (!settings.getSync('buildVersion')) {
             settings.resetToDefaultsSync(); // debug
         }
 
@@ -36,7 +36,10 @@ export class Application {
 
     private getAppVersion(): Promise<string> {
         return new Promise((resolve, reject) => {
-            request('https://itunes.apple.com/lookup?id=1041406978', function (error, response, body) {
+            request.get({
+                url: 'https://itunes.apple.com/lookup?id=1041406978',
+                forever: true
+            }, function (error, response, body) {
 
                 if (!error && response.statusCode == 200) {
                     let bodyParse = JSON.parse(body);
@@ -51,7 +54,10 @@ export class Application {
     private getBuildVersion(): Promise<string> {
         return new Promise((resolve, reject) => {
 
-            request('https://proxyconnection.touch.dofus.com/build/script.js', (error, response, body) => {
+            request.get({
+                url: 'https://proxyconnection.touch.dofus.com/build/script.js',
+                forever: true
+            }, (error, response, body) => {
 
                 if (!error && response.statusCode == 200) {
                     const regex = /.*buildVersion=("|')([0-9]*\.[0-9]*\.[0-9]*)("|')/g;
@@ -78,12 +84,27 @@ export class Application {
 
             this.updateWindow.run().then(() => {
                 this.addWindow();
-                this.updateWindow.win.close();
 
-                if(Application.cmdOptions.changelog){
+                if (this.updateWindow.win) {
+                    this.updateWindow.win.close();
+                }
+
+
+                if (Application.cmdOptions.changelog) {
                     ChangeLogWindow.run(this);
                 }
+            }).catch((raison: any) => {
+                console.log('run update error');
+                dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+                    type: 'error',
+                    title: 'Error',
+                    message: raison.toString(),
+                    buttons: ['Fermer']
+                }, () => {
+                    app.exit();
+                });
             });
+
 
             // this.addWindow();
 
@@ -101,6 +122,15 @@ export class Application {
                     buildVersion: newBuildVersion,
                     appVersion: newAppVersion
                 }
+            });
+        }).catch((raison: any) => {
+            dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+                type: 'error',
+                title: 'Error',
+                message: raison.toString(),
+                buttons: ['Fermer']
+            }, () => {
+                app.exit();
             });
         });
 
