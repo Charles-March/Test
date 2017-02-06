@@ -143,7 +143,7 @@ export class UpdateWindow {
 
                 this.win.loadURL(`file://${__dirname}/../browser/index.html#/update/${encodeURIComponent(savePath)}/${encodeURIComponent(remoteUrl)}`);
 
-                if(this.application.devMode){
+                if (this.application.devMode) {
                     this.win.webContents.openDevTools();
                 }
 
@@ -151,6 +151,11 @@ export class UpdateWindow {
                     console.log('ready to update');
 
                     extract(savePath, {dir: app.getPath('userData') + '/game'}, function (err: any) {
+
+                        if (err) {
+                            return reject(err);
+                        }
+
                         console.log('extract finish');
                         settings.setSync('buildVersion', response.dofustouch.version);
                         resolve();
@@ -168,7 +173,7 @@ export class UpdateWindow {
                 return this.checkGameUpdate(response);
             }).then(() => {
                 resolve();
-            });
+            }).catch(reject);
         });
 
     }
@@ -178,12 +183,19 @@ export class UpdateWindow {
 
             let queries = '?version=' + settings.getSync('option.buildVersion') + '&os=' + process.platform;
 
-            request(url.resolve(this.application.website, 'update/game.php' + queries), (error, response, body) => {
+            request.get({
+                url: url.resolve(this.application.website, 'update/game.php' + queries),
+                forever: true
+            }, (error, response, body) => {
                 if (!error && response.statusCode == 200) {
                     let parseBody: UpdateResponse = JSON.parse(body);
                     resolve(parseBody);
                 } else {
-                    reject(error);
+                    if (error) {
+                        reject(error);
+                    } else {
+                        reject(body);
+                    }
                 }
             });
         });
