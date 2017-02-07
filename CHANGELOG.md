@@ -5,6 +5,13 @@
 
 ## [Prochainement]
 
+## [3.0.3] - 2017-02-08
+- fix socket hang up problem
+- fix problème de rafraichissement (écran noir)
+- ajout d'une option pour cacher les onglets
+- fix problème dialogue npc (haute résolution)
+- ajout d'un bouton pour re-télécharger les fichiers du jeu
+
 ## [3.0.2] - 2017-02-04
 - Fix du bug PM et interface
 - Passage d'angular en prod mod (gains de performance)
