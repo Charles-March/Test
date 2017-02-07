@@ -6,37 +6,14 @@ import {IpcRendererService} from "../electron/ipcrenderer.service";
 const settings = (<any>global).nodeRequire('electron-settings');
 
 export class Option {
-    private _buildVersion: string;
-    private _appVersion: string;
     public general: Option.General;
     public shortcuts: Option.Shortcuts;
     public notification: Option.Notification;
-
-    get buildVersion(): string {
-        return this._buildVersion;
-    }
-
-    set buildVersion(buildVersion: string) {
-        settings.setSync('option.buildVersion', buildVersion);
-        this._buildVersion = buildVersion;
-    }
-
-    get appVersion(): string {
-        return this._appVersion;
-    }
-
-    set appVersion(appVersion: string) {
-        settings.setSync('option.appVersion', appVersion);
-        this._appVersion = appVersion;
-    }
 
     constructor() {
         this.general = new Option.General();
         this.shortcuts = new Option.Shortcuts();
         this.notification = new Option.Notification();
-
-        this._appVersion = settings.getSync('option.appVersion');
-        this._buildVersion = settings.getSync('option.buildVersion');
     }
 }
 
@@ -548,24 +525,61 @@ export class SettingsService {
 
     public option: Option;
 
+    private _buildVersion: string;
+    private _appVersion: string;
+    private _alertCounter: number
+
+    get alertCounter(): number {
+        return this._alertCounter;
+    }
+
+    set alertCounter(alertCounter: number) {
+        settings.setSync('alertCounter', alertCounter);
+        this._alertCounter = alertCounter;
+    }
+
+    get buildVersion(): string {
+        return this._buildVersion;
+    }
+
+    set buildVersion(buildVersion: string) {
+        settings.setSync('buildVersion', buildVersion);
+        this._buildVersion = buildVersion;
+    }
+
+    get appVersion(): string {
+        return this._appVersion;
+    }
+
+    set appVersion(appVersion: string) {
+        settings.setSync('appVersion', appVersion);
+        this._appVersion = appVersion;
+    }
+
+
+
     constructor(private ipcRendererService: IpcRendererService,
                 private zone: NgZone) {
+
         this.option = new Option();
+
+        this._appVersion = settings.getSync('appVersion');
+        this._buildVersion = settings.getSync('buildVersion');
+        this._alertCounter = settings.getSync('alertCounter');
 
 
         this.ipcRendererService.on('reload-settings', () => {
             console.log('receive->reload-settings');
 
+            this._appVersion = settings.getSync('appVersion');
+            this._buildVersion = settings.getSync('buildVersion');
+            this._alertCounter = settings.getSync('alertCounter');
+
             //this.option = nullx;
             let resetOption = new Option(); // synchronous call
 
-
             this.option.shortcuts.no_emu = resetOption.shortcuts.no_emu;
-
-            this.option.appVersion = resetOption.appVersion;
-            this.option.buildVersion = resetOption.buildVersion;
             this.option.general = resetOption.general;
-
             this.option.notification = resetOption.notification;
             this.option.shortcuts.diver = resetOption.shortcuts.diver;
             this.option.shortcuts.interface = resetOption.shortcuts.interface;
@@ -575,8 +589,6 @@ export class SettingsService {
             console.log('emit->reload-settings-done');
 
             this.ipcRendererService.send('reload-settings-done');
-
-
         });
 
     }

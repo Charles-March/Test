@@ -150,10 +150,17 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.modalService.open(this.content, {}).result.then((result) => {
 
-        }, (reason) => {
+        console.log(this.settingsService.alertCounter);
 
-        });
+        if(this.settingsService.alertCounter % 15 === 0){
+            this.modalService.open(this.content, {}).result.then((result) => {
+
+            }, (reason) => {
+
+            });
+        }
+
+        this.settingsService.alertCounter++;
     }
 }
