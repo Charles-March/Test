@@ -1,5 +1,6 @@
 import {ChangeLogWindow} from "./changelog-window";
 const settings = require('electron-settings');
+import electron = require("electron");
 import {app, ipcMain, dialog, BrowserWindow} from 'electron';
 import * as request from 'request';
 
@@ -76,19 +77,38 @@ export class Application {
     run(): void {
         // get dynamic app and build version (avoid login block)
 
+
+        let splash = new electron.BrowserWindow({
+            width: 400,
+            height: 400,
+            center: true,
+            movable: true,
+            alwaysOnTop: true,
+            resizable : false,
+            frame: false,
+            transparent: true
+        });
+
+        splash.loadURL(`file://${__dirname}/../browser/splash.html#/`);
+
         Promise.all([
             this.getAppVersion(),
             this.getBuildVersion(),
         ]).then(([newAppVersion, newBuildVersion]) => {
             settings.setSync('appVersion', newAppVersion);
 
+            splash.hide();
+
             this.updateWindow.run().then(() => {
+
+
                 this.addWindow();
 
                 if (this.updateWindow.win) {
                     this.updateWindow.win.close();
                 }
 
+                splash.close();
 
                 if (Application.cmdOptions.changelog) {
                     ChangeLogWindow.run(this);
@@ -105,9 +125,6 @@ export class Application {
                 });
             });
 
-
-            // this.addWindow();
-
             ipcMain.on('load-config', (event, arg) => {
 
                 let appPath = app.getAppPath();
@@ -120,7 +137,8 @@ export class Application {
                     gamePath: app.getPath('userData') + '/game',
                     appPath: appPath,
                     buildVersion: newBuildVersion,
-                    appVersion: newAppVersion
+                    appVersion: newAppVersion,
+                    platform: process.platform
                 }
             });
         }).catch((raison: any) => {
