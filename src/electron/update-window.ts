@@ -183,14 +183,19 @@ export class UpdateWindow {
 
             let queries = '?version=' + settings.getSync('option.buildVersion') + '&os=' + process.platform;
 
+            let uri = url.resolve(this.application.website, 'update/game.php' + queries);
+
             request.get({
-                url: url.resolve(this.application.website, 'update/game.php' + queries),
-                forever: true
+                url: uri,
+                forever: true,
+                gzip: true
             }, (error, response, body) => {
+                console.log(body);
                 if (!error && response.statusCode == 200) {
                     let parseBody: UpdateResponse = JSON.parse(body);
                     resolve(parseBody);
                 } else {
+
                     if (error) {
                         reject(error);
                     } else {
