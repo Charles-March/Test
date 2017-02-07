@@ -35,7 +35,7 @@ export class UpdateWindow {
     private createWindow(): Electron.BrowserWindow {
         let window = new electron.BrowserWindow({
             width: 800,
-            height: 240,
+            height: 150,
             resizable: false,
             center: true,
             parent: electron.BrowserWindow.getFocusedWindow(),

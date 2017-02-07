@@ -5,7 +5,7 @@
 
 ## [Prochainement]
 
-## [3.0.3] - 2017-02-08
+## [3.0.3] - 2017-02-07
 - fix socket hang up problem
 - fix problème de rafraichissement (écran noir)
 - ajout d'une option pour cacher les onglets
