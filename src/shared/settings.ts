@@ -1,5 +1,6 @@
 export interface IGeneral {
     hidden_shop: boolean;
+    hidden_tabs: boolean;
     developper_mode: boolean;
     stay_connected: boolean;
     resolution: {

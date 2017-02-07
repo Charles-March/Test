@@ -24,6 +24,11 @@ ul {
     height: 35px;
 }
 
+.hiddenTabs.nav {
+    height: 0px;
+    overflow: hidden;
+}
+
 .notification {
   animation: blink 1.5s linear infinite;
 }
