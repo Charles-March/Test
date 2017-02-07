@@ -3,10 +3,12 @@ const settings = require('electron-settings');
 import electron = require("electron");
 import {app, ipcMain, dialog, BrowserWindow} from 'electron';
 import * as request from 'request';
+import {checkSettings} from './test/check-settings';
 
 import {DefaultSettings} from './default.settings';
 import {GameWindow} from './game-window';
 import {UpdateWindow} from './update-window';
+import {ISettings} from "../shared/settings";
 
 const neutrino = require("neutrino-metrics");
 neutrino("SyxamT87ux");
@@ -24,10 +26,9 @@ export class Application {
         // set defaults settings
         settings.defaults(DefaultSettings);
 
-
         // if wrong settings -> reset
-        if (!settings.getSync('buildVersion')) {
-            settings.resetToDefaultsSync(); // debug
+        if(!checkSettings()){
+            settings.resetToDefaultsSync();
         }
 
         Application.cmdOptions = cmdOptions;
@@ -79,8 +80,8 @@ export class Application {
 
 
         let splash = new electron.BrowserWindow({
-            width: 190,
-            height: 190,
+            width: 250,
+            height: 250,
             center: true,
             movable: true,
             alwaysOnTop: true,

@@ -1,4 +1,8 @@
-import {Component, Optional, ViewEncapsulation, Inject, OnInit, NgZone, SimpleChanges, ViewChild} from '@angular/core';
+import {
+    Component, Optional, ViewEncapsulation, Inject, OnInit, NgZone, SimpleChanges, ViewChild,
+    AfterViewInit
+} from '@angular/core';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {TabService} from './tab/tab.service';
 import {Tab} from './tab/tab';
 import {ShortCuts} from './../shortcuts/shortcuts';
@@ -6,6 +10,8 @@ import {IpcRendererService} from './../../shared/electron/ipcrenderer.service';
 import {ApplicationService} from "../../shared/electron/application.service";
 import {SettingsService} from "../../shared/settings/settings.service";
 import {Title} from "@angular/platform-browser";
+
+const {shell} = (<any>global).nodeRequire('electron').remote;
 
 //const { ipcRenderer } = (<any>global).nodeRequire('electron');
 
@@ -17,12 +23,15 @@ import {Title} from "@angular/platform-browser";
         "style": "height:100%; overflow: hidden; background: black;" // find something less ugly in future
     }
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, AfterViewInit {
     tabs: Tab[];
     activTab: Tab = null;
     private shortCuts: ShortCuts;
 
+    @ViewChild('content') content: any;
+
     constructor(@Inject('Window') private window: Window,
+                private modalService: NgbModal,
                 private tabService: TabService,
                 private ipcRendererService: IpcRendererService,
                 private settingsService: SettingsService,
@@ -127,6 +136,9 @@ export class MainComponent implements OnInit {
 
     }
 
+    tipeee() {
+        shell.openExternal('https://www.tipeee.com/dtne');
+    }
 
     ngOnInit(): void {
         this.tabs = this.tabService.getTabs();
@@ -135,6 +147,13 @@ export class MainComponent implements OnInit {
 
 
         this.addTab();
+    }
 
+    ngAfterViewInit() {
+        this.modalService.open(this.content, {}).result.then((result) => {
+
+        }, (reason) => {
+
+        });
     }
 }

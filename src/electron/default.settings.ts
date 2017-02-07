@@ -3,6 +3,7 @@ import {ISettings} from './../shared/settings';
 export const DefaultSettings: ISettings = {
     buildVersion: null,
     appVersion: null,
+    alertCounter: 0,
     option: {
         general: {
             hidden_shop: false,

@@ -13,6 +13,7 @@ export interface IGeneral {
 export interface ISettings {
     buildVersion: string;
     appVersion: string;
+    alertCounter: number;
     option: {
         general: IGeneral;
         shortcuts: {

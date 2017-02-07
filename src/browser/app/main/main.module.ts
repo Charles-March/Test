@@ -11,12 +11,14 @@ import {MainComponent} from './main.component';
 import {GameComponent, SafePipe} from './game/game.component';
 import {TabService} from './tab/tab.service';
 import {ApplicationService} from "./../../shared/electron/application.service";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
         MainRoutingModule,
+        NgbModule
         //DragulaModule
     ],
     providers: [

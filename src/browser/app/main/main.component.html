@@ -1,3 +1,33 @@
+<template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Participe au projet No-Emu !</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col">
+                <p><strong>Bien le bonjour noble joueur</strong>, comme tu le sais no-emu est <strong>gratuit</strong> et <strong>open-source</strong> depuis sa sortie.
+                    C'est <strong>Thomas</strong> et moi même (<strong>Daniel</strong>) qui garantissons le developpement et le support sur notre temps libre,
+                    malheuresement vous êtes devenus tellement nombreux (et tant mieux) que cela nous prend enormément de temps.</p>
+                <p>
+                    Alors plutot que de <strong>fermer no-emu</strong> nous lançons un <strong>tipeee</strong> pour que vous puissiez vous investir dans le projet,
+                    <strong>améliorer</strong> no-emu et recevoir des <strong>contreparties</strong> !
+                </p>
+                <i>Kiss, Love, on vous aime <3</i>
+            </div>
+            <div class="col">
+                <img class="img-fluid" src="app/main/images/sadida.png"/>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="tipeee()">Aller sur notre Tipeee d'amour</button>
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Fermer</button>
+    </div>
+</template>
+
 <ul class="nav nav-pills" [class.hiddenTabs]="settingsService.option.general.hidden_tabs">
     <li *ngFor="let tab of tabs; let i = index;" class="nav-item game-tab">
         <a class="nav-link" [class.active]="tab.isFocus" [class.notification]="tab.notification" href="#">
@@ -14,6 +44,8 @@
         </a>
     </li>
 </ul>
+
+<template ngbModalContainer></template>
 
 <game *ngFor="let tab of tabs" (selectTab)="selectTab(tab)" [tab]="tab" [hidden]="!tab.isFocus"></game>
 

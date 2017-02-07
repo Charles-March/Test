@@ -6,11 +6,13 @@ import {SharedModule} from '../shared/shared.module';
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import {APP_BASE_HREF} from "@angular/common";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   imports: [
     BrowserModule,
     SharedModule.forRoot(),
+    NgbModule.forRoot(),
     routing
   ],
   declarations: [
