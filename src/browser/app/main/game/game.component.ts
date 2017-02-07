@@ -114,6 +114,17 @@ export class GameComponent implements OnInit, AfterViewInit {
                 this.bindShortcuts();
             }
         });
+
+        (<any>this.tab.window).isoEngine.mapScene._refreshAreasBackup = (<any>this.tab.window).isoEngine.mapScene._refreshAreas;
+        (<any>this.tab.window).isoEngine.mapScene._refreshAreas = function() {
+            for (var id in this.areasToRefresh) {
+                if (this.areasToRefresh[id][3] < this.t) {
+                    this.areasToRefresh[id][2] = this.t;
+                    this.areasToRefresh[id][3] = this.t + 5;
+                }
+            }
+            this._refreshAreasBackup();
+        }
     }
 
     private sendMPNotif(msg: any) {
