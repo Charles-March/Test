@@ -60,7 +60,6 @@ export class GameComponent implements OnInit, AfterViewInit {
 
         if (this.gameLoaded) {
             this.setEventListener();
-            this.checkMaxZoom();
         }
 
         this.gameLoaded = true;
@@ -192,7 +191,7 @@ export class GameComponent implements OnInit, AfterViewInit {
          this.sendFightTurnNotif(actor)
          });*/
 
-
+        this.checkMaxZoom();
     }
 
     private unBindEventIG(): void {
