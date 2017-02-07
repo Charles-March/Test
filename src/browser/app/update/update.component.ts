@@ -30,7 +30,7 @@ export class UpdateComponent implements OnInit {
                 private ipcRendererService: IpcRendererService,
                 private titleService: Title
     ) {
-        this.titleService.setTitle('Mise à jours');
+        this.titleService.setTitle('Mise à jour');
     }
 
     download() {

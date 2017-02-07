@@ -36,6 +36,8 @@ export class ChangeLogWindow {
             title: 'ChangeLog',
         });
 
+        this.changeLogWindow.win.setMenu(null);
+
         this.changeLogWindow.win.on('closed', () => {
             this.changeLogWindow.win = null;
         });

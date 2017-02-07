@@ -42,8 +42,10 @@ export class UpdateWindow {
             darkTheme: true,
             skipTaskbar: true,
             show: true,
-            modal: true
+            modal: true,
         });
+
+        window.setMenu(null);
 
         window.on('closed', () => {
             window = null;
