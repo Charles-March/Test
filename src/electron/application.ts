@@ -79,8 +79,8 @@ export class Application {
 
 
         let splash = new electron.BrowserWindow({
-            width: 400,
-            height: 400,
+            width: 190,
+            height: 190,
             center: true,
             movable: true,
             alwaysOnTop: true,
@@ -142,6 +142,7 @@ export class Application {
                 }
             });
         }).catch((raison: any) => {
+            splash.close();
             dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
                 type: 'error',
                 title: 'Error',
