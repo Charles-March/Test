@@ -4,7 +4,7 @@
 - Fixer les dépendances d'angular 
 
 ## [Prochainement]
-- Fix du changement de raccourcis pour la monture
+- Fix lors du changement de raccourcis pour la monture et le koli
 
 ## [3.0.3] - 2017-02-07
 - fix socket hang up problem
