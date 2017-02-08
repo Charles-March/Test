@@ -201,7 +201,7 @@ export module Option {
             }
 
             set mount(mount: string) {
-                settings.setSync('option.shortcuts.interface.guild', mount);
+                settings.setSync('option.shortcuts.interface.mount', mount);
                 this._mount = mount;
             }
 
