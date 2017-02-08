@@ -23,7 +23,6 @@
             '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
             '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
             '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
-            '@angular/material': 'npm:@angular/material/material.umd.js',
             '@angular/flex-layout': 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
             '@ng-bootstrap/ng-bootstrap': 'npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
             'async': 'npm:async/dist/async.js',
