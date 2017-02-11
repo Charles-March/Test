@@ -43,8 +43,8 @@
           "directory":"List of Guilds and Alliances",
           "alignement":"Alignment",
           "bestiary":"Bestiary",
-          "title":"Titles and Ornament",
-          "achievement":"Successes",
+          "title":"Titles and Ornaments",
+          "achievement":"Achievements",
           "almanax":"Almanax",
           "job":"Jobs",
           "spouse":"Spouse",
@@ -69,7 +69,7 @@
       },
       "notifications": {
         "title": "Notifications",
-        "description": "You can receive notification from the game when the application is on the background. You will be notified:",
+        "description": "You can receive notifications from the game when the application is on the background. You will be notified:",
         "fight-turn": "When your turn starts (fight)",
         "private-message": "By incoming private messages"
       },
