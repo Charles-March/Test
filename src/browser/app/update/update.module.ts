@@ -1,5 +1,6 @@
 import {NgModule}           from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {TranslateModule} from "ng2-translate";
 
 import {SharedModule} from './../../shared/shared.module';
 
@@ -11,7 +12,8 @@ import {UpdateComponent}    from './update.component';
     imports: [
         SharedModule,
         UpdateRoutingModule,
-        NgbModule.forRoot()
+        NgbModule.forRoot(),
+        TranslateModule
     ],
 })
 export class UpdateModule {

@@ -42,7 +42,7 @@ export class ChangeLogWindow {
             this.changeLogWindow.win = null;
         });
 
-        this.changeLogWindow.win.loadURL(`file://${__dirname}/../browser/index.html#/changelog`);
+        this.changeLogWindow.win.loadURL(`file://${Application.appPath}/out/browser/index.html#/changelog`);
         this.changeLogWindow.win.show();
 
     }

@@ -47,7 +47,7 @@ export class GameWindow {
 
     public run(): void {
         // load the app
-        this.win.loadURL(`file://${__dirname}/../browser/index.html`,
+        this.win.loadURL(`file://${Application.appPath}/out/browser/index.html`,
             { userAgent: ''/*require('random-mobile-ua').randomTabletAgent().agent*/ });
 
         // set menu

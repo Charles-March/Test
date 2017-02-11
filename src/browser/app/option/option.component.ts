@@ -4,6 +4,7 @@ import {IpcRendererService} from './../../shared/electron/ipcrenderer.service';
 import {SettingsService} from "../../shared/settings/settings.service";
 import {ApplicationService} from "../../shared/electron/application.service";
 import {Title} from "@angular/platform-browser";
+import {TranslateService} from "ng2-translate";
 
 
 @Component({
@@ -16,7 +17,8 @@ import {Title} from "@angular/platform-browser";
 })
 export class OptionComponent {
 
-    constructor(private ipcRendererService: IpcRendererService,
+    constructor(private translate: TranslateService,
+                private ipcRendererService: IpcRendererService,
                 private titleService: Title) {
         this.titleService.setTitle('Option');
     }

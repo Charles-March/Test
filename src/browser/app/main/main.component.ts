@@ -2,6 +2,7 @@ import {
     Component, Optional, ViewEncapsulation, Inject, OnInit, NgZone, SimpleChanges, ViewChild,
     AfterViewInit
 } from '@angular/core';
+import {TranslateService} from 'ng2-translate';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {TabService} from './tab/tab.service';
 import {Tab} from './tab/tab';
@@ -31,6 +32,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     @ViewChild('content') content: any;
 
     constructor(@Inject('Window') private window: Window,
+                private translate: TranslateService,
                 private modalService: NgbModal,
                 private tabService: TabService,
                 private ipcRendererService: IpcRendererService,
@@ -153,7 +155,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
         console.log(this.settingsService.alertCounter);
 
-        if(this.settingsService.alertCounter % 15 === 0){
+        if (this.settingsService.alertCounter % 15 === 0) {
             this.modalService.open(this.content, {}).result.then((result) => {
 
             }, (reason) => {
