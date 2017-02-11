@@ -2,87 +2,87 @@
   "app": {
     "main": {
       "tipeee": {
-        "title": "Participe au projet No-Emu !",
-        "close": "Fermer",
-        "link": "Aller sur notre Tipeee d'amour"
+        "title": "Take part in the No-Emu project!",
+        "close": "Close",
+        "link": "Go on our lovely Tipeee"
       },
-      "tab-title": "non connecté"
+      "tab-title": "Not connected"
     },
     "option": {
       "general": {
         "title": "General",
-        "language": "Langage",
-        "resolution": "Résolution de la fenêtre",
-        "hide-shop": "Cacher le bouton Shop",
-        "hide-tab": "Masquer la barre d'onglets multi-compte"
+        "language": "Language",
+        "resolution": "Window resolution",
+        "hide-shop": "Hide the Shop button",
+        "hide-tab": "Hide the multi-account tab bar"
       },
       "shortcuts": {
-        "title": "Raccourcis",
-        "description1":"Vous pouvez utiliser les touches spéciales : <strong>ctrl</strong>, <strong>shift</strong>, <strong>space</strong>, <strong>alt</strong> (ctrl = cmd sur Macintosh OS X)",
-        "description2":"Pour rentrer vos raccourcis pressez simplement la combinaison de touche souhaitée en cliquant préalablement sur le champ",
+        "title": "Shortcuts",
+        "description1":"You can use special keys: <strong>ctrl</strong>, <strong>shift</strong>, <strong>space</strong>, <strong>alt</strong> (ctrl = cmd on Macintosh OS X)",
+        "description2":"You can specify your shortcut by pressing the desired keys at the same time after selecting the input",
         "diver": {
-          "header": "Diver",
-          "end-turn":"Passer son tour (combat)",
-          "open-chat":"Ouvrir le chat"
+          "header": "Miscellaneous",
+          "end-turn":"End your turn (fight)",
+          "open-chat":"Open the chat"
         },
         "interfaces": {
           "header": "Interfaces",
-          "carac": "Personnage",
-          "spell":"Sorts",
-          "bag":"Inventaire",
-          "bidhouse":"Hôtel de vente",
-          "map":"Carte",
-          "friend":"Amis",
-          "book":"Quêtes",
-          "guild":"Guildes",
+          "carac": "Character",
+          "spell":"Spells",
+          "bag":"Inventory",
+          "bidhouse":"Market place",
+          "map":"Map",
+          "friend":"Friends",
+          "book":"Quests",
+          "guild":"Guild",
           "conquest":"Kolizeum",
           "goultine":"Shop",
-          "job":"Metiers",
+          "job":"Jobs",
           "alliance":"Alliance",
-          "mount":"Monture",
-          "directory":"Repertoire de guilde et d'alliance",
-          "alignement":"Alignement",
-          "bestiary":"Bestiare",
-          "title":"itres et Ornements",
-          "achievement":"Succés",
+          "mount":"Mount",
+          "directory":"List of Guilds and Alliances",
+          "alignement":"Alignment",
+          "bestiary":"Bestiary",
+          "title":"Titles and Ornament",
+          "achievement":"Successes",
           "almanax":"Almanax",
-          "job":"Metiers",
-          "spouse":"Conjoint",
-          "shop":"Marchand"
+          "job":"Jobs",
+          "spouse":"Spouse",
+          "shop":"Shopkeeper"
         },
         "items": {
-          "header": "Objets",
-          "slot":"Emplacement {{x}}"
+          "header": "Items",
+          "slot":"Slot {{x}}"
         },
         "no-emu": {
           "header": "No-Emu",
-          "new-window":"Nouvelle fenêtre",
-          "new-tab": "Nouveau onglet",
-          "tab":"Onglet {{x}}",
-          "next-tab": "Onglet suivant",
-          "prev-tab": "Onglet précédent"
+          "new-window":"New window",
+          "new-tab": "New tab",
+          "tab":"Tab {{x}}",
+          "next-tab": "Next tab",
+          "prev-tab": "Previous tab"
         },
         "spells": {
-          "header": "Sorts",
-          "slot":"Emplacement {{x}}"
+          "header": "Spells",
+          "slot":"Slot {{x}}"
         }
       },
       "notifications": {
         "title": "Notifications",
-        "description": "Vous pouvez recevoir des notifications de votre jeu dofus lorsque vous êtes sur une autre application avec dofus en arrière plan. Vous pouvez être notifié de votre",
-        "fight-turn": "début du tour (combat)",
-        "private-message": "l'arrivé d'un message privé"
+        "description": "You can receive notification from the game when the application is on the background. You will be notified:",
+        "fight-turn": "When your turn starts (fight)",
+        "private-message": "By incoming private messages"
       },
-      "reset": "Réinitialiser",
-      "save": "Valider"
+      "reset": "Reset",
+      "save": "Apply"
     }
   },
   "update":{
-    "title": "Mise à jour",
+    "title": "Update",
     "information":{
-      "error": "Impossible de télécharger la mise à jour ! Veuillez réessayer ultérieurement",
-      "install": "Installation de la mis à jour...",
-      "start": "Début du téléchargement..."
+      "error": "Can't download the update! Please try again later",
+      "install": "Installing the update...",
+      "start": "Starting download..."
 
     }
   }

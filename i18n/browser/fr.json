@@ -10,7 +10,7 @@
     },
     "option": {
       "general": {
-        "title": "General",
+        "title": "Général",
         "language": "Langage",
         "resolution": "Résolution de la fenêtre",
         "hide-shop": "Cacher le bouton Shop",
@@ -40,13 +40,13 @@
           "job":"Metiers",
           "alliance":"Alliance",
           "mount":"Monture",
-          "directory":"Repertoire de guilde et d'alliance",
+          "directory":"Répertoire de guilde et d'alliance",
           "alignement":"Alignement",
           "bestiary":"Bestiare",
-          "title":"itres et Ornements",
-          "achievement":"Succés",
+          "title":"Titres et Ornements",
+          "achievement":"Succès",
           "almanax":"Almanax",
-          "job":"Metiers",
+          "job":"Métiers",
           "spouse":"Conjoint",
           "shop":"Marchand"
         },
@@ -69,9 +69,9 @@
       },
       "notifications": {
         "title": "Notifications",
-        "description": "Vous pouvez recevoir des notifications de votre jeu dofus lorsque vous êtes sur une autre application avec dofus en arrière plan. Vous pouvez être notifié de votre",
-        "fight-turn": "début du tour (combat)",
-        "private-message": "l'arrivé d'un message privé"
+        "description": "Vous pouvez recevoir des notifications de votre jeu dofus lorsque vous êtes sur une autre application avec dofus en arrière plan. Vous pouvez être notifié :",
+        "fight-turn": "En début du tour (combat)",
+        "private-message": "À l'arrivé d'un message privé"
       },
       "reset": "Réinitialiser",
       "save": "Valider"
@@ -81,7 +81,7 @@
     "title": "Mise à jour",
     "information":{
       "error": "Impossible de télécharger la mise à jour ! Veuillez réessayer ultérieurement",
-      "install": "Installation de la mis à jour...",
+      "install": "Installation de la mise à jour...",
       "start": "Début du téléchargement..."
 
     }
