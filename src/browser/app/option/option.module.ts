@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {TranslateModule} from "ng2-translate";
 
 /* Shared Module */
 import {SharedModule} from './../../shared/shared.module';
@@ -24,7 +25,8 @@ import {NotificationComponent} from "./notification/notification.component";
         CommonModule,
         OptionRoutingModule,
         SharedModule,
-        FormsModule
+        FormsModule,
+        TranslateModule
     ],
     providers: [],
     declarations: [

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {TranslateService} from "ng2-translate";
 
 @Component({
   selector: 'application',
@@ -6,4 +7,11 @@ import { Component } from '@angular/core';
     <router-outlet></router-outlet>
   `
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(
+      private translate: TranslateService
+  ){
+    translate.addLangs(["en", "fr"]);
+    translate.setDefaultLang('fr');
+  }
+}

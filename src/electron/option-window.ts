@@ -54,7 +54,7 @@ export class OptionWindow {
             this.optionWindow.win = null;
         });
 
-        this.optionWindow.win.loadURL(`file://${__dirname}/../browser/index.html#/option`);
+        this.optionWindow.win.loadURL(`file://${Application.appPath}/out/browser/index.html#/option`);
         this.optionWindow.win.show();
 
     }

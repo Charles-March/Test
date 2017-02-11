@@ -1,6 +1,6 @@
 <template #content let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h4 class="modal-title">Participe au projet No-Emu !</h4>
+        <h4 class="modal-title">{{ 'app.main.tipeee.title' | translate }}</h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -23,8 +23,8 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="tipeee()">Aller sur notre Tipeee d'amour</button>
-        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Fermer</button>
+        <button type="button" class="btn btn-primary" (click)="tipeee()">{{ 'app.main.tipeee.link' | translate }}</button>
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">{{ 'app.main.tipeee.close' | translate }}</button>
     </div>
 </template>
 
@@ -32,7 +32,7 @@
     <li *ngFor="let tab of tabs; let i = index;" class="nav-item game-tab">
         <a class="nav-link" [class.active]="tab.isFocus" [class.notification]="tab.notification" href="#">
             <span (click)="selectTab(tab)" [ngSwitch]="tab.character">
-                <span *ngSwitchCase="null">Non connecté</span>
+                <span *ngSwitchCase="null">{{ 'app.main.tab-title' | translate }}</span>
                 <span *ngSwitchDefault>{{tab.character}}</span>
             </span>
             <span class="fa fa-minus-circle" aria-hidden="true" (click)="removeTab(tab)"></span>
@@ -48,26 +48,3 @@
 <template ngbModalContainer></template>
 
 <game *ngFor="let tab of tabs" (selectTab)="selectTab(tab)" [tab]="tab" [hidden]="!tab.isFocus"></game>
-
-
-<!-- <md-sidenav-layout fullscreen>
-
-    <md-sidenav #sidenav mode="side" class="app-sidenav">
-        Sidenav
-    </md-sidenav>
-
-    <md-tab-group fxFlex fxFill>
-        <md-tab *ngFor="let tab of tabs" label="{{tab.character}}" fxFlex fxFill>
-            <div class="app-content" fxFlex fxFill>
-                <p>{{tab.id}}</p>
-                <game [id]="tab.id">
-                    <iframe id="id" src="/dist/game/index.html" style="height:100%; width: 100%"></iframe>
-            </div>
-        </md-tab>
-    </md-tab-group>
-
-</md-sidenav-layout>
-
-<button md-mini-fab class="app-action" (click)="addTab()">
-                    <md-icon class="md-24">add</md-icon>
-                </button> -->

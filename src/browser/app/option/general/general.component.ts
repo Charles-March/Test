@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import { SettingsService } from './../../../shared/settings/settings.service';
+import {TranslateService} from "ng2-translate";
 
-interface Resolution {
+interface select {
     name: string;
     value: string;
 }
@@ -17,18 +18,30 @@ interface Resolution {
 export class GeneralComponent implements OnInit{
 
     private _resolution: string;
+    private _language: string;
 
-    public resolutions: Resolution[] = [
+    public resolutions: select[] = [
         { name: '960x540', value: "960;540" },
         { name: '1280x720', value: "1280;720" },
         { name: '1600x900', value: "1600;900" },
         { name: '2560x1440', value: "2560;1440" }
     ];
 
+    public languages: select[] = [
+        { name: 'Français', value: "fr" },
+        { name: 'English', value: "en" },
+        { name: 'Espagnol', value: "es" }
+    ];
+
     constructor(
+        private translate: TranslateService,
         private settingsService: SettingsService
     ){
 
+    }
+
+    public setLanguage(): void {
+        this.translate.use(this._language);
     }
 
     public setResolution(value: string): void {

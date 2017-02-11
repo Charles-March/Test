@@ -1,5 +1,7 @@
 import {NgModule, APP_INITIALIZER} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {TranslateModule} from "ng2-translate";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 /* Shared Module */
 import {SharedModule} from './../../shared/shared.module';
@@ -10,15 +12,15 @@ import {MainRoutingModule} from './main.routing';
 import {MainComponent} from './main.component';
 import {GameComponent, SafePipe} from './game/game.component';
 import {TabService} from './tab/tab.service';
-import {ApplicationService} from "./../../shared/electron/application.service";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
         MainRoutingModule,
-        NgbModule
+        NgbModule,
+        TranslateModule
         //DragulaModule
     ],
     providers: [

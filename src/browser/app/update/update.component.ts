@@ -1,8 +1,9 @@
-import {Component, OnInit, NgZone}      from '@angular/core';
+import {Component, OnInit, NgZone, OnDestroy}      from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {IpcRendererService} from "./../../shared/electron/ipcrenderer.service";
 import {Title} from "@angular/platform-browser";
+import {TranslateModule, TranslateService} from "ng2-translate";
 
 
 const progress = (<any>global).nodeRequire('request-progress');
@@ -15,7 +16,7 @@ const fs = (<any>global).nodeRequire('fs');
     templateUrl: 'update.component.html',
     styleUrls: ['update.component.css']
 })
-export class UpdateComponent implements OnInit {
+export class UpdateComponent implements OnInit, OnDestroy {
 
     private progress: number = 0;
     private savePath: string;
@@ -25,12 +26,19 @@ export class UpdateComponent implements OnInit {
     private sub: Subscription;
 
     constructor(private route: ActivatedRoute,
+                private translate: TranslateService,
                 private router: Router,
                 private zone: NgZone,
                 private ipcRendererService: IpcRendererService,
-                private titleService: Title
-    ) {
-        this.titleService.setTitle('Mise à jour');
+                private titleService: Title) {
+
+        this.translate.get('update.title').subscribe((res: string) => {
+            this.titleService.setTitle(res);
+        });
+
+        this.translate.get('update.information.start').subscribe((res: string) => {
+            this.informations = res;
+        });
     }
 
     download() {
@@ -44,7 +52,9 @@ export class UpdateComponent implements OnInit {
             .on('error', (err: any) => {
                 console.log(err);
                 this.zone.run(() => {
-                    this.informations = '<span class="text-error">Impossible de télécharger la mise à jour ! Veuillez réessayer ultérieurement</span>';
+                    this.translate.get('update.information.error').subscribe((res: string) => {
+                        this.informations = res;
+                    });
                 });
             })
             .on('end', () => {
@@ -62,7 +72,9 @@ export class UpdateComponent implements OnInit {
     }
 
     install() {
-        this.informations = 'Installation de la mis à jour...';
+        this.translate.get('update.information.install').subscribe((res: string) => {
+            this.informations = res;
+        });
 
         // call electron to install the update
         this.ipcRendererService.send('install-update');
@@ -82,14 +94,14 @@ export class UpdateComponent implements OnInit {
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
-                // Defaults to 0 if no query param provided.
-                this.savePath = decodeURIComponent(params['savePath']);
-                this.remoteUrl = decodeURIComponent(params['remoteUrl']);
+            // Defaults to 0 if no query param provided.
+            this.savePath = decodeURIComponent(params['savePath']);
+            this.remoteUrl = decodeURIComponent(params['remoteUrl']);
 
-                this.saveFile = fs.createWriteStream(this.savePath);
+            this.saveFile = fs.createWriteStream(this.savePath);
 
-                this.download();
-            });
+            this.download();
+        });
     }
 
     ngOnDestroy() {

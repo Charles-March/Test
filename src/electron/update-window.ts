@@ -2,6 +2,10 @@ import request = require("request");
 const pkg = require('./../../package.json');
 const settings = require('electron-settings');
 const extract = require('extract-zip');
+const i18n = require('node-translate');
+const decompress = require('decompress');
+const decompressTargz = require('decompress-targz');
+const decompressUnzip = require('decompress-unzip');
 
 import electron = require("electron");
 import {ipcMain, app, Menu, BrowserWindow, dialog, shell} from 'electron';
@@ -20,6 +24,7 @@ declare interface UpdateResponse {
     dofustouch: {
         version: string;
         file: string;
+        fileName: string;
     }
 }
 
@@ -57,19 +62,19 @@ export class UpdateWindow {
     private openUpdateModal(response: UpdateResponse): Promise<any> {
         return new Promise((resolve, reject) => {
 
-            let message = 'Une nouvelle version de DOFUS Touch No-Emu est disponible, vous pouvez la télécharger depuis notre site!\n';
-            let buttons: Array<string> = ['Se rendre sur le site'];
+            let message = i18n.t('updater.new-update.default');
+            let buttons: Array<string> = [i18n.t('updater.new-update.go-site')];
 
             if (!response.noemu.required) {
-                buttons.push('Ignorer');
+                buttons.push(i18n.t('updater.new-update.ignore'));
             } else {
-                message = 'Une nouvelle version obligatoire de DOFUS Touch No-Emu est disponible, vous pouvez la télécharger sur notre site.'
+                message = i18n.t('updater.new-update.required')
             }
 
 
             dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
                 type: 'info',
-                title: 'Nouvelle version : ' + response.noemu.version,
+                title: i18n.t('updater.new-update.title', {version: response.noemu.version}),
                 message: message,
                 buttons: buttons,
             }, (buttonIndex: number) => {
@@ -140,10 +145,13 @@ export class UpdateWindow {
             } else {
                 this.win = this.createWindow();
 
-                let savePath = app.getPath('userData') + '/game.zip';
+
+                let savePath = app.getPath('userData') + '/' + response.dofustouch.fileName;
+                console.log(savePath);
+
                 let remoteUrl = response.dofustouch.file;
 
-                this.win.loadURL(`file://${__dirname}/../browser/index.html#/update/${encodeURIComponent(savePath)}/${encodeURIComponent(remoteUrl)}`);
+                this.win.loadURL(`file://${Application.appPath}/out/browser/index.html#/update/${encodeURIComponent(savePath)}/${encodeURIComponent(remoteUrl)}`);
 
                 if (this.application.devMode) {
                     this.win.webContents.openDevTools();
@@ -152,16 +160,27 @@ export class UpdateWindow {
                 ipcMain.on('install-update', (event, arg) => {
                     console.log('ready to update');
 
-                    extract(savePath, {dir: app.getPath('userData') + '/game'}, function (err: any) {
-
-                        if (err) {
-                            return reject(err);
-                        }
-
-                        console.log('extract finish');
+                    decompress(savePath, app.getPath('userData') + '/game', {
+                        plugins: [
+                            decompressTargz(),
+                            decompressUnzip()
+                        ]
+                    }).then(() => {
+                        console.log('Files decompressed');
                         settings.setSync('buildVersion', response.dofustouch.version);
                         resolve();
-                    })
+                    }).catch(reject);
+
+                    /*extract(savePath, {dir: app.getPath('userData') + '/game'}, function (err: any) {
+
+                     if (err) {
+                     return reject(err);
+                     }
+
+                     console.log('extract finish');
+                     settings.setSync('buildVersion', response.dofustouch.version);
+                     resolve();
+                     })*/
                 });
             }
         });
@@ -185,7 +204,7 @@ export class UpdateWindow {
 
             let queries = '?version=' + settings.getSync('option.buildVersion') + '&os=' + process.platform;
 
-            let uri = url.resolve(this.application.website, 'update/game.php' + queries);
+            let uri = url.resolve(this.application.website, 'update/game2.php' + queries);
 
             request.get({
                 url: uri,

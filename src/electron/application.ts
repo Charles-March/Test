@@ -1,5 +1,6 @@
 import {ChangeLogWindow} from "./changelog-window";
 const settings = require('electron-settings');
+const i18n = require('node-translate');
 import electron = require("electron");
 import {app, ipcMain, dialog, BrowserWindow} from 'electron';
 import * as request from 'request';
@@ -17,12 +18,25 @@ export class Application {
 
     public website: string = "http://dofustouch.no-emu.com";
     public static cmdOptions: any;
+    public static appPath: string;
     public devMode: boolean = false;
     private gameWindows: GameWindow[] = [];
     private updateWindow: UpdateWindow;
 
 
+
     constructor(cmdOptions: any) {
+
+        Application.cmdOptions = cmdOptions;
+        this.devMode = cmdOptions.devmode;
+
+        Application.appPath = app.getAppPath();
+
+        if (Application.cmdOptions.devmode) {
+            Application.appPath = __dirname + '/../..';
+        }
+
+
         // set defaults settings
         settings.defaults(DefaultSettings);
 
@@ -31,8 +45,13 @@ export class Application {
             settings.resetToDefaultsSync();
         }
 
-        Application.cmdOptions = cmdOptions;
-        this.devMode = cmdOptions.devmode;
+        i18n.requireLocales({
+            'en': require(`${Application.appPath}/i18n/electron/en`),
+            'fr': require(`${Application.appPath}/i18n/electron/fr`)
+        });
+
+        i18n.setLocale('fr');
+
         this.updateWindow = new UpdateWindow(this);
     }
 
@@ -90,7 +109,7 @@ export class Application {
             transparent: true
         });
 
-        splash.loadURL(`file://${__dirname}/../browser/splash.html#/`);
+        splash.loadURL(`file://${Application.appPath}/out/browser/splash.html#/`);
 
         Promise.all([
             this.getAppVersion(),
@@ -128,15 +147,9 @@ export class Application {
 
             ipcMain.on('load-config', (event, arg) => {
 
-                let appPath = app.getAppPath();
-
-                if (Application.cmdOptions.devmode) {
-                    appPath = __dirname + '/../../';
-                }
-
                 event.returnValue = {
                     gamePath: app.getPath('userData') + '/game',
-                    appPath: appPath,
+                    appPath: Application.appPath,
                     buildVersion: newBuildVersion,
                     appVersion: newAppVersion,
                     platform: process.platform

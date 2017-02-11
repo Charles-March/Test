@@ -2,17 +2,17 @@
     <ul class="nav nav-pills flex-column">
         <li class="nav-item">
             <a class="nav-link" routerLink="/option/general" routerLinkActive="active">
-                General
+                {{ 'app.option.general.title' | translate }}
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" routerLink="/option/shortcuts" routerLinkActive="active">
-                Raccourcis
+                {{ 'app.option.shortcuts.title' | translate }}
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" routerLink="/option/notification" routerLinkActive="active">
-                Notification
+                {{ 'app.option.notifications.title' | translate }}
             </a>
         </li>
     </ul>
@@ -22,5 +22,5 @@
          <router-outlet></router-outlet>
     </div>
 </div>
-<button type="submit" class="btn btn-danger" id="reset" (click)="reset()">Réinitialiser</button>
-<button type="submit" class="btn btn-primary" id="validate" (click)="validate()">Valider</button>
+<button type="submit" class="btn btn-danger" id="reset" (click)="reset()">{{ 'app.option.reset' | translate }}</button>
+<button type="submit" class="btn btn-primary" id="validate" (click)="validate()">{{ 'app.option.save' | translate }}</button>

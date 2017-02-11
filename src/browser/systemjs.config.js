@@ -25,6 +25,7 @@
             '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
             '@angular/flex-layout': 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
             '@ng-bootstrap/ng-bootstrap': 'npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
+            'ng2-translate': 'npm:ng2-translate/bundles/ng2-translate.umd.js',
             'async': 'npm:async/dist/async.js',
             'marked': 'npm:marked/lib/marked.js',
 

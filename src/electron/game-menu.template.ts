@@ -1,5 +1,6 @@
 import {app, ipcMain} from 'electron';
 const settings = require('electron-settings');
+const i18n = require('node-translate');
 
 import { ShortCuts } from './shortcuts';
 import { Application } from './application';
@@ -12,17 +13,17 @@ export class GameMenuTemplate {
 
         const template: Electron.MenuItemOptions[] = [
             {
-                label: 'Document',
+                label: i18n.t('game-menu.file.title'),
                 submenu: [
                     {
-                        label: 'Nouvelle Fenetre',
+                        label: i18n.t('game-menu.file.new-window'),
                         accelerator: ShortCuts.convert(settings.getSync('option.shortcuts.no_emu.new_window')),
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             application.addWindow();
                         }
                     },
                     {
-                        label: 'Nouveau Onglet',
+                        label: i18n.t('game-menu.file.new-tab'),
                         accelerator: ShortCuts.convert(settings.getSync('option.shortcuts.no_emu.new_tab')),
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             focusedWindow.webContents.send('new-tab', {});
@@ -32,7 +33,7 @@ export class GameMenuTemplate {
                         type: 'separator'
                     },
                     {
-                        label: 'Fermer La Fenetre',
+                        label: i18n.t('game-menu.file.close-window'),
                         accelerator: 'Shift+CmdOrCtrl+W',
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             //Emulator.openGameWindow();
@@ -40,7 +41,7 @@ export class GameMenuTemplate {
                         }
                     },
                     {
-                        label: 'Fermer L\'Onglet',
+                        label: i18n.t('game-menu.file.close-tab'),
                         accelerator: 'CmdOrCtrl+W',
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             focusedWindow.webContents.send('close-tab', {});
@@ -49,7 +50,7 @@ export class GameMenuTemplate {
                 ]
             },
             {
-                label: 'Edition',
+                label: i18n.t('game-menu.edit.title'),
                 submenu: [
                     {
                         role: 'undo'
@@ -78,17 +79,17 @@ export class GameMenuTemplate {
                 ]
             },
             {
-                label: 'Vue',
+                label: i18n.t('game-menu.view.title'),
                 submenu: [
                     {
-                        label: 'Recharger',
+                        label: i18n.t('game-menu.view.reload'),
                         accelerator: 'CmdOrCtrl+R',
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             if (focusedWindow) focusedWindow.reload()
                         }
                     },
                     {
-                        label: 'Outils Developpeur',
+                        label: i18n.t('game-menu.view.console'),
                         accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             if (focusedWindow) focusedWindow.webContents.toggleDevTools()
@@ -98,38 +99,38 @@ export class GameMenuTemplate {
                         type: 'separator'
                     },
                     {
-                        label: 'Réinitialiser le zoom',
+                        label: i18n.t('game-menu.view.reset-zoom'),
                         role: 'resetzoom'
                     },
                     {
-                        label: 'Zoom +',
+                        label: i18n.t('game-menu.view.zoom-p'),
                         role: 'zoomin'
                     },
                     {
-                        label: 'Zoom -',
+                        label: i18n.t('game-menu.view.zoom-m'),
                         role: 'zoomout'
                     },
                     {
                         type: 'separator'
                     },
                     {
-                        label: 'Mode Plein Écran',
+                        label: i18n.t('game-menu.view.full-screen'),
                         role: 'togglefullscreen'
                     }
                 ]
             },
             {
-                label: 'Fenetre',
+                label: i18n.t('game-menu.window.title'),
                 submenu: [
                     {
-                        label: 'Montret Onglet Précédent',
+                        label: i18n.t('game-menu.window.prev-tab'),
                         accelerator: ShortCuts.convert(settings.getSync('option.shortcuts.no_emu.prev_tab')),
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             focusedWindow.webContents.send('switch-tab', 'prev');
                         }
                     },
                     {
-                        label: 'Montret Onglet Suivant',
+                        label: i18n.t('game-menu.window.next-tab'),
                         accelerator: ShortCuts.convert(settings.getSync('option.shortcuts.no_emu.next_tab')),
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             focusedWindow.webContents.send('switch-tab', 'next');
@@ -139,13 +140,13 @@ export class GameMenuTemplate {
                         type: 'separator'
                     },
                     {
-                        'label': 'Activer le son',
+                        'label': i18n.t('game-menu.window.enable-sound'),
                         click(item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             focusedWindow.webContents.setAudioMuted(false);
                         }
                     },
                     {
-                        'label': 'Désactiver le son',
+                        'label': i18n.t('game-menu.window.disable-sound'),
                         click(item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             focusedWindow.webContents.setAudioMuted(true);
                         }
@@ -162,22 +163,22 @@ export class GameMenuTemplate {
                 ]
             },
             {
-                label:'Paramètres',
+                label:i18n.t('game-menu.settings.title'),
                 submenu: [
                     {
-                        label: 'Options',
+                        label: i18n.t('game-menu.settings.option'),
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             OptionWindow.run(application);
                         }
                     },
                     {
-                        label: 'Changelog',
+                        label: i18n.t('game-menu.settings.changelog'),
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             ChangeLogWindow.run(application);
                         }
                     },
                     {
-                        label: 'Re-télécharger les fichiers de jeu',
+                        label: i18n.t('game-menu.settings.redownload-file-game'),
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
                             settings.setSync('appVersion', null);
                             settings.setSync('buildVersion', null);
@@ -191,7 +192,7 @@ export class GameMenuTemplate {
                 role: 'help',
                 submenu: [
                     {
-                        label: 'A propos',
+                        label: i18n.t('game-menu.help.about'),
                         click () {
                             require('electron').shell.openExternal('')
                         }
