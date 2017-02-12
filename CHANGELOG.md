@@ -5,7 +5,10 @@
 - Système multilingue
 
 ## [Prochainement]
+
+- Fix lors du changement de raccourcis pour la monture et le koli
 - Fixer les dépendances d'angular 
+
 
 ## [3.0.3] - 2017-02-07
 - fix socket hang up problem

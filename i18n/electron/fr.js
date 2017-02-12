@@ -24,8 +24,8 @@ module.exports = {
         },
         "window": {
             "title": "Fenêtre",
-            "prev-tab":"Montret Onglet Précédent",
-            "next-tab":"Montret Onglet Suivant",
+            "prev-tab":"Montrer Onglet Précédent",
+            "next-tab":"Montrer Onglet Suivant",
             "enable-sound": "Activer le Son",
             "disable-sound": "Désactiver le Son",
         },
@@ -44,7 +44,7 @@ module.exports = {
         "new-update":{
             "title":"Nouvelle version %{version}",
             "default": "Une nouvelle version de DOFUS Touch No-Emu est disponible, vous pouvez la télécharger depuis notre site!\n",
-            "required":"'Une nouvelle version obligatoire de DOFUS Touch No-Emu est disponible, vous pouvez la télécharger sur notre site.",
+            "required":"Une nouvelle version obligatoire de DOFUS Touch No-Emu est disponible, vous pouvez la télécharger sur notre site.",
             "ignore": "Ignorer",
             "go-site": "Se rendre sur le site"
         },

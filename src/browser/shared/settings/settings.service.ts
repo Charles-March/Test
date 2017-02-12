@@ -174,7 +174,7 @@ export module Option {
             }
 
             set conquest(conquest: string) {
-                settings.setSync('option.shortcuts.interface.guild', conquest);
+                settings.setSync('option.shortcuts.interface.conquest', conquest);
                 this._conquest = conquest;
             }
 
@@ -201,7 +201,7 @@ export module Option {
             }
 
             set mount(mount: string) {
-                settings.setSync('option.shortcuts.interface.guild', mount);
+                settings.setSync('option.shortcuts.interface.mount', mount);
                 this._mount = mount;
             }
 
