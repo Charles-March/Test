@@ -1,0 +1,89 @@
+{
+  "app": {
+    "main": {
+      "tipeee": {
+        "title": "Take part in the No-Emu project!",
+        "close": "Close",
+        "link": "Go on our lovely Tipeee"
+      },
+      "tab-title": "Not connected"
+    },
+    "option": {
+      "general": {
+        "title": "General",
+        "language": "Language",
+        "resolution": "Window resolution",
+        "hide-shop": "Hide the Shop button",
+        "hide-tab": "Hide the multi-account tab bar"
+      },
+      "shortcuts": {
+        "title": "Shortcuts",
+        "description1":"You can use special keys: <strong>ctrl</strong>, <strong>shift</strong>, <strong>space</strong>, <strong>alt</strong> (ctrl = cmd on Macintosh OS X)",
+        "description2":"You can specify your shortcut by pressing the desired keys at the same time after selecting the input",
+        "diver": {
+          "header": "Miscellaneous",
+          "end-turn":"End your turn (fight)",
+          "open-chat":"Open the chat"
+        },
+        "interfaces": {
+          "header": "Interfaces",
+          "carac": "Character",
+          "spell":"Spells",
+          "bag":"Inventory",
+          "bidhouse":"Market place",
+          "map":"Map",
+          "friend":"Friends",
+          "book":"Quests",
+          "guild":"Guild",
+          "conquest":"Kolizeum",
+          "goultine":"Shop",
+          "job":"Jobs",
+          "alliance":"Alliance",
+          "mount":"Mount",
+          "directory":"List of Guilds and Alliances",
+          "alignement":"Alignment",
+          "bestiary":"Bestiary",
+          "title":"Titles and Ornaments",
+          "achievement":"Achievements",
+          "almanax":"Almanax",
+          "job":"Jobs",
+          "spouse":"Spouse",
+          "shop":"Shopkeeper"
+        },
+        "items": {
+          "header": "Items",
+          "slot":"Slot {{x}}"
+        },
+        "no-emu": {
+          "header": "No-Emu",
+          "new-window":"New window",
+          "new-tab": "New tab",
+          "tab":"Tab {{x}}",
+          "next-tab": "Next tab",
+          "prev-tab": "Previous tab"
+        },
+        "spells": {
+          "header": "Spells",
+          "slot":"Slot {{x}}"
+        }
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "You can receive notifications from the game when the application is on the background. You will be notified:",
+        "fight-turn": "When your turn starts (fight)",
+        "private-message": "By incoming private messages"
+      },
+      "reset": "Reset",
+      "save": "Apply"
+    }
+  },
+  "update":{
+    "title": "Update",
+    "information":{
+      "error": "Can't download the update! Please try again later",
+      "install": "Installing the update...",
+      "start": "Starting download..."
+
+    }
+  }
+}

@@ -45,6 +45,7 @@ export class MainComponent implements OnInit, AfterViewInit {
         this.shortCuts = new ShortCuts(this.window);
 
         this.titleService.setTitle('DofusTouch No-Emu');
+
     }
 
 

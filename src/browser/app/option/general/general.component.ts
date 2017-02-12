@@ -42,6 +42,7 @@ export class GeneralComponent implements OnInit{
 
     public setLanguage(): void {
         this.translate.use(this._language);
+        this.settingsService.language = this._language;
     }
 
     public setResolution(value: string): void {
@@ -59,8 +60,7 @@ export class GeneralComponent implements OnInit{
         // fixe the two way binding object by this tricks
         console.log('onInit General');
         this._resolution = this.settingsService.option.general.resolution.x+';'+this.settingsService.option.general.resolution.y;
-
-        console.log(this._resolution);
+        this._language = this.settingsService.language;
 
     }
 

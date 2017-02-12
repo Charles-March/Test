@@ -11,8 +11,8 @@ import {GameWindow} from './game-window';
 import {UpdateWindow} from './update-window';
 import {ISettings} from "../shared/settings";
 
-const neutrino = require("neutrino-metrics");
-neutrino("SyxamT87ux");
+//const neutrino = require("neutrino-metrics");
+//neutrino.init("SyxamT87ux");
 
 export class Application {
 
@@ -59,12 +59,11 @@ export class Application {
             }
         }
 
-        console.log(settings.getSync('language'));
-
         // set language
         i18n.requireLocales({
             'en': require(`${Application.appPath}/i18n/electron/en`),
-            'fr': require(`${Application.appPath}/i18n/electron/fr`)
+            'fr': require(`${Application.appPath}/i18n/electron/fr`),
+            'es': require(`${Application.appPath}/i18n/electron/es`)
         });
 
         i18n.setLocale(settings.getSync('language'));
@@ -191,6 +190,7 @@ export class Application {
 
         this.gameWindows.forEach((gWindow) => {
             //gWindow.shortCuts.reload();
+            i18n.setLocale(settings.getSync('language'));
             gWindow.reloadSettings();
         });
 

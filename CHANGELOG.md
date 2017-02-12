@@ -2,10 +2,11 @@
 
 ## [TODO]
 - Fixer problème de notification
-- Système multilingue
+- Traduire en espagnol
+
 
 ## [Prochainement]
-
+- Système multilingue
 - Fix lors du changement de raccourcis pour la monture et le koli
 - Fixer les dépendances d'angular 
 
