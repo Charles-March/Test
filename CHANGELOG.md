@@ -1,9 +1,11 @@
 # Change Log
 
 ## [TODO]
-- Fixer les dépendances d'angular 
+- Fixer problème de notification
+- Système multilingue
 
 ## [Prochainement]
+- Fixer les dépendances d'angular 
 
 ## [3.0.3] - 2017-02-07
 - fix socket hang up problem
