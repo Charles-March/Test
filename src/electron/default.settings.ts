@@ -1,6 +1,7 @@
 import {ISettings} from './../shared/settings';
 
 export const DefaultSettings: ISettings = {
+    language: null,
     buildVersion: null,
     appVersion: null,
     alertCounter: 0,

@@ -527,7 +527,8 @@ export class SettingsService {
 
     private _buildVersion: string;
     private _appVersion: string;
-    private _alertCounter: number
+    private _alertCounter: number;
+    private _language: string;
 
     get alertCounter(): number {
         return this._alertCounter;
@@ -556,6 +557,15 @@ export class SettingsService {
         this._appVersion = appVersion;
     }
 
+    get language(): string {
+        return this._language;
+    }
+
+    set language(language: string) {
+        settings.setSync('language', language);
+        this._language = language;
+    }
+
 
 
     constructor(private ipcRendererService: IpcRendererService,
@@ -566,7 +576,7 @@ export class SettingsService {
         this._appVersion = settings.getSync('appVersion');
         this._buildVersion = settings.getSync('buildVersion');
         this._alertCounter = settings.getSync('alertCounter');
-
+        this._language = settings.getSync('language');
 
         this.ipcRendererService.on('reload-settings', () => {
             console.log('receive->reload-settings');

@@ -24,33 +24,50 @@ export class Application {
     private updateWindow: UpdateWindow;
 
 
-
     constructor(cmdOptions: any) {
 
+        // retrieve cmd option
         Application.cmdOptions = cmdOptions;
+
+        // set dev mod
         this.devMode = cmdOptions.devmode;
 
+        // set application path
         Application.appPath = app.getAppPath();
-
         if (Application.cmdOptions.devmode) {
             Application.appPath = __dirname + '/../..';
         }
-
 
         // set defaults settings
         settings.defaults(DefaultSettings);
 
         // if wrong settings -> reset
-        if(!checkSettings()){
+        if (!checkSettings()) {
             settings.resetToDefaultsSync();
         }
 
+
+        if (!settings.getSync('language')) {
+            let local = app.getLocale();
+
+            if (local.search('en') !== -1) {
+                settings.setSync('language', 'en');
+            } else if (local.search('fr') !== -1) {
+                settings.setSync('language', 'fr');
+            } else if (local.search('es') !== -1) {
+                settings.setSync('language', 'es');
+            }
+        }
+
+        console.log(settings.getSync('language'));
+
+        // set language
         i18n.requireLocales({
             'en': require(`${Application.appPath}/i18n/electron/en`),
             'fr': require(`${Application.appPath}/i18n/electron/fr`)
         });
 
-        i18n.setLocale('fr');
+        i18n.setLocale(settings.getSync('language'));
 
         this.updateWindow = new UpdateWindow(this);
     }
@@ -104,7 +121,7 @@ export class Application {
             center: true,
             movable: true,
             alwaysOnTop: true,
-            resizable : false,
+            resizable: false,
             frame: false,
             transparent: true
         });
@@ -152,7 +169,8 @@ export class Application {
                     appPath: Application.appPath,
                     buildVersion: newBuildVersion,
                     appVersion: newAppVersion,
-                    platform: process.platform
+                    platform: process.platform,
+                    language: settings.getSync('language')
                 }
             });
         }).catch((raison: any) => {
