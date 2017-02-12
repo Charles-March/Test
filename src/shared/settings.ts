@@ -7,10 +7,12 @@ export interface IGeneral {
         x: number;
         y: number;
     }
-
 }
 
+
+
 export interface ISettings {
+    language: string;
     buildVersion: string;
     appVersion: string;
     alertCounter: number;
