@@ -493,6 +493,7 @@ export module Option {
     export class Notification {
         private _private_message: boolean;
         private _fight_turn: boolean;
+        private _tax_collector: boolean;
 
         get private_message() {
             return this._private_message;
@@ -512,9 +513,19 @@ export module Option {
             this._fight_turn = fight_turn;
         }
 
+        get tax_collector() {
+            return this._tax_collector;
+        }
+
+        set tax_collector(tax_collector: any) {
+            settings.setSync('option.notification.tax_collector', tax_collector);
+            this._tax_collector = tax_collector;
+        }
+
         constructor() {
             this.fight_turn = settings.getSync('option.notification.fight_turn');
             this.private_message = settings.getSync('option.notification.private_message');
+            this.tax_collector = settings.getSync('option.notification.tax_collector');
         }
     }
 }

@@ -8,6 +8,11 @@
       },
       "tab-title": "Non connecté"
     },
+    "notifications": {
+      "fight-turn": "Début du tour de ",
+      "private-message": "Message de : ",
+      "tax-collector": "Un percepteur est attaqué !"
+    },
     "option": {
       "general": {
         "title": "Général",
@@ -71,7 +76,8 @@
         "title": "Notifications",
         "description": "Vous pouvez recevoir des notifications de votre jeu dofus lorsque vous êtes sur une autre application avec dofus en arrière plan. Vous pouvez être notifié :",
         "fight-turn": "En début du tour (combat)",
-        "private-message": "À l'arrivé d'un message privé"
+        "private-message": "À l'arrivé d'un message privé",
+        "tax-collector": "Quand un percepteur est attaqué"
       },
       "reset": "Réinitialiser",
       "save": "Valider"

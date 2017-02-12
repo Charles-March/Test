@@ -46,6 +46,7 @@ export function checkSettings(){
         && typeof(sett.option.shortcuts.interface.goultine) === "string"
         && typeof(sett.option.notification.private_message) === "boolean"
         && typeof(sett.option.notification.fight_turn) === "boolean"
+        && typeof(sett.option.notification.tax_collector) === "boolean"
         ){
         console.log('check settings OK');
         return true;

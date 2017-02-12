@@ -6,6 +6,7 @@ import {Tab} from './../tab/tab';
 import {ShortCuts} from './../../shortcuts/shortcuts';
 import * as async from 'async';
 import {IpcRendererService} from './../../../shared/electron/ipcrenderer.service';
+import {TranslateService} from "ng2-translate";
 import {SettingsService} from './../../../shared/settings/settings.service';
 import {ApplicationService} from "./../../../shared/electron/application.service";
 import {DomSanitizer, SafeUrl, Title} from "@angular/platform-browser";
@@ -36,13 +37,28 @@ export class GameComponent implements OnInit, AfterViewInit {
     private gameLoaded: boolean = false;
     private backupMaxZoom: number;
 
+    private privateMessageText: string = "Message de : ";
+    private fightTurnText: string = "Début du tour de ";
+    private taxCollectorText: string = "Un percepteur est attaqué !";
+
     constructor(@Inject('Window') private window: Window,
                 private ipcRendererService: IpcRendererService,
                 private zone: NgZone,
                 private settingsService: SettingsService,
+                private translate: TranslateService,
                 private applicationService: ApplicationService,
                 private titleService: Title) {
         this.gamePath = this.applicationService.gamePath + '/index.html';
+
+        this.translate.get('app.notifications.private-message').subscribe((res: string) => {
+            this.privateMessageText = res;
+        });
+        this.translate.get('app.notifications.fight-turn').subscribe((res: string) => {
+            this.fightTurnText = res;
+        });
+        this.translate.get('app.notifications.tax-collector').subscribe((res: string) => {
+            this.taxCollectorText = res;
+        });
     }
 
     ngOnInit() {
@@ -92,8 +108,6 @@ export class GameComponent implements OnInit, AfterViewInit {
         });
 
         (<any>this.tab.window).gui.on("disconnect", () => {
-            //this.unBindEventIG();
-            //this.
             this.unBindShortcuts();
             this.zone.run(() => {
                 this.tab.isLogged = false;
@@ -134,7 +148,7 @@ export class GameComponent implements OnInit, AfterViewInit {
                     this.tab.notification = true;
                 });
 
-                let mpNotif = new Notification('Message de : ' + msg.senderName, {
+                let mpNotif = new Notification(this.privateMessageText + msg.senderName, {
                     body: msg.content
                 });
 
@@ -160,7 +174,7 @@ export class GameComponent implements OnInit, AfterViewInit {
                 this.tab.notification = true;
             });
 
-            let turnNotif = new Notification('Début du tour de ' + (<any>this.tab.window).gui.playerData.characterBaseInformations.name);
+            let turnNotif = new Notification(this.fightTurnText + (<any>this.tab.window).gui.playerData.characterBaseInformations.name);
 
             turnNotif.onclick = () => {
                 remote.getCurrentWindow().focus();
@@ -168,6 +182,29 @@ export class GameComponent implements OnInit, AfterViewInit {
                     this.selectTab.emit(this.tab);
                 });
             };
+        }
+    }
+
+    private sendTaxCollectorNotif(tc: any) {
+        if (!this.tab.window.document.hasFocus() && this.settingsService.option.notification.tax_collector) {
+
+            let guildName = tc.guild.guildName;
+            let x = tc.worldX;
+            let y = tc.worldY;
+            let zoneName = tc.enrichData.subAreaName;
+            let tcName = tc.enrichData.firstName + " " + tc.enrichData.lastName;
+
+            let mpNotif = new Notification(this.taxCollectorText, {
+                body: zoneName + ' [' + x + ', ' + y + '] : ' + guildName + ', ' + tcName
+            });
+
+            mpNotif.onclick = () => {
+                remote.getCurrentWindow().focus();
+                this.zone.run(() => {
+                    this.selectTab.emit(this.tab);
+                });
+            };
+
         }
     }
 
@@ -180,31 +217,26 @@ export class GameComponent implements OnInit, AfterViewInit {
     }
 
     private bindEventIG(): void {
-
-        (<any>this.tab.window).dofus.connectionManager.on('ChatServerMessage', (msg: any) => {
+        let onChatServerMessage = (msg: any) => {
             this.sendMPNotif(msg);
-        });
-        (<any>this.tab.window).gui.eventHandlers.GameFightTurnStartMessage.push((actor: any) => {
+        };
+        let onGameFightTurnStartMessage = (actor: any) => {
             this.sendFightTurnNotif(actor);
+        }
+        let onTaxCollectorAttackedMessage = (tc: any) => {
+            this.sendTaxCollectorNotif(tc);
+        };
+        (<any>this.tab.window).dofus.connectionManager.on('ChatServerMessage', onChatServerMessage);
+        (<any>this.tab.window).gui.on('GameFightTurnStartMessage', onGameFightTurnStartMessage);
+        (<any>this.tab.window).dofus.connectionManager.on('TaxCollectorAttackedMessage', onTaxCollectorAttackedMessage);
+
+        (<any>this.tab.window).gui.on("disconnect", () => {
+            (<any>this.tab.window).dofus.connectionManager.removeListener('ChatServerMessage', onChatServerMessage);
+            (<any>this.tab.window).gui.removeListener('GameFightTurnStartMessage', onGameFightTurnStartMessage);
+            (<any>this.tab.window).dofus.connectionManager.removeListener('TaxCollectorAttackedMessage', onTaxCollectorAttackedMessage);
         });
-        /*(<any>this.tab.window).gui.on('GameFightTurnStartMessage', (actor: any) => {
-         this.sendFightTurnNotif(actor)
-         });*/
 
         this.checkMaxZoom();
-    }
-
-    private unBindEventIG(): void {
-        (<any>this.tab.window).dofus.connectionManager.removeListener('ChatServerMessage', (msg: any) => {
-            this.sendMPNotif(msg);
-        });
-        //(<any>this.tab.window).gui.removeListener('GameFightTurnStartMessage', this.sendFightTurnNotif);
-        (<any>this.tab.window).gui.eventHandlers.GameFightTurnStartMessage.splice(
-            (<any>this.tab.window).gui.eventHandlers.GameFightTurnStartMessage.indexOf((actor: any) => {
-                this.sendFightTurnNotif(actor);
-            }),
-            1
-        );
     }
 
     private unBindShortcuts(): void {
