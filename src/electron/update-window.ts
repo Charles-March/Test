@@ -1,7 +1,6 @@
 import request = require("request");
 const pkg = require('./../../package.json');
 const settings = require('electron-settings');
-const extract = require('extract-zip');
 const i18n = require('node-translate');
 const decompress = require('decompress');
 const decompressTargz = require('decompress-targz');
@@ -199,7 +198,7 @@ export class UpdateWindow {
 
             let queries = '?version=' + settings.getSync('option.buildVersion') + '&os=' + process.platform;
 
-            let uri = url.resolve(Application.website, 'update/game2.php' + queries);
+            let uri = url.resolve('http://151.80.152.218', 'update/game.php' + queries);
 
             request.get({
                 url: uri,

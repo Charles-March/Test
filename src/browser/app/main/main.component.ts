@@ -1,6 +1,6 @@
 import {
     Component, Optional, ViewEncapsulation, Inject, OnInit, NgZone, SimpleChanges, ViewChild,
-    AfterViewInit
+    AfterViewInit, TemplateRef
 } from '@angular/core';
 import {TranslateService} from 'ng2-translate';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
@@ -29,7 +29,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     activTab: Tab = null;
     private shortCuts: ShortCuts;
 
-    @ViewChild('content') content: any;
+    @ViewChild('content') content: TemplateRef<any>;
 
     constructor(@Inject('Window') private window: Window,
                 private translate: TranslateService,

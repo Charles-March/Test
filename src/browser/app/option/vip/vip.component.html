@@ -1,17 +1,58 @@
 <!--<template #displayOption let-contact>-->
-<ul class="nav nav-tabs" fxFlex>
-    <li class="nav-item">
-        <a class="nav-link" routerLink="/option/vip/general" routerLinkActive="active">
-            {{ 'app.option.vip.general.header' | translate }}
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" routerLink="/option/vip/auto-group" routerLinkActive="active">
-            {{ 'app.option.vip.auto-group.header' | translate }}
-        </a>
-    </li>
-</ul>
 <div class="tab-content">
     <router-outlet></router-outlet>
+    <template [ngTemplateOutlet]="getTemplate()"></template>
 </div>
-<!--</template>-->
+
+<template #authentication>
+    <strong>Pour bénéficier des options VIP vous devez rentrer votre code dans le champ ci-dessous :</strong>
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group row">
+                    <label for="vip_id" class="col-5 col-form-label">Rentrez votre code :</label>
+                    <div class="col-7">
+                        <input [(ngModel)]="vip_id" type="text" class="form-control" id="vip_id">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <button type="submit" class="btn btn-success btn-block" (click)="validate()">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template #main>
+    <ul class="nav nav-tabs" fxFlex>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/option/vip/general" routerLinkActive="active">
+                {{ 'app.option.vip.general.header' | translate }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/option/vip/auto-group" routerLinkActive="active">
+                {{ 'app.option.vip.auto-group.header' | translate }}
+            </a>
+        </li>
+    </ul>
+</template>
+
+<template #modal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">{{ 'app.main.tipeee.title' | translate }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            Hellooooo
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="tipeee()">{{ 'app.main.tipeee.link' | translate }}</button>
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">{{ 'app.main.tipeee.close' | translate }}</button>
+    </div>
+</template>

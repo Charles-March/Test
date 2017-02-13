@@ -22,6 +22,7 @@ import {NotificationComponent} from "./notification/notification.component";
 import {VipComponent} from "./vip/vip.component";
 import {AutoGroupComponent} from "./vip/auto-group/auto-group.component";
 import {GeneralComponent as VipGeneralComponent} from "./vip/general/general.component";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
     imports: [
@@ -29,7 +30,8 @@ import {GeneralComponent as VipGeneralComponent} from "./vip/general/general.com
         OptionRoutingModule,
         SharedModule,
         FormsModule,
-        TranslateModule
+        TranslateModule,
+        NgbModule
     ],
     providers: [],
     declarations: [
