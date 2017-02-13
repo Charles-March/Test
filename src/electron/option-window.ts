@@ -22,6 +22,8 @@ export class OptionWindow {
                 show: false
             });
 
+            this.win.setMenu(null);
+
             this.win.on('close', (event:any) => {
                 console.log('prevent closing');
                 Application.reloadSettings();
