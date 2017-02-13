@@ -51,14 +51,13 @@ export class GeneralComponent implements OnInit{
         let resolution = {
             x: parseInt(aValue[0]),
             y: parseInt(aValue[1])
-        }
+        };
 
         this.settingsService.option.general.resolution = resolution;
     }
 
     ngOnInit(): void {
         // fixe the two way binding object by this tricks
-        console.log('onInit General');
         this._resolution = this.settingsService.option.general.resolution.x+';'+this.settingsService.option.general.resolution.y;
         this._language = this.settingsService.language;
 

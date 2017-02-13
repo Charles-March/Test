@@ -1,4 +1,4 @@
-import {Component, Optional, ViewEncapsulation, Inject, Input, NgZone} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ShortCuts} from './../shortcuts/shortcuts';
 import {IpcRendererService} from './../../shared/electron/ipcrenderer.service';
 import {SettingsService} from "../../shared/settings/settings.service";
@@ -15,11 +15,13 @@ import {TranslateService} from "ng2-translate";
         "style": "height:100%;" // find something less ugly in future
     }
 })
-export class OptionComponent {
+export class OptionComponent implements OnInit{
 
     constructor(private translate: TranslateService,
                 private ipcRendererService: IpcRendererService,
-                private titleService: Title) {
+                private titleService: Title) {}
+
+    ngOnInit(){
         this.titleService.setTitle('Option');
     }
 

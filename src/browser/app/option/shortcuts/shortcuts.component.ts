@@ -16,8 +16,5 @@ export class ShortcutsComponent {
 
     constructor(
         private settingsService: SettingsService
-    ){
-
-    }
-
+    ){}
 }

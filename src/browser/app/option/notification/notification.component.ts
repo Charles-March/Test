@@ -13,12 +13,9 @@ export class NotificationComponent implements OnInit{
 
     constructor(
         private settingsService: SettingsService
-    ){
+    ){}
 
-    }
-
-    ngOnInit(): void {
-
+    ngOnInit() {
 
     }
 

@@ -1,6 +1,4 @@
 import {Injectable, NgZone} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {ISettings, IGeneral} from './../../../shared/settings'
 import {IpcRendererService} from "../electron/ipcrenderer.service";
 
 const settings = (<any>global).nodeRequire('electron-settings');

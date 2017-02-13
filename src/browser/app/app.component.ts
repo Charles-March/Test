@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TranslateService} from "ng2-translate";
 import {ApplicationService} from "../shared/electron/application.service";
 import {SettingsService} from "../shared/settings/settings.service";
@@ -10,17 +10,20 @@ import {IpcRendererService} from "../shared/electron/ipcrenderer.service";
     <router-outlet></router-outlet>
   `
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   constructor(
       private translate: TranslateService,
       private settingsService: SettingsService,
       private ipcRendererService: IpcRendererService
-  ){
-    translate.addLangs(["en", "fr", "es"]);
-    translate.setDefaultLang(this.settingsService.language);
+  ){}
+
+  ngOnInit(){
+    this.translate.addLangs(["en", "fr", "es"]);
+    this.translate.setDefaultLang(this.settingsService.language);
 
     this.ipcRendererService.on('reload-settings', () => {
       this.translate.use(this.settingsService.language);
     });
   }
+
 }

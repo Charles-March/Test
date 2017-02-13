@@ -39,13 +39,34 @@ export class MainComponent implements OnInit, AfterViewInit {
                 private settingsService: SettingsService,
                 private applicationService: ApplicationService,
                 private titleService: Title) {
+
         (<any>this.window).appVersion = this.applicationService.appVersion;
         (<any>this.window).buildVersion = this.applicationService.buildVersion;
 
         this.shortCuts = new ShortCuts(this.window);
+    }
 
+    ngOnInit(): void {
         this.titleService.setTitle('DofusTouch No-Emu');
 
+        this.tabs = this.tabService.getTabs();
+
+        this.setEventListener();
+
+        this.addTab();
+    }
+
+    ngAfterViewInit() {
+
+        if (this.settingsService.alertCounter % 15 === 0) {
+            this.modalService.open(this.content, {}).result.then((result) => {
+
+            }, (reason) => {
+
+            });
+        }
+
+        this.settingsService.alertCounter++;
     }
 
 
@@ -59,7 +80,6 @@ export class MainComponent implements OnInit, AfterViewInit {
     removeTab(tab: Tab): void {
 
         if (this.activTab !== null && tab.id === this.activTab.id) {
-            console.log('activTab was deleted');
             this.activTab = null;
             //let newTab = this.tabService.getNearTab(tab);
             //this.selectTab(newTab.id)
@@ -141,29 +161,5 @@ export class MainComponent implements OnInit, AfterViewInit {
 
     tipeee() {
         shell.openExternal('https://www.tipeee.com/dtne');
-    }
-
-    ngOnInit(): void {
-        this.tabs = this.tabService.getTabs();
-
-        this.setEventListener();
-
-
-        this.addTab();
-    }
-
-    ngAfterViewInit() {
-
-        console.log(this.settingsService.alertCounter);
-
-        if (this.settingsService.alertCounter % 15 === 0) {
-            this.modalService.open(this.content, {}).result.then((result) => {
-
-            }, (reason) => {
-
-            });
-        }
-
-        this.settingsService.alertCounter++;
     }
 }

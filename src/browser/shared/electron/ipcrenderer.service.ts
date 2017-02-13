@@ -4,17 +4,14 @@ const { ipcRenderer } = (<any>global).nodeRequire('electron');
 
 @Injectable()
 export class IpcRendererService {
-	ipcRenderer = ipcRenderer;
-	counter = 0;
+	private _ipcRenderer = ipcRenderer;
 
 	constructor(
         private zone: NgZone
-    ) {
-
-    }
+    ) {}
 
 	public on(message:string, callback: any) {
-		return this.ipcRenderer.on(message, (event: Event, args:any)=>{
+		return this._ipcRenderer.on(message, (event: Event, args:any)=>{
 
             // prevent that change is effectiv for zone.js because ipc run not under controll of zone.js
             this.zone.run(() => {
@@ -24,10 +21,10 @@ export class IpcRendererService {
 	}
 
 	public send(message:string, ...args: Array<any>) {
-		this.ipcRenderer.send(message, args);
+		this._ipcRenderer.send(message, args);
 	}
 
 	public sendSync(message:string, ...args: Array<any>) {
-		return this.ipcRenderer.sendSync(message, args);
+		return this._ipcRenderer.sendSync(message, args);
 	}
 }

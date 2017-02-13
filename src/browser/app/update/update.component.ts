@@ -22,7 +22,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
     private savePath: string;
     private saveFile: any;
     private remoteUrl: string;
-    private informations: string = 'Début du téléchargement...';
+    private informations: string;
     private sub: Subscription;
 
     constructor(private route: ActivatedRoute,
@@ -30,7 +30,9 @@ export class UpdateComponent implements OnInit, OnDestroy {
                 private router: Router,
                 private zone: NgZone,
                 private ipcRendererService: IpcRendererService,
-                private titleService: Title) {
+                private titleService: Title) {}
+
+    ngOnInit() {
 
         this.translate.get('update.title').subscribe((res: string) => {
             this.titleService.setTitle(res);
@@ -39,6 +41,20 @@ export class UpdateComponent implements OnInit, OnDestroy {
         this.translate.get('update.information.start').subscribe((res: string) => {
             this.informations = res;
         });
+
+        this.sub = this.route.params.subscribe(params => {
+            // Defaults to 0 if no query param provided.
+            this.savePath = decodeURIComponent(params['savePath']);
+            this.remoteUrl = decodeURIComponent(params['remoteUrl']);
+
+            this.saveFile = fs.createWriteStream(this.savePath);
+
+            this.download();
+        });
+    }
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 
     download() {
@@ -90,21 +106,5 @@ export class UpdateComponent implements OnInit, OnDestroy {
         else {
             return (Math.round(count * 100) / 100) + ' B';
         }
-    }
-
-    ngOnInit() {
-        this.sub = this.route.params.subscribe(params => {
-            // Defaults to 0 if no query param provided.
-            this.savePath = decodeURIComponent(params['savePath']);
-            this.remoteUrl = decodeURIComponent(params['remoteUrl']);
-
-            this.saveFile = fs.createWriteStream(this.savePath);
-
-            this.download();
-        });
-    }
-
-    ngOnDestroy() {
-        this.sub.unsubscribe();
     }
 }

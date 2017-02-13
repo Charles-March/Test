@@ -2,8 +2,6 @@ import {Component, Optional, ViewEncapsulation, Inject, Input, NgZone} from '@an
 import { SettingsService } from './../../../../shared/settings/settings.service';
 import { InputComponent } from './../input/input.component'
 
-//const { ipcRenderer } = (<any>global).nodeRequire('electron');
-
 @Component({
     selector: 'option-shortcuts-item',
     templateUrl: 'app/option/shortcuts/item/item.component.html',

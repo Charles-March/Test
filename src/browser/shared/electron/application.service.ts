@@ -11,12 +11,9 @@ export class ApplicationService {
 
     constructor(
         private ipcRendererService: IpcRendererService
-    ){
-    }
+    ){}
 
     public load(): void {
-        console.log('init application service');
-
         let config = this.ipcRendererService.sendSync('load-config');
         this.gamePath = config.gamePath;
         this.buildVersion = config.buildVersion;

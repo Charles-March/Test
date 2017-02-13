@@ -1,9 +1,6 @@
 import {Component, Optional, ViewEncapsulation, Inject, Input, Output, NgZone, EventEmitter} from '@angular/core';
 import { KeyCode } from './keycode';
 
-
-//const { ipcRenderer } = (<any>global).nodeRequire('electron');
-
 @Component({
     selector: 'option-shortcuts-input',
     templateUrl: 'app/option/shortcuts/input/input.component.html',
@@ -20,6 +17,9 @@ export class InputComponent {
     @Output() modelChange: EventEmitter<any> = new EventEmitter();
 
     private _keys: Array<number> = [];
+
+    constructor(
+    ) {}
 
     keyDown(event: KeyboardEvent) {
         event.preventDefault();
@@ -59,11 +59,5 @@ export class InputComponent {
         this.model = '';
         this.modelChange.emit(this.model);
     }
-
-    constructor(
-    ) {
-
-    }
-
 
 }
