@@ -60,6 +60,7 @@ export interface ISettings {
         notification: {
             private_message: boolean;
             fight_turn: boolean;
+            tax_collector: boolean;
         }
     }
 }

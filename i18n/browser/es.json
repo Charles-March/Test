@@ -8,6 +8,11 @@
       },
       "tab-title": "Not connected"
     },
+    "notifications": {
+      "fight-turn": "Turn start for ",
+      "private-message": "Incoming message from ",
+      "tax-collector": "A tax collector is attacked!"
+    },
     "option": {
       "general": {
         "title": "General",
@@ -71,7 +76,8 @@
         "title": "Notifications",
         "description": "You can receive notifications from the game when the application is on the background. You will be notified:",
         "fight-turn": "When your turn starts (fight)",
-        "private-message": "By incoming private messages"
+        "private-message": "By incoming private messages",
+        "tax-collector": "When a tax collector is attacked"
       },
       "reset": "Reset",
       "save": "Apply"
