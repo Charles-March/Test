@@ -42,9 +42,11 @@ export class Application {
         settings.defaults(DefaultSettings);
 
         // if wrong settings -> reset
+        settings.applyDefaultsSync();
         if (!checkSettings()) {
             settings.resetToDefaultsSync();
         }
+
 
 
         if (!settings.getSync('language')) {

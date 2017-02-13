@@ -1,10 +1,11 @@
 import {ISettings} from "../../shared/settings";
+import {DefaultSettings} from '../default.settings';
 const settings = require('electron-settings');
 
 export function checkSettings(){
     let sett:ISettings = settings.getSync();
 
-    if(Number.isInteger(sett.alertCounter)
+    /*if(Number.isInteger(sett.alertCounter)
         && sett.appVersion
         && sett.buildVersion
         && typeof(sett.option.general.hidden_shop) === "boolean"
@@ -50,8 +51,32 @@ export function checkSettings(){
         ){
         console.log('check settings OK');
         return true;
-    }
+    }*/
 
-    console.log('check settings FAILED');
-    return false;
+    function checkRecursive(settings: any, defaultSettings: any) {
+        for (var id in defaultSettings) {
+            if (Array.isArray(defaultSettings[id])) {
+                if (!Array.isArray(settings[id])) return false;
+            }
+            else {
+                if (typeof defaultSettings[id] !== typeof settings[id] && defaultSettings[id] !== null) return false;
+            }
+            if (typeof defaultSettings[id] === 'object') {
+                if (!checkRecursive(settings[id], defaultSettings[id])) return false;
+            }
+        }
+        return true;
+    }
+    var ok = checkRecursive(sett, DefaultSettings);
+
+
+    sett.alertCounter = Math.floor(sett.alertCounter);
+    sett.option.general.resolution.x = Math.floor(sett.option.general.resolution.x);
+    sett.option.general.resolution.y = Math.floor(sett.option.general.resolution.y);
+
+    if (ok) console.log('check settings OK');
+    else console.log('check settings FAILED');
+
+
+    return ok;
 }
