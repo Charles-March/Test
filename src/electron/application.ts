@@ -11,31 +11,22 @@ import {GameWindow} from './game-window';
 import {UpdateWindow} from './update-window';
 import {ISettings} from "../shared/settings";
 
-//const neutrino = require("neutrino-metrics");
-//neutrino.init("SyxamT87ux");
-
 export class Application {
 
-    public website: string = "http://dofustouch.no-emu.com";
+    public static website: string = "http://dofustouch.no-emu.com";
     public static cmdOptions: any;
     public static appPath: string;
-    public devMode: boolean = false;
-    private gameWindows: GameWindow[] = [];
-    private updateWindow: UpdateWindow;
+    private static gameWindows: GameWindow[] = [];
 
-
-    constructor(cmdOptions: any) {
+    public static init(cmdOptions: any) {
 
         // retrieve cmd option
-        Application.cmdOptions = cmdOptions;
-
-        // set dev mod
-        this.devMode = cmdOptions.devmode;
+        this.cmdOptions = cmdOptions;
 
         // set application path
-        Application.appPath = app.getAppPath();
-        if (Application.cmdOptions.devmode) {
-            Application.appPath = __dirname + '/../..';
+        this.appPath = app.getAppPath();
+        if (this.cmdOptions.devmode) {
+            this.appPath = __dirname + '/../..';
         }
 
         // set defaults settings
@@ -46,8 +37,6 @@ export class Application {
         if (!checkSettings()) {
             settings.resetToDefaultsSync();
         }
-
-
 
         if (!settings.getSync('language')) {
             let local = app.getLocale();
@@ -70,10 +59,10 @@ export class Application {
 
         i18n.setLocale(settings.getSync('language'));
 
-        this.updateWindow = new UpdateWindow(this);
+        return this;
     }
 
-    private getAppVersion(): Promise<string> {
+    private static getAppVersion(): Promise<string> {
         return new Promise((resolve, reject) => {
             request.get({
                 url: 'https://itunes.apple.com/lookup?id=1041406978',
@@ -90,7 +79,7 @@ export class Application {
         });
     }
 
-    private getBuildVersion(): Promise<string> {
+    private static getBuildVersion(): Promise<string> {
         return new Promise((resolve, reject) => {
 
             request.get({
@@ -112,8 +101,26 @@ export class Application {
     }
 
 
-    run(): void {
+    public static run(): void {
         // get dynamic app and build version (avoid login block)
+
+        if(this.cmdOptions.skipupdate){
+            ipcMain.on('load-config', (event, arg) => {
+
+                event.returnValue = {
+                    gamePath: app.getPath('userData') + '/game',
+                    appPath: Application.appPath,
+                    buildVersion: settings.getSync('buildVersion'),
+                    appVersion: settings.getSync('appVersion'),
+                    platform: process.platform,
+                    language: settings.getSync('language')
+                }
+            });
+
+            this.addWindow();
+
+            return;
+        }
 
 
         let splash = new electron.BrowserWindow({
@@ -137,19 +144,18 @@ export class Application {
 
             splash.hide();
 
-            this.updateWindow.run().then(() => {
-
+            UpdateWindow.run().then(() => {
 
                 this.addWindow();
 
-                if (this.updateWindow.win) {
-                    this.updateWindow.win.close();
+                if (UpdateWindow.win) {
+                    UpdateWindow.win.close();
                 }
 
                 splash.close();
 
                 if (Application.cmdOptions.changelog) {
-                    ChangeLogWindow.run(this);
+                    ChangeLogWindow.run();
                 }
             }).catch((raison: any) => {
                 console.log('run update error');
@@ -188,17 +194,29 @@ export class Application {
 
     }
 
-    reloadSettings(): void {
+    public static reloadSettings(): void {
 
         this.gameWindows.forEach((gWindow) => {
-            //gWindow.shortCuts.reload();
+
+            if (!settings.getSync('language')) {
+                let local = app.getLocale();
+
+                if (local.search('en') !== -1) {
+                    settings.setSync('language', 'en');
+                } else if (local.search('fr') !== -1) {
+                    settings.setSync('language', 'fr');
+                } else if (local.search('es') !== -1) {
+                    settings.setSync('language', 'es');
+                }
+            }
+
             i18n.setLocale(settings.getSync('language'));
             gWindow.reloadSettings();
         });
 
     }
 
-    addWindow(): void {
+    public static addWindow(): void {
 
         // instance window game
         let gWindow = new GameWindow(this);

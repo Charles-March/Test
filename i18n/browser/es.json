@@ -14,6 +14,19 @@
       "tax-collector": "A tax collector is attacked!"
     },
     "option": {
+      "vip":{
+        "title":"VIP",
+        "general":{
+          "header": "General",
+          "disable_inactivity": "Disable Inactivity"
+        },
+        "auto-group":{
+          "header": "Auto Group",
+          "enable": "Active",
+          "leader": "Leader",
+          "follow_leader": "Follow the leader"
+        }
+      },
       "general": {
         "title": "General",
         "language": "Language",

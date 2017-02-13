@@ -1,7 +1,6 @@
 export interface IGeneral {
     hidden_shop: boolean;
     hidden_tabs: boolean;
-    developper_mode: boolean;
     stay_connected: boolean;
     resolution: {
         x: number;
@@ -16,6 +15,7 @@ export interface ISettings {
     buildVersion: string;
     appVersion: string;
     alertCounter: number;
+    vip_id: string;
     option: {
         general: IGeneral;
         shortcuts: {
@@ -61,6 +61,16 @@ export interface ISettings {
             private_message: boolean;
             fight_turn: boolean;
             tax_collector: boolean;
+        },
+        vip: {
+            general:{
+                disable_inactivity: boolean;
+            },
+            auto_group : {
+                active: boolean;
+                leader: string;
+                follow_leader: boolean;
+            }
         }
     }
 }

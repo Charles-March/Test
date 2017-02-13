@@ -6,44 +6,37 @@ import { Application } from './application';
 
 export class ChangeLogWindow {
 
-    private win: Electron.BrowserWindow;
-    private application: Application;
-    private static changeLogWindow: ChangeLogWindow;
+    private static win: Electron.BrowserWindow;
 
-    constructor(application: Application){
-        this.application = application;
-    }
+    static run(): void{
+        if(!this.win || this.win.isDestroyed()) {
 
-    static run(application: Application): void{
-        if(!this.changeLogWindow) {
-            this.changeLogWindow = new ChangeLogWindow(application);
+            this.win = new electron.BrowserWindow({
+                width: 500,
+                height: 800,
+                resizable: true,
+                center: true,
+                parent: electron.BrowserWindow.getFocusedWindow(),
+                darkTheme: true,
+                skipTaskbar: true,
+                show: false,
+                title: 'ChangeLog',
+            });
+
+            this.win.loadURL(`file://${Application.appPath}/out/browser/index.html#/changelog`);
+
+            this.win.setMenu(null);
+
+            this.win.on('close', (event:any) => {
+                this.win.hide();
+                return event.preventDefault();
+            });
+
+
+            this.win.show();
+        }else{
+            this.win.show();
+            this.win.focus();
         }
-
-        if(this.changeLogWindow.win){
-            this.changeLogWindow.win.focus();
-            return;
-        }
-
-        this.changeLogWindow.win = new electron.BrowserWindow({
-            width: 500,
-            height: 800,
-            resizable: true,
-            center: true,
-            parent: electron.BrowserWindow.getFocusedWindow(),
-            darkTheme: true,
-            skipTaskbar: true,
-            show: false,
-            title: 'ChangeLog',
-        });
-
-        this.changeLogWindow.win.setMenu(null);
-
-        this.changeLogWindow.win.on('closed', () => {
-            this.changeLogWindow.win = null;
-        });
-
-        this.changeLogWindow.win.loadURL(`file://${Application.appPath}/out/browser/index.html#/changelog`);
-        this.changeLogWindow.win.show();
-
     }
 }

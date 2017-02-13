@@ -5,11 +5,11 @@ export const DefaultSettings: ISettings = {
     buildVersion: null,
     appVersion: null,
     alertCounter: 0,
+    vip_id: null,
     option: {
         general: {
             hidden_shop: false,
             hidden_tabs: false,
-            developper_mode: false,
             stay_connected: true,
             resolution: {
                 x: 1280,
@@ -128,10 +128,20 @@ export const DefaultSettings: ISettings = {
                 goultine: "r"
             }
         },
-        notification:{
+        notification: {
             private_message: true,
             fight_turn: true,
             tax_collector: true
+        },
+        vip: {
+            general: {
+                disable_inactivity: false,
+            },
+            auto_group: {
+                active: false,
+                leader: null,
+                follow_leader: false
+            }
         }
     }
 };

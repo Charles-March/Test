@@ -390,7 +390,6 @@ export module Option {
             }
 
             set tabs(tabs: Array<string>) {
-                console.log(tabs);
                 settings.setSync('option.shortcuts.no_emu.tabs', tabs);
                 this._tabs = tabs;
             }

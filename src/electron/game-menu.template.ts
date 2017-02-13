@@ -9,7 +9,7 @@ import {ChangeLogWindow} from "./changelog-window";
 
 export class GameMenuTemplate {
 
-    static build(application: Application): Electron.MenuItemOptions[]{
+    static build(): Electron.MenuItemOptions[]{
 
         const template: Electron.MenuItemOptions[] = [
             {
@@ -19,7 +19,7 @@ export class GameMenuTemplate {
                         label: i18n.t('game-menu.file.new-window'),
                         accelerator: ShortCuts.convert(settings.getSync('option.shortcuts.no_emu.new_window')),
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
-                            application.addWindow();
+                            Application.addWindow();
                         }
                     },
                     {
@@ -168,13 +168,13 @@ export class GameMenuTemplate {
                     {
                         label: i18n.t('game-menu.settings.option'),
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
-                            OptionWindow.run(application);
+                            OptionWindow.run();
                         }
                     },
                     {
                         label: i18n.t('game-menu.settings.changelog'),
                         click (item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow) {
-                            ChangeLogWindow.run(application);
+                            ChangeLogWindow.run();
                         }
                     },
                     {

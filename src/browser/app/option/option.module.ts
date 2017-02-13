@@ -19,6 +19,9 @@ import {InputComponent} from './shortcuts/input/input.component';
 
 import {FormsModule} from '@angular/forms';
 import {NotificationComponent} from "./notification/notification.component";
+import {VipComponent} from "./vip/vip.component";
+import {AutoGroupComponent} from "./vip/auto-group/auto-group.component";
+import {GeneralComponent as VipGeneralComponent} from "./vip/general/general.component";
 
 @NgModule({
     imports: [
@@ -39,7 +42,10 @@ import {NotificationComponent} from "./notification/notification.component";
         SpellComponent,
         ItemComponent,
         InterfaceComponent,
-        NotificationComponent
+        NotificationComponent,
+        VipComponent,
+        AutoGroupComponent,
+        VipGeneralComponent
     ]
 })
 export class OptionModule {

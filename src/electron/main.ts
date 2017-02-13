@@ -1,3 +1,4 @@
+import App = Electron.App;
 const commandLineArgs = require('command-line-args');
 import {app} from 'electron';
 
@@ -17,11 +18,11 @@ const optionDefinitions = [
     { name: 'relaunch', alias: 'r', type: Boolean },
     { name: 'remote-debugging-port', type: Boolean },
     { name: 'expose_debug_as', type: String},
-    { name: 'devmode', type: Boolean}
+    { name: 'devmode', type: Boolean},
+    { name: 'skipupdate', type: Boolean}
 ];
 const cmdOptions = commandLineArgs(optionDefinitions);
 
-let application: Application = null;
 
 app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
     event.preventDefault();
@@ -31,11 +32,7 @@ app.on('certificate-error', (event, webContents, url, error, certificate, callba
 app.on('ready', () => {
 
     // Singleton
-    if(!application){
-        application = new Application(cmdOptions);
-    }
-
-    application.run();
+    Application.init(cmdOptions).run();
 });
 
 app.on('window-all-closed', function() {

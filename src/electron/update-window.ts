@@ -30,14 +30,9 @@ declare interface UpdateResponse {
 
 export class UpdateWindow {
 
-    public win: Electron.BrowserWindow;
-    private application: Application;
+    public static win: Electron.BrowserWindow;
 
-    constructor(application: Application) {
-        this.application = application;
-    }
-
-    private createWindow(): Electron.BrowserWindow {
+    private static createWindow(): Electron.BrowserWindow {
         let window = new electron.BrowserWindow({
             width: 800,
             height: 150,
@@ -59,7 +54,7 @@ export class UpdateWindow {
         return window;
     }
 
-    private openUpdateModal(response: UpdateResponse): Promise<any> {
+    private static openUpdateModal(response: UpdateResponse): Promise<any> {
         return new Promise((resolve, reject) => {
 
             let message = i18n.t('updater.new-update.default');
@@ -88,7 +83,7 @@ export class UpdateWindow {
         });
     }
 
-    public checkNoEmuUpdate(response: UpdateResponse): Promise<UpdateResponse> {
+    public static checkNoEmuUpdate(response: UpdateResponse): Promise<UpdateResponse> {
         return new Promise((resolve, reject) => {
             console.log(pkg.version);
             if (pkg.version == response.noemu.version) {
@@ -136,7 +131,7 @@ export class UpdateWindow {
         });
     }
 
-    public checkGameUpdate(response: UpdateResponse): Promise<UpdateResponse> {
+    public static checkGameUpdate(response: UpdateResponse): Promise<UpdateResponse> {
         return new Promise((resolve, reject) => {
 
             if (settings.getSync('buildVersion') == response.dofustouch.version) {
@@ -153,7 +148,7 @@ export class UpdateWindow {
 
                 this.win.loadURL(`file://${Application.appPath}/out/browser/index.html#/update/${encodeURIComponent(savePath)}/${encodeURIComponent(remoteUrl)}`);
 
-                if (this.application.devMode) {
+                if (Application.cmdOptions.devmode) {
                     this.win.webContents.openDevTools();
                 }
 
@@ -186,7 +181,7 @@ export class UpdateWindow {
         });
     }
 
-    public run(): Promise<any> {
+    public static run(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.retrieveUpdate().then((response) => {
                 return this.checkNoEmuUpdate(response);
@@ -199,12 +194,12 @@ export class UpdateWindow {
 
     }
 
-    private retrieveUpdate(): Promise<UpdateResponse> {
+    private static retrieveUpdate(): Promise<UpdateResponse> {
         return new Promise((resolve, reject) => {
 
             let queries = '?version=' + settings.getSync('option.buildVersion') + '&os=' + process.platform;
 
-            let uri = url.resolve(this.application.website, 'update/game2.php' + queries);
+            let uri = url.resolve(Application.website, 'update/game2.php' + queries);
 
             request.get({
                 url: uri,

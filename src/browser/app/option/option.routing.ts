@@ -10,6 +10,9 @@ import {SpellComponent} from './shortcuts/spell/spell.component';
 import {ItemComponent} from './shortcuts/item/item.component';
 import {InterfaceComponent} from './shortcuts/interface/interface.component';
 import {NotificationComponent} from "./notification/notification.component";
+import {VipComponent} from "./vip/vip.component";
+import {GeneralComponent as VipGeneralComponent} from "./vip/general/general.component";
+import {AutoGroupComponent} from "./vip/auto-group/auto-group.component";
 
 
 const routes: Routes = [
@@ -17,8 +20,15 @@ const routes: Routes = [
         path: '',
         component: OptionComponent,
         children: [
-            {path: '', redirectTo: 'general', pathMatch: 'full'},
-            {path: 'general', component: GeneralComponent},
+            {
+                path: '',
+                redirectTo: 'general',
+                pathMatch: 'full'
+            },
+            {
+                path: 'general',
+                component: GeneralComponent
+            },
             {
                 path: 'shortcuts',
                 component: ShortcutsComponent,
@@ -32,7 +42,19 @@ const routes: Routes = [
                 ]
 
             },
-            {path: 'notification', component: NotificationComponent},
+            {
+                path: 'notification',
+                component: NotificationComponent
+            },
+            {
+                path: 'vip',
+                component: VipComponent,
+                children: [
+                    {path: '', redirectTo: 'general', pathMatch: 'full'},
+                    {path: 'general', component: VipGeneralComponent},
+                    {path: 'auto-group', component: AutoGroupComponent},
+                ]
+            },
         ]
     }
 ];

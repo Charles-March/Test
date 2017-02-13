@@ -29,7 +29,7 @@ export class GameWindow {
             }
         });
         this.shortCuts = new ShortCuts(this.win);
-        this.menu = Menu.buildFromTemplate(GameMenuTemplate.build(this.application));
+        this.menu = Menu.buildFromTemplate(GameMenuTemplate.build());
     }
 
     public reloadSettings(): void {
@@ -41,7 +41,7 @@ export class GameWindow {
             this.shortCuts.reload();
         });
 
-        this.menu = Menu.buildFromTemplate(GameMenuTemplate.build(this.application));
+        this.menu = Menu.buildFromTemplate(GameMenuTemplate.build());
         Menu.setApplicationMenu(this.menu);
     }
 

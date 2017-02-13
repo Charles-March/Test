@@ -6,56 +6,48 @@ import { Application } from './application';
 
 export class OptionWindow {
 
-    private win: Electron.BrowserWindow;
-    private application: Application;
-    private static optionWindow: OptionWindow;
+    private static win: Electron.BrowserWindow;
 
-    constructor(application: Application){
-        this.application = application;
+    static run(): void{
 
-        ipcMain.on('validate-option', (event, arg) => {
-            //this.application.reloadSettings();
-            this.win.close();
-        });
+        if(!this.win || this.win.isDestroyed()){
+            this.win = new electron.BrowserWindow({
+                width: 800,
+                height: 500,
+                resizable: false,
+                center: true,
+                parent: electron.BrowserWindow.getFocusedWindow(),
+                darkTheme: true,
+                skipTaskbar: true,
+                show: false
+            });
 
-        ipcMain.on('reset-option', (event, arg) => {
-            //this.application.reloadSettings();
-            console.log('receive->reset-option');
-            settings.resetToDefaultsSync();
-            this.application.reloadSettings();
-            this.win.webContents.send('reload-settings');
-        });
+            this.win.on('close', (event:any) => {
+                console.log('prevent closing');
+                Application.reloadSettings();
+                this.win.hide();
+                return event.preventDefault();
+            });
 
-    }
+            this.win.loadURL(`file://${Application.appPath}/out/browser/index.html#/option`);
 
-    static run(application: Application): void{
-        if(!this.optionWindow) {
-            this.optionWindow = new OptionWindow(application);
+            ipcMain.on('validate-option', (event, arg) => {
+                //this.application.reloadSettings();
+                this.win.close();
+            });
+
+            ipcMain.on('reset-option', (event, arg) => {
+                //this.application.reloadSettings();
+                console.log('receive->reset-option');
+                settings.resetToDefaultsSync();
+                //this.application.reloadSettings();
+                this.win.webContents.send('reload-settings');
+            });
+
+            this.win.show();
+        }else{
+            this.win.show();
+            this.win.focus();
         }
-
-        if(this.optionWindow.win){
-            this.optionWindow.win.focus();
-            return;
-        }
-
-        this.optionWindow.win = new electron.BrowserWindow({
-            width: 800,
-            height: 500,
-            resizable: false,
-            center: true,
-            parent: electron.BrowserWindow.getFocusedWindow(),
-            darkTheme: true,
-            skipTaskbar: true,
-            show: false
-        });
-
-        this.optionWindow.win.on('closed', () => {
-            this.optionWindow.application.reloadSettings();
-            this.optionWindow.win = null;
-        });
-
-        this.optionWindow.win.loadURL(`file://${Application.appPath}/out/browser/index.html#/option`);
-        this.optionWindow.win.show();
-
     }
 }

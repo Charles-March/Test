@@ -1,0 +1,17 @@
+<!--<template #displayOption let-contact>-->
+<ul class="nav nav-tabs" fxFlex>
+    <li class="nav-item">
+        <a class="nav-link" routerLink="/option/vip/general" routerLinkActive="active">
+            {{ 'app.option.vip.general.header' | translate }}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" routerLink="/option/vip/auto-group" routerLinkActive="active">
+            {{ 'app.option.vip.auto-group.header' | translate }}
+        </a>
+    </li>
+</ul>
+<div class="tab-content">
+    <router-outlet></router-outlet>
+</div>
+<!--</template>-->
