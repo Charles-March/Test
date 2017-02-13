@@ -9,8 +9,8 @@
       "tab-title": "Non connecté"
     },
     "notifications": {
-      "fight-turn": "Début du tour de ",
-      "private-message": "Message de : ",
+      "fight-turn": "Début du tour de {{character}}",
+      "private-message": "Message de : {{character}}",
       "tax-collector": "Un percepteur est attaqué !"
     },
     "option": {

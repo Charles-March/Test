@@ -37,10 +37,6 @@ export class GameComponent implements OnInit, AfterViewInit {
     private gameLoaded: boolean = false;
     private backupMaxZoom: number;
 
-    private privateMessageText: string = "Message de : ";
-    private fightTurnText: string = "Début du tour de ";
-    private taxCollectorText: string = "Un percepteur est attaqué !";
-
     constructor(@Inject('Window') private window: Window,
                 private ipcRendererService: IpcRendererService,
                 private zone: NgZone,
@@ -50,15 +46,6 @@ export class GameComponent implements OnInit, AfterViewInit {
                 private titleService: Title) {
         this.gamePath = this.applicationService.gamePath + '/index.html';
 
-        this.translate.get('app.notifications.private-message').subscribe((res: string) => {
-            this.privateMessageText = res;
-        });
-        this.translate.get('app.notifications.fight-turn').subscribe((res: string) => {
-            this.fightTurnText = res;
-        });
-        this.translate.get('app.notifications.tax-collector').subscribe((res: string) => {
-            this.taxCollectorText = res;
-        });
     }
 
     ngOnInit() {
@@ -129,7 +116,7 @@ export class GameComponent implements OnInit, AfterViewInit {
         });
 
         (<any>this.tab.window).isoEngine.mapScene._refreshAreasBackup = (<any>this.tab.window).isoEngine.mapScene._refreshAreas;
-        (<any>this.tab.window).isoEngine.mapScene._refreshAreas = function() {
+        (<any>this.tab.window).isoEngine.mapScene._refreshAreas = function () {
             for (var id in this.areasToRefresh) {
                 if (this.areasToRefresh[id][3] < this.t) {
                     this.areasToRefresh[id][2] = this.t;
@@ -148,7 +135,7 @@ export class GameComponent implements OnInit, AfterViewInit {
                     this.tab.notification = true;
                 });
 
-                let mpNotif = new Notification(this.privateMessageText + msg.senderName, {
+                let mpNotif = new Notification(this.translate.instant('app.notifications.private-message', {character: msg.senderName}), {
                     body: msg.content
                 });
 
@@ -174,7 +161,7 @@ export class GameComponent implements OnInit, AfterViewInit {
                 this.tab.notification = true;
             });
 
-            let turnNotif = new Notification(this.fightTurnText + (<any>this.tab.window).gui.playerData.characterBaseInformations.name);
+            let turnNotif = new Notification(this.translate.instant('app.notifications.fight-turn', {character: (<any>this.tab.window).gui.playerData.characterBaseInformations.name}));
 
             turnNotif.onclick = () => {
                 remote.getCurrentWindow().focus();
@@ -194,7 +181,7 @@ export class GameComponent implements OnInit, AfterViewInit {
             let zoneName = tc.enrichData.subAreaName;
             let tcName = tc.enrichData.firstName + " " + tc.enrichData.lastName;
 
-            let mpNotif = new Notification(this.taxCollectorText, {
+            let mpNotif = new Notification(this.translate.instant('app.notifications.tax-collector'), {
                 body: zoneName + ' [' + x + ', ' + y + '] : ' + guildName + ', ' + tcName
             });
 
@@ -226,6 +213,7 @@ export class GameComponent implements OnInit, AfterViewInit {
         let onTaxCollectorAttackedMessage = (tc: any) => {
             this.sendTaxCollectorNotif(tc);
         };
+
         (<any>this.tab.window).dofus.connectionManager.on('ChatServerMessage', onChatServerMessage);
         (<any>this.tab.window).gui.on('GameFightTurnStartMessage', onGameFightTurnStartMessage);
         (<any>this.tab.window).dofus.connectionManager.on('TaxCollectorAttackedMessage', onTaxCollectorAttackedMessage);

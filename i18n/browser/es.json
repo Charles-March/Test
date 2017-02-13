@@ -9,8 +9,8 @@
       "tab-title": "Not connected"
     },
     "notifications": {
-      "fight-turn": "Turn start for ",
-      "private-message": "Incoming message from ",
+      "fight-turn": "Turn start for {{character}}",
+      "private-message": "Incoming message from {{character}}",
       "tax-collector": "A tax collector is attacked!"
     },
     "option": {
