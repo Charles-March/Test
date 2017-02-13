@@ -3,50 +3,50 @@
 module.exports = {
     "game-menu": {
         "file": {
-            "title": "File",
-            "new-window": "New window",
-            "close-window": "Close this window",
-            "new-tab": "New tab",
-            "close-tab": "Close the current tab",
+            "title": "Archivo",
+            "new-window": "Nueava ventana",
+            "close-window": "Cerra este ventana",
+            "new-tab": "Nueva pestaña",
+            "close-tab": "Cerrar el actual pestaña",
         },
         "edit": {
-            "title": "Edit",
+            "title": "Editar",
 
         },
         "view": {
-            "title": "View",
-            "reload":"Reload",
-            "console":"Development tools",
-            "reset-zoom":"Reset zoom",
+            "title": "Vista",
+            "reload":"Recargar",
+            "console":"Las herramientas de desarrollo",
+            "reset-zoom":"Reajustar el zoom",
             "zoom-p":"Zoom +",
             "zoom-m":"Zoom -",
-            "full-screen":"Fullscreen"
+            "full-screen":"Formato grande"
         },
         "window": {
-            "title": "Window",
-            "prev-tab":"Show previous tab",
-            "next-tab":"Show next tab",
-            "enable-sound": "Enable sounds",
-            "disable-sound": "Disable sounds",
+            "title": "Ventana",
+            "prev-tab":"Mostrar anterior pestaña",
+            "next-tab":"Mostrar siguiente pestaña",
+            "enable-sound": "Activar el sonido",
+            "disable-sound": "Desactivar el sonido",
         },
         "settings": {
-            "title": "Settings",
-            "option": "Options",
+            "title": "Configuración",
+            "option": "Opciones",
             "changelog": "Changelog",
-            "redownload-file-game": "Re-download game files"
+            "redownload-file-game": "Volver a descargar los archivos del juego"
         },
         "help": {
-            "title":"Help",
-            "about":"About"
+            "title":"Ayuda",
+            "about":"Sobre"
         }
     },
     "updater":{
         "new-update":{
-            "title":"New update %{version}",
-            "default": "A new update of DOFUS Touch No-Emu is available, you can download it on our website!\n",
-            "required":"A required update of DOFUS Touch No-Emu is available, you can download it on our website.",
-            "ignore": "Ignore",
-            "go-site": "Go on the website"
+            "title":"Nueva actualización %{version}",
+            "default": "Una nueva actualización de DOFUS Touch No-Emu está disponible, puede descargarlo en nuestro sitio web!\n",
+            "required":"Una actualización necesaria de DOFUS Touch No-Emu está disponible, puede descargarlo en nuestro sitio web.",
+            "ignore": "Ignoran",
+            "go-site": "Ir en el sitio web"
         },
     }
 };

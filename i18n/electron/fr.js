@@ -4,10 +4,10 @@ module.exports = {
     "game-menu": {
         "file": {
             "title": "Document",
-            "new-window": "Nouvel fenêtre",
-            "close-window": "Fermer la Fenêtre",
-            "new-tab": "Nouveau Onglet",
-            "close-tab": "Fermer l'Onglet",
+            "new-window": "Nouvelle fenêtre",
+            "close-window": "Fermer la fenêtre",
+            "new-tab": "Nouvel onglet",
+            "close-tab": "Fermer l'onglet",
         },
         "edit": {
             "title": "Edition",

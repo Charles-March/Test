@@ -2,15 +2,15 @@
   "app": {
     "main": {
       "tipeee": {
-        "title": "Take part in the No-Emu project!",
-        "close": "Close",
-        "link": "Go on our lovely Tipeee"
+        "title": "Apoyas al proyecto No-Emu !",
+        "close": "Cerrar",
+        "link": "Ir a nuestro Tipeee"
       },
-      "tab-title": "Not connected"
+      "tab-title": "non conectado"
     },
     "notifications": {
-      "fight-turn": "Turn start for {{character}}",
-      "private-message": "Incoming message from {{character}}",
+      "fight-turn": "Inicio del torno de {{character}}",
+      "private-message": "Message de {{character}}",
       "tax-collector": "A tax collector is attacked!"
     },
     "option": {
@@ -29,79 +29,78 @@
       },
       "general": {
         "title": "General",
-        "language": "Language",
-        "resolution": "Window resolution",
-        "hide-shop": "Hide the Shop button",
-        "hide-tab": "Hide the multi-account tab bar"
+        "language": "Idioma",
+        "resolution": "Resolución de la ventana",
+        "hide-shop": "Ocultar el botón Shop",
+        "hide-tab": "Ocultar la barra de tareas multicuentas"
       },
       "shortcuts": {
-        "title": "Shortcuts",
-        "description1":"You can use special keys: <strong>ctrl</strong>, <strong>shift</strong>, <strong>space</strong>, <strong>alt</strong> (ctrl = cmd on Macintosh OS X)",
-        "description2":"You can specify your shortcut by pressing the desired keys at the same time after selecting the input",
+        "title": "Atajos",
+        "description1":"Puede utilizar teclas especiales : <strong>ctrl</strong>, <strong>shift</strong>, <strong>space</strong>, <strong>alt</strong> (ctrl = cmd en Macintosh OS X)",
+        "description2":"Para conseguir sus atajos simplemente empuja la combinación de teclas deseada, después de hacer un clic en el campo",
         "diver": {
-          "header": "Miscellaneous",
-          "end-turn":"End your turn (fight)",
-          "open-chat":"Open the chat"
+          "header": "Diverso",
+          "end-turn":"Saltar su torno (combate)",
+          "open-chat":"Abrir el chat"
         },
         "interfaces": {
           "header": "Interfaces",
-          "carac": "Character",
-          "spell":"Spells",
-          "bag":"Inventory",
-          "bidhouse":"Market place",
-          "map":"Map",
-          "friend":"Friends",
-          "book":"Quests",
-          "guild":"Guild",
-          "conquest":"Kolizeum",
-          "goultine":"Shop",
-          "job":"Jobs",
-          "alliance":"Alliance",
-          "mount":"Mount",
-          "directory":"List of Guilds and Alliances",
-          "alignement":"Alignment",
-          "bestiary":"Bestiary",
-          "title":"Titles and Ornaments",
-          "achievement":"Achievements",
+          "carac": "Personaje",
+          "spell":"Hechizos",
+          "bag":"Inventario",
+          "bidhouse":"Mercadillo",
+          "map":"Mapa",
+          "friend":"Amigos",
+          "book":"Misiones",
+          "guild":"Gremio",
+          "conquest":"Koliseo",
+          "goultine":"Tienda",
+          "job":"Oficios",
+          "alliance":"Alianza",
+          "mount":"Montura",
+          "directory":"Repertorio de gremio y alianza",
+          "alignement":"Alineamiento",
+          "bestiary":"Bestiario",
+          "title":"Titulo y ornamentos",
+          "achievement":"Logros",
           "almanax":"Almanax",
-          "job":"Jobs",
-          "spouse":"Spouse",
-          "shop":"Shopkeeper"
+          "spouse":"Cónyuge",
+          "shop":"Mercante"
         },
         "items": {
-          "header": "Items",
-          "slot":"Slot {{x}}"
+          "header": "Objetos",
+          "slot":"Localización {{x}}"
         },
         "no-emu": {
           "header": "No-Emu",
-          "new-window":"New window",
-          "new-tab": "New tab",
-          "tab":"Tab {{x}}",
-          "next-tab": "Next tab",
-          "prev-tab": "Previous tab"
+          "new-window":"Nueva ventana",
+          "new-tab": "Nueva Pestaña",
+          "tab":"Lengüeta {{x}}",
+          "next-tab": "Pestaña siguiente ",
+          "prev-tab": "Pestaña anterior"
         },
         "spells": {
-          "header": "Spells",
-          "slot":"Slot {{x}}"
+          "header": "Hechizos",
+          "slot":"Localización {{x}}"
         }
       },
       "notifications": {
-        "title": "Notifications",
-        "description": "You can receive notifications from the game when the application is on the background. You will be notified:",
-        "fight-turn": "When your turn starts (fight)",
-        "private-message": "By incoming private messages",
+        "title": "Notificacións",
+        "description": "Puede recibir las notificaciones del juego Dofus cuando esta en otra applicación. Puede ser notificado :",
+        "fight-turn": "Al inicio del torno (combate)",
+        "private-message": "A la llegada de un mensaje privado",
         "tax-collector": "When a tax collector is attacked"
       },
-      "reset": "Reset",
-      "save": "Apply"
+      "reset": "Iniciar de nuevo",
+      "save": "Validar"
     }
   },
   "update":{
-    "title": "Update",
+    "title": "Actualización",
     "information":{
-      "error": "Can't download the update! Please try again later",
-      "install": "Installing the update...",
-      "start": "Starting download..."
+      "error": "No se puede descargar la actualización! Por favor, inténtelo de nuevo otra vez=",
+      "install": "Instalación de la actualización...",
+      "start": "Inicio del descarga..."
 
     }
   }
