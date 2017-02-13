@@ -17,7 +17,7 @@
       "vip":{
         "title":"VIP",
         "general":{
-          "header": "General",
+          "header": "Général",
           "disable_inactivity": "Disable Inactivity"
         },
         "auto-group":{
@@ -39,7 +39,7 @@
         "description1":"Vous pouvez utiliser les touches spéciales : <strong>ctrl</strong>, <strong>shift</strong>, <strong>space</strong>, <strong>alt</strong> (ctrl = cmd sur Macintosh OS X)",
         "description2":"Pour rentrer vos raccourcis pressez simplement la combinaison de touche souhaitée en cliquant préalablement sur le champ",
         "diver": {
-          "header": "Diver",
+          "header": "Divers",
           "end-turn":"Passer son tour (combat)",
           "open-chat":"Ouvrir le chat"
         },
@@ -64,7 +64,6 @@
           "title":"Titres et Ornements",
           "achievement":"Succès",
           "almanax":"Almanax",
-          "job":"Métiers",
           "spouse":"Conjoint",
           "shop":"Marchand"
         },
@@ -75,7 +74,7 @@
         "no-emu": {
           "header": "No-Emu",
           "new-window":"Nouvelle fenêtre",
-          "new-tab": "Nouveau onglet",
+          "new-tab": "Nouvel onglet",
           "tab":"Onglet {{x}}",
           "next-tab": "Onglet suivant",
           "prev-tab": "Onglet précédent"

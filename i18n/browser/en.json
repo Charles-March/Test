@@ -2,16 +2,16 @@
   "app": {
     "main": {
       "tipeee": {
-        "title": "Take part in the No-Emu project!",
+        "title": "Join the No-Emu project!",
         "close": "Close",
         "link": "Go on our lovely Tipeee"
       },
       "tab-title": "Not connected"
     },
     "notifications": {
-      "fight-turn": "Turn start for {{character}}",
+      "fight-turn": "Strating turn for {{character}}",
       "private-message": "Incoming message from {{character}}",
-      "tax-collector": "A tax collector is attacked!"
+      "tax-collector": "A tax collector is being attacked!"
     },
     "option": {
       "vip":{
@@ -64,7 +64,6 @@
           "title":"Titles and Ornaments",
           "achievement":"Achievements",
           "almanax":"Almanax",
-          "job":"Jobs",
           "spouse":"Spouse",
           "shop":"Shopkeeper"
         },

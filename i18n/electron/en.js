@@ -44,7 +44,7 @@ module.exports = {
         "new-update":{
             "title":"New update %{version}",
             "default": "A new update of DOFUS Touch No-Emu is available, you can download it on our website!\n",
-            "required":"A required update of DOFUS Touch No-Emu is available, you can download it on our website.",
+            "required":"A required update of DOFUS Touch No-Emu is available, you must download it on our website.",
             "ignore": "Ignore",
             "go-site": "Go on the website"
         },
