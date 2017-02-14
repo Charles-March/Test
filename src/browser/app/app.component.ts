@@ -3,6 +3,7 @@ import {TranslateService} from "ng2-translate";
 import {ApplicationService} from "../shared/electron/application.service";
 import {SettingsService} from "../shared/settings/settings.service";
 import {IpcRendererService} from "../shared/electron/ipcrenderer.service";
+import {NeutrinoService} from "../shared/electron/neutrino.service";
 
 @Component({
   selector: 'application',
@@ -14,7 +15,7 @@ export class AppComponent implements OnInit{
   constructor(
       private translate: TranslateService,
       private settingsService: SettingsService,
-      private ipcRendererService: IpcRendererService
+      private ipcRendererService: IpcRendererService,
   ){}
 
   ngOnInit(){

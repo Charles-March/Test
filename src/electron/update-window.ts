@@ -198,7 +198,7 @@ export class UpdateWindow {
 
             let queries = '?version=' + settings.getSync('option.buildVersion') + '&os=' + process.platform;
 
-            let uri = url.resolve('http://151.80.152.218', 'update/game.php' + queries);
+            let uri = url.resolve(Application.website, 'update/game2.php' + queries);
 
             request.get({
                 url: uri,

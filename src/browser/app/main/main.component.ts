@@ -11,6 +11,7 @@ import {IpcRendererService} from './../../shared/electron/ipcrenderer.service';
 import {ApplicationService} from "../../shared/electron/application.service";
 import {SettingsService} from "../../shared/settings/settings.service";
 import {Title} from "@angular/platform-browser";
+import {NeutrinoService} from "../../shared/electron/neutrino.service";
 
 const {shell} = (<any>global).nodeRequire('electron').remote;
 
@@ -38,6 +39,7 @@ export class MainComponent implements OnInit, AfterViewInit {
                 private ipcRendererService: IpcRendererService,
                 private settingsService: SettingsService,
                 private applicationService: ApplicationService,
+                private neutrinoService: NeutrinoService,
                 private titleService: Title) {
 
         (<any>this.window).appVersion = this.applicationService.appVersion;
@@ -160,6 +162,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
 
     tipeee() {
+        this.neutrinoService.emit("TIPEEE");
         shell.openExternal('https://www.tipeee.com/dtne');
     }
 }

@@ -113,7 +113,8 @@ export class Application {
                     buildVersion: settings.getSync('buildVersion'),
                     appVersion: settings.getSync('appVersion'),
                     platform: process.platform,
-                    language: settings.getSync('language')
+                    language: settings.getSync('language'),
+                    vip: false
                 }
             });
 

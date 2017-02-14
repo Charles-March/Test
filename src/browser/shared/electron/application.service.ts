@@ -8,6 +8,7 @@ export class ApplicationService {
     public buildVersion: string;
     public appVersion: string;
     public appPath: string;
+    public vip: boolean;
 
     constructor(
         private ipcRendererService: IpcRendererService
@@ -19,6 +20,7 @@ export class ApplicationService {
         this.buildVersion = config.buildVersion;
         this.appVersion = config.appVersion;
         this.appPath = config.appPath;
+        this.vip = config.vip;
     }
 
 }
