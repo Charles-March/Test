@@ -79,6 +79,27 @@ export class Application {
         });
     }
 
+    private static getVipStatus(): Promise<number> {
+        return new Promise((resolve, reject) => {
+
+            if (!settings.getSync('vip_id')) {
+                return resolve(null);
+            }
+
+            request.get({
+                url: `${this.website}/update/tipeee.php?vip_id=${settings.getSync('vip_id')}`,
+            }, (error, response, body) => {
+                if (!error && response.statusCode == 200) {
+                    let bodyParse = JSON.parse(body);
+
+                    resolve(bodyParse.status);
+                } else {
+                    reject(error);
+                }
+            });
+        });
+    }
+
     private static getBuildVersion(): Promise<string> {
         return new Promise((resolve, reject) => {
 
@@ -104,7 +125,7 @@ export class Application {
     public static run(): void {
         // get dynamic app and build version (avoid login block)
 
-        if(this.cmdOptions.skipupdate){
+        if (this.cmdOptions.skipupdate) {
             ipcMain.on('load-config', (event, arg) => {
 
                 event.returnValue = {
@@ -119,7 +140,6 @@ export class Application {
             });
 
             this.addWindow();
-
             return;
         }
 
@@ -140,8 +160,11 @@ export class Application {
         Promise.all([
             this.getAppVersion(),
             this.getBuildVersion(),
-        ]).then(([newAppVersion, newBuildVersion]) => {
+            this.getVipStatus(),
+        ]).then(([newAppVersion, newBuildVersion, vipStatus]) => {
             settings.setSync('appVersion', newAppVersion);
+
+            console.log(vipStatus);
 
             splash.hide();
 
@@ -178,7 +201,9 @@ export class Application {
                     buildVersion: newBuildVersion,
                     appVersion: newAppVersion,
                     platform: process.platform,
-                    language: settings.getSync('language')
+                    language: settings.getSync('language'),
+                    vipStatus: vipStatus,
+                    website: this.website
                 }
             });
         }).catch((raison: any) => {

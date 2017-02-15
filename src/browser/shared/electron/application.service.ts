@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {IpcRendererService} from "./ipcrenderer.service";
 
 @Injectable()
 export class ApplicationService {
 
+    public website: string;
     public gamePath: string = "";
     public buildVersion: string;
     public appVersion: string;
     public appPath: string;
-    public vip: boolean;
+    public vipStatus: number;
 
-    constructor(
-        private ipcRendererService: IpcRendererService
-    ){}
+    constructor(private ipcRendererService: IpcRendererService) {
+    }
 
     public load(): void {
         let config = this.ipcRendererService.sendSync('load-config');
@@ -20,7 +20,8 @@ export class ApplicationService {
         this.buildVersion = config.buildVersion;
         this.appVersion = config.appVersion;
         this.appPath = config.appPath;
-        this.vip = config.vip;
+        this.vipStatus = config.vipStatus;
+        this.website = config.website;
     }
 
 }

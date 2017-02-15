@@ -13,6 +13,8 @@ export class AutoGroupComponent {
 
     constructor(
         private settingsService: SettingsService
-    ) {}
+    ) {
+        settingsService.option.vip.autogroup.leader;
+    }
 
 }

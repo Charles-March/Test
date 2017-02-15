@@ -3,15 +3,18 @@
         <div class="form-group row">
             <label for="language" class="col-3 col-form-label">{{ 'app.option.general.language' | translate }}</label>
             <div class="col-6">
-                <select id="language" class="form-control"  [(ngModel)]="_language" (change)="setLanguage($event.target.value)">
+                <select id="language" class="form-control" [(ngModel)]="_language"
+                        (change)="setLanguage($event.target.value)">
                     <option *ngFor="let l of languages" [value]="l.value">{{l.name}}</option>
                 </select>
             </div>
         </div>
         <div class="form-group row">
-            <label for="resolution" class="col-3 col-form-label">{{ 'app.option.general.resolution' | translate }}</label>
+            <label for="resolution" class="col-3 col-form-label">{{ 'app.option.general.resolution' | translate
+                }}</label>
             <div class="col-6">
-                <select id="resolution" class="form-control" [(ngModel)]="_resolution" (change)="setResolution($event.target.value)">
+                <select id="resolution" class="form-control" [(ngModel)]="_resolution"
+                        (change)="setResolution($event.target.value)">
                     <option *ngFor="let r of resolutions" [value]="r.value">{{r.name}}</option>
                 </select>
             </div>
@@ -20,8 +23,9 @@
             <div class="col-offset-3 col-10">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" class="shortcut"
-                               [(ngModel)]="settingsService.option.general.hidden_shop"> {{ 'app.option.general.hide-shop' | translate }}
+                        <input type="checkbox"
+                               [(ngModel)]="settingsService.option.general.hidden_shop"> {{
+                        'app.option.general.hide-shop' | translate }}
                     </label>
                 </div>
             </div>
@@ -30,8 +34,9 @@
             <div class="col-offset-3 col-10">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" class="shortcut"
-                               [(ngModel)]="settingsService.option.general.hidden_tabs"> {{ 'app.option.general.hide-tab' | translate }}
+                        <input type="checkbox"
+                               [(ngModel)]="settingsService.option.general.hidden_tabs"> {{
+                        'app.option.general.hide-tab' | translate }}
                     </label>
                 </div>
             </div>

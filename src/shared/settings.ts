@@ -69,7 +69,11 @@ export interface ISettings {
             auto_group : {
                 active: boolean;
                 leader: string;
+                members: string;
                 follow_leader: boolean;
+                ready: boolean;
+                delay:number;
+                fight: boolean;
             }
         }
     }

@@ -7,11 +7,13 @@ export class Option {
     public general: Option.General;
     public shortcuts: Option.Shortcuts;
     public notification: Option.Notification;
+    public vip: Option.VIP;
 
     constructor() {
         this.general = new Option.General();
         this.shortcuts = new Option.Shortcuts();
         this.notification = new Option.Notification();
+        this.vip = new Option.VIP();
     }
 }
 
@@ -378,10 +380,10 @@ export module Option {
 
             get tabs(): Array<string> {
                 return new Proxy(this._tabs, {
-                    get: function (target:any, name:any) {
+                    get: function (target: any, name: any) {
                         return target[name];
                     },
-                    set(target:any, prop: string, value:any) {
+                    set(target: any, prop: string, value: any) {
                         target[prop] = value;
                         settings.setSync('option.shortcuts.no_emu.tabs', target);
                         return true;
@@ -525,6 +527,119 @@ export module Option {
             this.tax_collector = settings.getSync('option.notification.tax_collector');
         }
     }
+
+    export class VIP {
+        public general: VIP.General;
+        public autogroup: VIP.AutoGroup;
+
+        constructor() {
+            this.general = new VIP.General();
+            this.autogroup = new VIP.AutoGroup();
+        }
+    }
+
+    export module VIP {
+        export class General {
+            private _disable_inactivity: boolean;
+
+            get disable_inactivity(): boolean{
+                return this._disable_inactivity;
+            }
+
+            set disable_inactivity(disable_inactivity: boolean){
+                settings.setSync('option.vip.general.disable_inactivity', disable_inactivity);
+                this._disable_inactivity = disable_inactivity;
+            }
+
+            constructor(){
+                this.disable_inactivity = settings.getSync('option.vip.general.disable_inactivity');
+            }
+        }
+
+        export class AutoGroup {
+            private _active: boolean;
+            private _leader: string;
+            private _members: string;
+            private _follow_leader: boolean;
+            private _ready:boolean;
+            private _delay: number;
+            private _fight: boolean;
+
+            get active(): boolean{
+                return this._active;
+            }
+
+            set active(active: boolean){
+                settings.setSync('option.vip.auto_group.active', active);
+                this._active = active;
+            }
+
+            get leader(): string{
+                return this._leader;
+            }
+
+            set leader(leader: string){
+                settings.setSync('option.vip.auto_group.leader', leader);
+                this._leader = leader;
+            }
+
+            get members(): string{
+                return this._members;
+            }
+
+            set members(members: string){
+                settings.setSync('option.vip.auto_group.members', members);
+                this._members = members;
+            }
+
+            get follow_leader(): boolean{
+                return this._follow_leader;
+            }
+
+            set follow_leader(follow_leader: boolean){
+                settings.setSync('option.vip.auto_group.follow_leader', follow_leader);
+                this._follow_leader = follow_leader;
+            }
+
+            get ready(): boolean{
+                return this._ready;
+            }
+
+            set ready(ready: boolean){
+                settings.setSync('option.vip.auto_group.ready', ready);
+                this._ready = ready;
+            }
+
+            get delay(): number{
+                return this._delay;
+            }
+
+            set delay(delay: number){
+                settings.setSync('option.vip.auto_group.delay', delay);
+                this._delay = delay;
+            }
+
+            get fight(): boolean{
+                return this._fight;
+            }
+
+            set fight(fight: boolean){
+                settings.setSync('option.vip.auto_group.fight', fight);
+                this._fight = fight;
+            }
+
+            constructor(){
+                this.active = settings.getSync('option.vip.auto_group.active');
+                this.leader = settings.getSync('option.vip.auto_group.leader');
+                this.members = settings.getSync('option.vip.auto_group.members');
+                this.follow_leader = settings.getSync('option.vip.auto_group.follow_leader');
+                this.leader = settings.getSync('option.vip.auto_group.leader');
+                this.ready = settings.getSync('option.vip.auto_group.ready');
+                this.delay = settings.getSync('option.vip.auto_group.delay');
+                this.fight = settings.getSync('option.vip.auto_group.fight');
+            }
+        }
+    }
 }
 
 
@@ -537,6 +652,16 @@ export class SettingsService {
     private _appVersion: string;
     private _alertCounter: number;
     private _language: string;
+    private _vip_id: string;
+
+    get vip_id(): string {
+        return this._vip_id;
+    }
+
+    set vip_id(vip_id: string) {
+        settings.setSync('vip_id', vip_id);
+        this._vip_id = vip_id;
+    }
 
     get alertCounter(): number {
         return this._alertCounter;
@@ -575,7 +700,6 @@ export class SettingsService {
     }
 
 
-
     constructor(private ipcRendererService: IpcRendererService,
                 private zone: NgZone) {
 
@@ -585,6 +709,7 @@ export class SettingsService {
         this._buildVersion = settings.getSync('buildVersion');
         this._alertCounter = settings.getSync('alertCounter');
         this._language = settings.getSync('language');
+        this._vip_id = settings.getSync('vip_id');
 
         this.ipcRendererService.on('reload-settings', () => {
             console.log('receive->reload-settings');
@@ -592,13 +717,16 @@ export class SettingsService {
             this._appVersion = settings.getSync('appVersion');
             this._buildVersion = settings.getSync('buildVersion');
             this._alertCounter = settings.getSync('alertCounter');
+            this._language = settings.getSync('language');
+            this._vip_id = settings.getSync('vip_id');
 
-            //this.option = nullx;
+
             let resetOption = new Option(); // synchronous call
 
             this.option.shortcuts.no_emu = resetOption.shortcuts.no_emu;
             this.option.general = resetOption.general;
             this.option.notification = resetOption.notification;
+            this.option.vip = resetOption.vip;
             this.option.shortcuts.diver = resetOption.shortcuts.diver;
             this.option.shortcuts.interface = resetOption.shortcuts.interface;
             this.option.shortcuts.spell = resetOption.shortcuts.spell;

@@ -22,7 +22,8 @@ export class AppComponent implements OnInit{
     this.translate.addLangs(["en", "fr", "es"]);
     this.translate.setDefaultLang(this.settingsService.language);
 
-    this.ipcRendererService.on('reload-settings', () => {
+    this.ipcRendererService.on('reload-settings-done', () => {
+      console.log('receive->reload-settings-done');
       this.translate.use(this.settingsService.language);
     });
   }

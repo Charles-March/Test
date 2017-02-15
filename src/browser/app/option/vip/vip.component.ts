@@ -2,6 +2,7 @@ import {Component, Optional, ViewEncapsulation, Inject, Input, NgZone, TemplateR
 import {SettingsService} from './../../../shared/settings/settings.service';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Http, URLSearchParams} from "@angular/http";
+import {ApplicationService} from "../../../shared/electron/application.service";
 
 
 @Component({
@@ -20,11 +21,18 @@ export class VipComponent {
 
     constructor(private settingsService: SettingsService,
                 private modalService: NgbModal,
+                private applicationService : ApplicationService,
                 private http: Http) {
+        console.log(this.applicationService.vipStatus);
     }
 
     getTemplate() {
-        return this.authTmpl;
+        if (!this.applicationService.vipStatus) {
+            return this.authTmpl;
+        }else{
+            return this.mainTmpl;
+        }
+
     }
 
     validate() {
@@ -34,15 +42,15 @@ export class VipComponent {
 
          });*/
 
-        let params: URLSearchParams = new URLSearchParams();
-        params.set('vip_id', this.vip_id);
-
-        this.http.get('http://dofustouch.no-emu.com/update/tipeee.php', params)
+        this.http.get(`${this.applicationService.website}/update/tipeee.php?vip_id=${this.vip_id}`)
             .map(res => res.json())
             .subscribe((data) => {
 
-                if(data.ok){
-                    alert('VIP ID valide, vous pouvez redemarrer DTNE pour profiter de nouvelles fonctionnalités');
+                console.log(data);
+
+                if(data.status){
+                    alert(`Merci ! Votre compte VIP "${data.status}" a bien été activé ! Vous pouvez redemérrarer l'application pour profiter de nouvelles fonctionnalités`);
+                    this.settingsService.vip_id = this.vip_id;
                 }else{
                     alert('VIP ID non valide');
                 }

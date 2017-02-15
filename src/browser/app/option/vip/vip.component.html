@@ -1,8 +1,4 @@
-<!--<template #displayOption let-contact>-->
-<div class="tab-content">
-    <router-outlet></router-outlet>
-    <template [ngTemplateOutlet]="getTemplate()"></template>
-</div>
+<template [ngTemplateOutlet]="getTemplate()"></template>
 
 <template #authentication>
     <strong>Pour bénéficier des options VIP vous devez rentrer votre code dans le champ ci-dessous :</strong>
@@ -22,6 +18,9 @@
             </div>
         </div>
     </div>
+    <div hidden="true">
+        <router-outlet></router-outlet>
+    </div>
 </template>
 
 <template #main>
@@ -37,6 +36,9 @@
             </a>
         </li>
     </ul>
+    <div class="tab-content">
+        <router-outlet></router-outlet>
+    </div>
 </template>
 
 <template #modal let-c="close" let-d="dismiss">
@@ -52,7 +54,10 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="tipeee()">{{ 'app.main.tipeee.link' | translate }}</button>
-        <button type="button" class="btn btn-secondary" (click)="c('Close click')">{{ 'app.main.tipeee.close' | translate }}</button>
+        <button type="button" class="btn btn-primary" (click)="tipeee()">{{ 'app.main.tipeee.link' | translate }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">{{ 'app.main.tipeee.close' |
+            translate }}
+        </button>
     </div>
 </template>

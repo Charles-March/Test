@@ -140,7 +140,11 @@ export const DefaultSettings: ISettings = {
             auto_group: {
                 active: false,
                 leader: null,
-                follow_leader: false
+                members: null,
+                follow_leader: false,
+                ready: false,
+                delay: 0,
+                fight: false,
             }
         }
     }

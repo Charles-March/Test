@@ -10,6 +10,7 @@ import {TranslateService} from "ng2-translate";
 import {SettingsService} from './../../../shared/settings/settings.service';
 import {ApplicationService} from "./../../../shared/electron/application.service";
 import {DomSanitizer, SafeUrl, Title} from "@angular/platform-browser";
+import {AutoGroup} from "./auto-group/autogroup";
 
 const {remote} = (<any>global).nodeRequire('electron');
 
@@ -36,6 +37,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     private gamePath: string;
     private gameLoaded: boolean = false;
     private backupMaxZoom: number;
+    private autogroup: AutoGroup;
 
     constructor(@Inject('Window') private window: Window,
                 private ipcRendererService: IpcRendererService,
@@ -55,7 +57,6 @@ export class GameComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
         // after View Init get the iFrame
         this.tab.window = this.window['Frame' + this.tab.id].contentWindow;
-
         this.shortCuts = new ShortCuts(this.tab.window);
     }
 
@@ -63,6 +64,17 @@ export class GameComponent implements OnInit, AfterViewInit {
 
         if (this.gameLoaded) {
             this.setEventListener();
+
+            //if(this.applicationService.vipStatus >= 3){
+            this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup);
+
+            this.ipcRendererService.on('reload-settings-done', () => {
+                console.log('receive->reload-settings-done');
+                this.autogroup.reset();
+                this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup);
+            });
+            //}
+
         }
 
         this.gameLoaded = true;

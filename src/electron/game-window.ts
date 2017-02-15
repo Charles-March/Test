@@ -39,6 +39,7 @@ export class GameWindow {
         ipcMain.once('reload-settings-done', ()=>{
             console.log('receive->reload-settings-done');
             this.shortCuts.reload();
+            this.win.webContents.send('reload-settings-done');
         });
 
         this.menu = Menu.buildFromTemplate(GameMenuTemplate.build());
