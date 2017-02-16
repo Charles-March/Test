@@ -11,6 +11,7 @@ import {SettingsService} from './../../../shared/settings/settings.service';
 import {ApplicationService} from "./../../../shared/electron/application.service";
 import {DomSanitizer, SafeUrl, Title} from "@angular/platform-browser";
 import {AutoGroup} from "./auto-group/autogroup";
+import {Inactivity} from "./general/inactivity";
 
 const {remote} = (<any>global).nodeRequire('electron');
 
@@ -38,6 +39,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     private gameLoaded: boolean = false;
     private backupMaxZoom: number;
     private autogroup: AutoGroup;
+    private inactivity: Inactivity;
 
     constructor(@Inject('Window') private window: Window,
                 private ipcRendererService: IpcRendererService,
@@ -64,37 +66,53 @@ export class GameComponent implements OnInit, AfterViewInit {
 
         if (this.gameLoaded) {
             this.setEventListener();
-
-            //if(this.applicationService.vipStatus >= 3){
-            this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup);
-
-            this.ipcRendererService.on('reload-settings-done', () => {
-                console.log('receive->reload-settings-done');
-                //this.autogroup.reset();
-                //this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup);
-            });
-            //}
-
+            this.setMod();
         }
 
         this.gameLoaded = true;
+    }
+
+
+    private setMod(): void{
+
+        if (this.applicationService.vipStatus >= 2) {
+            this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup);
+            this.inactivity = new Inactivity(this.tab.window, this.settingsService.option.vip.general.disable_inactivity)
+        }
+
+        this.ipcRendererService.on('reload-settings-done', () => {
+
+            if (this.applicationService.vipStatus >= 2) {
+                /* Reset mod */
+                this.autogroup.reset();
+                this.inactivity.reset();
+
+                /* bind again */
+                this.inactivity = new Inactivity(this.tab.window, this.settingsService.option.vip.general.disable_inactivity);
+
+                if (this.tab.isLogged)
+                    this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup, true);
+                else
+                    this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup, false);
+            }
+        });
     }
 
     private setEventListener(): void {
 
         // event -> resize window game
         this.tab.window.onresize = () => {
-            (<any>this.tab.window).gui._resizeUi();
+            this.tab.window.gui._resizeUi();
             this.checkMaxZoom();
         };
 
 
         // event -> log into the world
-        (<any>this.tab.window).gui.playerData.on("characterSelectedSuccess", () => {
+        this.tab.window.gui.playerData.on("characterSelectedSuccess", () => {
 
             // retrieve character name and update zone.js
             this.zone.run(() => {
-                this.tab.character = (<any>this.tab.window).gui.playerData.characterBaseInformations.name;
+                this.tab.character = this.tab.window.gui.playerData.characterBaseInformations.name;
                 this.tab.isLogged = true;
                 this.titleService.setTitle(this.tab.character);
             });
@@ -106,7 +124,7 @@ export class GameComponent implements OnInit, AfterViewInit {
             this.bindShortcuts();
         });
 
-        (<any>this.tab.window).gui.on("disconnect", () => {
+        this.tab.window.gui.on("disconnect", () => {
             this.unBindShortcuts();
             this.zone.run(() => {
                 this.tab.isLogged = false;
@@ -127,8 +145,8 @@ export class GameComponent implements OnInit, AfterViewInit {
             }
         });
 
-        (<any>this.tab.window).isoEngine.mapScene._refreshAreasBackup = (<any>this.tab.window).isoEngine.mapScene._refreshAreas;
-        (<any>this.tab.window).isoEngine.mapScene._refreshAreas = function () {
+        this.tab.window.isoEngine.mapScene._refreshAreasBackup = this.tab.window.isoEngine.mapScene._refreshAreas;
+        this.tab.window.isoEngine.mapScene._refreshAreas = function () {
             for (var id in this.areasToRefresh) {
                 if (this.areasToRefresh[id][3] < this.t) {
                     this.areasToRefresh[id][2] = this.t;
@@ -166,14 +184,14 @@ export class GameComponent implements OnInit, AfterViewInit {
     private sendFightTurnNotif(actor: any) {
         if (!this.tab.window.document.hasFocus()
             && this.settingsService.option.notification.fight_turn
-            && (<any>this.tab.window).gui.playerData.characterBaseInformations.id == actor.id) {
+            && this.tab.window.gui.playerData.characterBaseInformations.id == actor.id) {
 
 
             this.zone.run(() => {
                 this.tab.notification = true;
             });
 
-            let turnNotif = new Notification(this.translate.instant('app.notifications.fight-turn', {character: (<any>this.tab.window).gui.playerData.characterBaseInformations.name}));
+            let turnNotif = new Notification(this.translate.instant('app.notifications.fight-turn', {character: this.tab.window.gui.playerData.characterBaseInformations.name}));
 
             turnNotif.onclick = () => {
                 remote.getCurrentWindow().focus();
@@ -208,10 +226,10 @@ export class GameComponent implements OnInit, AfterViewInit {
     }
 
     private checkMaxZoom() {
-        if (!this.backupMaxZoom) this.backupMaxZoom = (<any>this.tab.window).isoEngine.mapScene.camera.maxZoom;
-        (<any>this.tab.window).isoEngine.mapScene.camera.maxZoom = Math.max(
+        if (!this.backupMaxZoom) this.backupMaxZoom = this.tab.window.isoEngine.mapScene.camera.maxZoom;
+        this.tab.window.isoEngine.mapScene.camera.maxZoom = Math.max(
             this.backupMaxZoom,
-            this.backupMaxZoom + ((<any>this.tab.window).isoEngine.mapScene.canvas.height / 800 - 1)
+            this.backupMaxZoom + (this.tab.window.isoEngine.mapScene.canvas.height / 800 - 1)
         );
     }
 
@@ -226,14 +244,14 @@ export class GameComponent implements OnInit, AfterViewInit {
             this.sendTaxCollectorNotif(tc);
         };
 
-        (<any>this.tab.window).dofus.connectionManager.on('ChatServerMessage', onChatServerMessage);
-        (<any>this.tab.window).gui.on('GameFightTurnStartMessage', onGameFightTurnStartMessage);
-        (<any>this.tab.window).dofus.connectionManager.on('TaxCollectorAttackedMessage', onTaxCollectorAttackedMessage);
+        this.tab.window.dofus.connectionManager.on('ChatServerMessage', onChatServerMessage);
+        this.tab.window.gui.on('GameFightTurnStartMessage', onGameFightTurnStartMessage);
+        this.tab.window.dofus.connectionManager.on('TaxCollectorAttackedMessage', onTaxCollectorAttackedMessage);
 
-        (<any>this.tab.window).gui.on("disconnect", () => {
-            (<any>this.tab.window).dofus.connectionManager.removeListener('ChatServerMessage', onChatServerMessage);
-            (<any>this.tab.window).gui.removeListener('GameFightTurnStartMessage', onGameFightTurnStartMessage);
-            (<any>this.tab.window).dofus.connectionManager.removeListener('TaxCollectorAttackedMessage', onTaxCollectorAttackedMessage);
+        this.tab.window.gui.on("disconnect", () => {
+            this.tab.window.dofus.connectionManager.removeListener('ChatServerMessage', onChatServerMessage);
+            this.tab.window.gui.removeListener('GameFightTurnStartMessage', onGameFightTurnStartMessage);
+            this.tab.window.dofus.connectionManager.removeListener('TaxCollectorAttackedMessage', onTaxCollectorAttackedMessage);
         });
 
         this.checkMaxZoom();
@@ -247,37 +265,37 @@ export class GameComponent implements OnInit, AfterViewInit {
 
         // end turn
         this.shortCuts.bind(this.settingsService.option.shortcuts.diver.end_turn, () => {
-            (<any>this.tab.window).gui.fightManager.finishTurn()
+            this.tab.window.gui.fightManager.finishTurn()
         });
 
         // open chat
         this.shortCuts.bind(this.settingsService.option.shortcuts.diver.open_chat, () => {
-            (<any>this.tab.window).gui.chat.activate()
+            this.tab.window.gui.chat.activate()
         });
 
         // spell
         async.forEachOf(this.settingsService.option.shortcuts.spell, (shortcut: string, index: number) => {
             this.shortCuts.bind(shortcut, () => {
-                (<any>this.tab.window).gui.shortcutBar._panels.spell.slotList[index].tap();
-                //(<any>this.tab.window).gui.shortcutBar.panels.spell.slotList[index].tap();
+                this.tab.window.gui.shortcutBar._panels.spell.slotList[index].tap();
+                //this.tab.window.gui.shortcutBar.panels.spell.slotList[index].tap();
             });
         });
 
         // item
         async.forEachOf(this.settingsService.option.shortcuts.item, (shortcut: string, index: number) => {
             this.shortCuts.bind(shortcut, () => {
-                //(<any>this.tab.window).gui.shortcutBar.panels.item.slotList[index].tap();
-                (<any>this.tab.window).gui.shortcutBar._panels.item.slotList[index].tap();
+                //this.tab.window.gui.shortcutBar.panels.item.slotList[index].tap();
+                this.tab.window.gui.shortcutBar._panels.item.slotList[index].tap();
             });
         });
 
         // interfaces
         async.forEachOf(this.settingsService.option.shortcuts.interface.getAll(), (inter: any) => {
-            (<any>this.tab.window).gui.menuBar._icons._childrenList.forEach((element: any, index: number) => {
+            this.tab.window.gui.menuBar._icons._childrenList.forEach((element: any, index: number) => {
                 if (element.id.toUpperCase() == inter.key.toUpperCase()) {
                     this.shortCuts.bind(inter.value, () => {
                         let newIndex = index;
-                        (<any>this.tab.window).gui.menuBar._icons._childrenList[newIndex].tap();
+                        this.tab.window.gui.menuBar._icons._childrenList[newIndex].tap();
                     });
                     return;
                 }

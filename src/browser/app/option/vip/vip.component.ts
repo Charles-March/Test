@@ -3,6 +3,7 @@ import {SettingsService} from './../../../shared/settings/settings.service';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Http, URLSearchParams} from "@angular/http";
 import {ApplicationService} from "../../../shared/electron/application.service";
+import {TranslateService} from "ng2-translate";
 
 
 @Component({
@@ -22,6 +23,7 @@ export class VipComponent {
     constructor(private settingsService: SettingsService,
                 private modalService: NgbModal,
                 private applicationService : ApplicationService,
+                private translate: TranslateService,
                 private http: Http) {
         console.log(this.applicationService.vipStatus);
     }
@@ -45,9 +47,6 @@ export class VipComponent {
         this.http.get(`${this.applicationService.website}/update/tipeee.php?vip_id=${this.vip_id}`)
             .map(res => res.json())
             .subscribe((data) => {
-
-                console.log(data);
-
                 if(data.status){
                     alert(`Merci ! Votre compte VIP "${data.status}" a bien été activé ! Vous pouvez redemérrarer l'application pour profiter de nouvelles fonctionnalités`);
                     this.settingsService.vip_id = this.vip_id;

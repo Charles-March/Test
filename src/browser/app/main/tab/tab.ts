@@ -4,7 +4,7 @@ export class Tab {
   isLogged: boolean;
   isFocus: boolean;
   notification: boolean;
-  window: Window;
+  window: any | Window;
   static seqId: number = 1;
 
   public constructor(){

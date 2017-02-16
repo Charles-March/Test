@@ -2,6 +2,7 @@ const electronLocalshortcut = require('electron-localshortcut');
 const settings = require('electron-settings');
 const {app} = require('electron');
 const async = require('async');
+const isAccelerator = require("electron-is-accelerator");
 
 
 export class ShortCuts {
@@ -20,11 +21,12 @@ export class ShortCuts {
                 electronLocalshortcut.register(this.win, ShortCuts.convert(shortcut), () => {
                     this.win.webContents.send('switch-tab', index);
                 });
+
             }
         });
     }
 
-    public reload(): void{
+    public reload(): void {
 
 
         // remove all bind
@@ -52,6 +54,7 @@ export class ShortCuts {
 
     public static convert(shortcut: string): string {
         shortcut = shortcut.replace('ctrl', 'CmdOrCtrl');
+
         return shortcut;
     }
 }

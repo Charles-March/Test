@@ -18,13 +18,17 @@
         "title":"VIP",
         "general":{
           "header": "General",
-          "disable_inactivity": "Disable Inactivity"
+          "disable_inactivity": "Prolonge delay before decoonection for inactivity"
         },
         "auto-group":{
           "header": "Auto Group",
-          "enable": "Active",
-          "leader": "Leader",
-          "follow_leader": "Follow the leader"
+          "active": "Active the Auto Group",
+          "leader": "Name of the leader",
+          "members":"name of the party's characters (separeted by a semicolon)",
+          "follow_leader": "Follow the leader (mebers follow the leader)",
+          "ready": "Members set ready for battle automatically",
+          "fight": "Enter in party fight automatically",
+          "delay": "Delay before follow (in second)"
         }
       },
       "general": {

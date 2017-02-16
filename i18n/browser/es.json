@@ -18,13 +18,17 @@
         "title":"VIP",
         "general":{
           "header": "General",
-          "disable_inactivity": "Disable Inactivity"
+          "disable_inactivity": "Prolonge delay before decoonection for inactivity"
         },
         "auto-group":{
           "header": "Auto Group",
-          "enable": "Active",
-          "leader": "Leader",
-          "follow_leader": "Follow the leader"
+          "active": "Active the Auto Group",
+          "leader": "Name of the leader",
+          "members":"Noms des personnages du groupe (séparé par un point-virgule)",
+          "follow_leader": "Suivre le meneur (les membres suivent le meneur)",
+          "ready": "Les membres passent en ready automatiquement",
+          "fight": "Entrer en combat automatiquement",
+          "delay": "Délai avant de suivre (en seconde)"
         }
       },
       "general": {
@@ -91,7 +95,7 @@
         "private-message": "A la llegada de un mensaje privado",
         "tax-collector": "When a tax collector is attacked"
       },
-      "reset": "Iniciar de nuevo",
+      "reset": "Reiniciar",
       "save": "Validar"
     }
   },

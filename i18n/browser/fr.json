@@ -18,13 +18,17 @@
         "title":"VIP",
         "general":{
           "header": "Général",
-          "disable_inactivity": "Disable Inactivity"
+          "disable_inactivity": "Prolongé le délai avant la deconnexion pour inactivité"
         },
         "auto-group":{
           "header": "Auto Group",
-          "enable": "Active",
-          "leader": "Leader",
-          "follow_leader": "Follow the leader"
+          "active": "Activer l'Auto Group",
+          "leader": "Nom du meneur",
+          "members":"Noms des personnages du groupe (séparé par un point-virgule)",
+          "follow_leader": "Suivre le meneur (les membres suivent le meneur)",
+          "ready": "Les membres passent en ready automatiquement",
+          "fight": "Entrer en combat automatiquement",
+          "delay": "Délai avant de suivre (en seconde)"
         }
       },
       "general": {

@@ -22,7 +22,7 @@ export class AutoGroup {
     private events: any[];
 
 
-    constructor(wGame: any, params: Option.VIP.AutoGroup) {
+    constructor(wGame: any, params: Option.VIP.AutoGroup, skipLogin:boolean=false) {
         this.wGame = wGame;
         this.params = params;
         this.events = [];
@@ -34,22 +34,22 @@ export class AutoGroup {
 
             // bind follow leader
             if (this.params.follow_leader)
-                this.followLeader();
+                this.followLeader(skipLogin);
 
             // bind auto accept
             if (this.params.fight)
-                this.autoAcceptPartyInvitation();
+                this.autoAcceptPartyInvitation(skipLogin);
 
             // bind auto enter fight
             if (this.params.fight)
-                this.autoEnterFight();
+                this.autoEnterFight(skipLogin);
 
-            this.autoMasterParty();
+            this.autoMasterParty(skipLogin);
 
         }
     }
 
-    public autoMasterParty() {
+    public autoMasterParty(skipLogin:boolean=false) {
         let onCharacterSelectedSuccess = () => {
 
             setTimeout(() => {
@@ -57,7 +57,7 @@ export class AutoGroup {
                     console.info('start master party')
                     let idInt = setInterval(() => {
                         this.masterParty(this.params.members.split(';'));
-                    }, 3000);
+                    }, 6000);
 
                     this.events.push(() => {
                         clearInterval(idInt);
@@ -69,6 +69,10 @@ export class AutoGroup {
                 }
             }, 3000);
         };
+
+        if(skipLogin){
+            onCharacterSelectedSuccess();
+        }
 
         this.wGame.gui.playerData.on("characterSelectedSuccess", onCharacterSelectedSuccess);
         this.events.push(() => {
@@ -85,7 +89,7 @@ export class AutoGroup {
         this.wGame.dofus.sendMessage("PartyAcceptInvitationMessage", {partyId: partyId});
     }
 
-    public autoAcceptPartyInvitation(): void {
+    public autoAcceptPartyInvitation(skipLogin:boolean=false): void {
 
         let onCharacterSelectedSuccess = () => {
 
@@ -107,6 +111,10 @@ export class AutoGroup {
                 });
             }, 2000);
         };
+
+        if(skipLogin){
+            onCharacterSelectedSuccess();
+        }
 
         this.wGame.gui.playerData.on("characterSelectedSuccess", onCharacterSelectedSuccess);
         this.events.push(() => {
@@ -210,7 +218,7 @@ export class AutoGroup {
         }
     }
 
-    public followLeader(): void {
+    public followLeader(skipLogin:boolean=false): void {
 
         let onCharacterSelectedSuccess = () => {
 
@@ -231,6 +239,10 @@ export class AutoGroup {
             }, 2000);
         };
 
+        if(skipLogin){
+            onCharacterSelectedSuccess();
+        }
+
 
         this.wGame.gui.playerData.on("characterSelectedSuccess", onCharacterSelectedSuccess);
         this.events.push(() => {
@@ -238,7 +250,7 @@ export class AutoGroup {
         });
     }
 
-    public autoEnterFight() {
+    public autoEnterFight(skipLogin:boolean=false) {
 
         let onCharacterSelectedSuccess = () => {
             let joinFight = (fightId: number, fighterId: number) => {
@@ -278,6 +290,10 @@ export class AutoGroup {
 
             }, 2000);
         };
+
+        if(skipLogin){
+            onCharacterSelectedSuccess();
+        }
 
         this.wGame.gui.playerData.on("characterSelectedSuccess", onCharacterSelectedSuccess);
         this.events.push(() => {
