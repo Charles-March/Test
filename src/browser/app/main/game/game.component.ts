@@ -70,8 +70,8 @@ export class GameComponent implements OnInit, AfterViewInit {
 
             this.ipcRendererService.on('reload-settings-done', () => {
                 console.log('receive->reload-settings-done');
-                this.autogroup.reset();
-                this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup);
+                //this.autogroup.reset();
+                //this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup);
             });
             //}
 

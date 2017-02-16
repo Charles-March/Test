@@ -188,6 +188,12 @@ export class AutoGroup {
                 let lastCellId = msg.keyMovements[msg.keyMovements.length - 1];
                 let direction = this.isBorder(lastCellId);
 
+                let delay = 0;
+                let max = 15;
+                let min = -15;
+                if (this.params.delay > 0)
+                    delay = (this.params.delay + this.params.delay * (Math.floor(Math.random() * (max - min + 1)) + min) * 0.01) * 1000;
+
                 setTimeout(() => {
                     if (direction) {
                         this.wGame.isoEngine.gotoNeighbourMap(direction, lastCellId, 144, 4);
@@ -199,7 +205,7 @@ export class AutoGroup {
                         }
                         this.wGame.isoEngine._movePlayerOnMap(step + lastCellId, false, null);
                     }
-                }, this.params.delay);
+                }, delay);
             }
         }
     }
