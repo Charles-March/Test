@@ -67,6 +67,7 @@
     "electron": "^1.4.15",
     "electron-builder": "^7.15.2",
     "electron-reload": "^1.1.0",
+    "fs-extra": "^2.0.0",
     "gulp": "^3.9.1",
     "gulp-sourcemaps": "^1.9.1",
     "gulp-tslint": "^7.0.1",
@@ -75,6 +76,7 @@
     "jasmine-core": "~2.4.1",
     "lite-server": "^2.2.0",
     "lodash": "^4.11.1",
+    "replace": "^0.3.0",
     "rimraf": "^2.5.2",
     "tslint": "*",
     "typescript": "^2.1.4"
