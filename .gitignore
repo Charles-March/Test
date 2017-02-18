@@ -1,6 +1,7 @@
 .idea
 out
 game
+instruction.md
 dist
 node_modules
 jspm_packages

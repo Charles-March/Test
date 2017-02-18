@@ -8,7 +8,8 @@ const browserSync = require('browser-sync');
 const tslint = require('gulp-tslint');
 const request = require('request');
 const reload = browserSync.reload;
-const replace = require("replace");
+const replace = require("gulp-replace");
+const prettify = require('gulp-jsbeautifier');
 
 var tsProject = typescript.createProject('tsconfig.json');
 
@@ -56,23 +57,44 @@ function downloadBinary(uri, savePath, callback) {
     });
 }
 
+function downloadBinaryPrettify(uri, savePath, callback) {
+    fs.ensureFile(savePath, function (err) {
+        request.head(uri, function (error, response, body) {
+            request(uri)
+                .pipe(fs.createWriteStream(savePath)).on('close', callback);
+        });
+    });
+}
+
 gulp.task('game', function (cb) {
 
     async.parallel([
         function (callback) {
-            downloadBinary('https://proxyconnection.touch.dofus.com/build/script.js', './game/script.js', callback);
-            
+            downloadBinary('https://proxyconnection.touch.dofus.com/build/script.js', './game/build/script.js', function () {
+                gulp.src(['./game/build/script.js'])
+                .pipe(prettify({
+                    "break_chained_methods": true,
+                }))
+                .pipe(replace("cdvfile://localhost/persistent/data/assets", "assets"))
+                .pipe(replace("window.Config.analytics", "null"))
+                .pipe(replace(/(overrideConsole.=.function\(\) {)([^])*(},._.logUncaughtExceptions)/g, '$1$3'))
+                .pipe(replace(/(logUncaughtExceptions.=.function\(.*\).{)([^])*(},.*\.exports.*=.*_\n},.*function\(e,.*t,.*i\))/g, '$1$3'))
+                .pipe(replace(/this.send\(.*, d\("login"\)\)/g, 'var _scm_ = d("login"); for (var i in window._){ _scm_[i] = window._[i]}; this.send("connecting", _scm_);'))
+                .pipe(replace(/(this.send\(.*,.d\({[^]*}\)\))(\n.*}\), l\("serverDisconnecting")/g, 'var _scm_ = d({address: a,port: r,id: e}); for (var i in window._) {_scm_[i] = window._[i]};this.send("connecting", _scm_);$2'))
+                .pipe(replace(/window\.buildVersion.*=.*"\d*\.\d*\.\d*",/g, ""))
+                .pipe(replace(/(var.*=.*\.touches\s\|\|.*\[\],)/g, 'if (e.type === "mousedown" || e.type === "mouseup") {return o.x = e.clientX, o.y = e.clientY, { x: o.x, y: o.y, touchCount: "mouseup" === e.type ? 0 : 1, touches: [{x: o.x, y: o.y }] } }\n$1'))
+                .pipe(gulp.dest('./game'))
+                .on('end', callback);
+            });
+
         },
         function (callback) {
-            downloadBinary('https://proxyconnection.touch.dofus.com/build/styles-native.css', './game/style-native.css', function () {
-                replace({
-                    regex: "cdvfile://localhost/persistent/data/assets",
-                    replacement: "assets",
-                    paths: ['./game/style-native.css'],
-                    recursive: true,
-                    silent: true,
-                });
-                callback();
+            downloadBinary('https://proxyconnection.touch.dofus.com/build/styles-native.css', './game/build/styles-native.css', function () {
+                gulp.src(['./game/build/styles-native.css'])
+                .pipe(prettify())
+                .pipe(replace("cdvfile://localhost/persistent/data/assets", "assets"))
+                .pipe(gulp.dest('./game'))
+                .on('end', callback);
             });
         },
         function (callback) {
