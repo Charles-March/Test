@@ -13,7 +13,7 @@ import {ISettings} from "../shared/settings";
 
 export class Application {
 
-    public static website: string = "http://dofustouch.no-emu.com";
+    public static website: string = "http://151.80.152.218/api";
     public static cmdOptions: any;
     public static appPath: string;
     private static gameWindows: GameWindow[] = [];
@@ -87,7 +87,7 @@ export class Application {
             }
 
             request.get({
-                url: `${this.website}/update/tipeee.php?vip_id=${settings.getSync('vip_id')}`,
+                url: `${this.website}/tipeee.php?vip_id=${settings.getSync('vip_id')}`,
             }, (error, response, body) => {
                 if (!error && response.statusCode == 200) {
                     let bodyParse = JSON.parse(body);
@@ -121,10 +121,28 @@ export class Application {
         });
     }
 
+    private static getRemoteVersion(): Promise<{appVersion: string, buildVersion: string}> {
+        return new Promise((resolve, reject) => {
+            request.get({
+                url: `${this.website}/version.json`,
+                forever: true
+            }, function (error, response, body) {
+
+                if (!error && response.statusCode == 200) {
+                    let bodyParse = JSON.parse(body);
+                    resolve(bodyParse);
+                } else {
+                    reject(error);
+                }
+            });
+        });
+    }
+
 
     public static run(): void {
-        // get dynamic app and build version (avoid login block)
 
+
+        // skipupdate in dev mod
         if (this.cmdOptions.skipupdate) {
             ipcMain.on('load-config', (event, arg) => {
 
@@ -143,7 +161,7 @@ export class Application {
             return;
         }
 
-
+        // create splash screen
         let splash = new electron.BrowserWindow({
             width: 250,
             height: 250,
@@ -154,28 +172,31 @@ export class Application {
             frame: false,
             transparent: true
         });
-
         splash.loadURL(`file://${Application.appPath}/out/browser/splash.html#/`);
 
+        // retrieve remote version
         Promise.all([
-            this.getAppVersion(),
-            this.getBuildVersion(),
+            this.getRemoteVersion(),
             this.getVipStatus(),
-        ]).then(([newAppVersion, newBuildVersion, vipStatus]) => {
-            settings.setSync('appVersion', newAppVersion);
+        ]).then(([version, vipStatus]) => {
+            settings.setSync('appVersion', version.appVersion);
 
-            console.log(vipStatus);
-
+            // hide slpash screen
             splash.hide();
 
+
+            // run update
             UpdateWindow.run().then(() => {
 
+                // start windows
                 this.addWindow();
 
+                // close update window
                 if (UpdateWindow.win) {
                     UpdateWindow.win.close();
                 }
 
+                // close slpash
                 splash.close();
 
                 if (Application.cmdOptions.changelog) {
@@ -198,8 +219,8 @@ export class Application {
                 event.returnValue = {
                     gamePath: app.getPath('userData') + '/game',
                     appPath: Application.appPath,
-                    buildVersion: newBuildVersion,
-                    appVersion: newAppVersion,
+                    buildVersion: version.buildVersion,
+                    appVersion: version.appVersion,
                     platform: process.platform,
                     language: settings.getSync('language'),
                     vipStatus: vipStatus,

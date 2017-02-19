@@ -68,7 +68,7 @@ function downloadBinaryPrettify(uri, savePath, callback) {
 
 gulp.task('game', function (cb) {
 
-    async.parallel([
+    async.waterfall([
         function (callback) {
             downloadBinary('https://proxyconnection.touch.dofus.com/build/script.js', './game/build/script.js', function () {
                 gulp.src(['./game/build/script.js'])

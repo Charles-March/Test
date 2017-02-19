@@ -44,7 +44,7 @@ export class VipComponent {
 
          });*/
 
-        this.http.get(`${this.applicationService.website}/update/tipeee.php?vip_id=${this.vip_id}`)
+        this.http.get(`${this.applicationService.website}/tipeee.php?vip_id=${this.vip_id}`)
             .map(res => res.json())
             .subscribe((data) => {
                 if(data.status){
