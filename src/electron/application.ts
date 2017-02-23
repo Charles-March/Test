@@ -13,7 +13,7 @@ import {ISettings} from "../shared/settings";
 
 export class Application {
 
-    public static website: string = "http://151.80.152.218/api";
+    public static website: string = "http://api.no-emu.com";
     public static cmdOptions: any;
     public static appPath: string;
     private static gameWindows: GameWindow[] = [];
