@@ -11,6 +11,10 @@ app.commandLine.appendSwitch('ignore-gpu-blacklist', 'true');
 // Disable backgrounding renderer
 app.commandLine.appendSwitch("disable-renderer-backgrounding");
 
+app.commandLine.appendSwitch("js-flags", "--max-old-space-size=8192");
+
+
+
 // Command Line Argument
 const optionDefinitions = [
     { name: 'update', alias: 'u', type: Boolean },
