@@ -189,6 +189,10 @@ export class AutoGroup {
         return false;
     }
 
+    private getRandomInt(min:number, max:number):number {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     private followFunc(msg: any): void {
         if (Object.keys(this.wGame.gui.playerData.partyData._partyFromId).length !== 0) {
             let party = this.wGame.gui.playerData.partyData._partyFromId[Object.keys(this.wGame.gui.playerData.partyData._partyFromId)[0]];
@@ -211,11 +215,36 @@ export class AutoGroup {
                         this.wGame.isoEngine.gotoNeighbourMap(direction, lastCellId, 144, 4);
                     } else {
                         if(this.params.random_move){
+
                             let step = 1;
 
-                            if (Math.round(Math.random()) == 1) {
-                                step = -1;
+                            switch(this.getRandomInt(1,8)){
+                                case 1:
+                                    step = -15;
+                                    break;
+                                case 2:
+                                    step = -1;
+                                    break;
+                                case 3:
+                                    step = 13;
+                                    break;
+                                case 4:
+                                    step = 28;
+                                    break;
+                                case 5:
+                                    step = 14;
+                                    break;
+                                case 6:
+                                    step = 1;
+                                    break;
+                                case 7:
+                                    step = -14;
+                                    break;
+                                case 8:
+                                    step = -28;
+                                    break;
                             }
+
                             lastCellId = lastCellId + step;
                         }
 

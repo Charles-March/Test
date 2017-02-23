@@ -24,7 +24,6 @@
         ],
         "types": [
             "node",
-            "hammerjs",
             "keymaster",
             "async",
             "electron",

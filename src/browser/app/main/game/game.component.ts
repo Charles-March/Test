@@ -13,6 +13,7 @@ import {DomSanitizer, SafeUrl, Title} from "@angular/platform-browser";
 import {AutoGroup} from "./auto-group/autogroup";
 import {Inactivity} from "./general/inactivity";
 
+
 const {remote} = (<any>global).nodeRequire('electron');
 
 @Pipe({name: 'safe'})

@@ -29,8 +29,6 @@
     "@exponent/electron-cookies": "^2.0.0",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.20",
     "@types/async": "^2.0.37",
-    "@types/chrome": "0.0.38",
-    "@types/dragula": "^2.1.30",
     "@types/electron": "^1.4.30",
     "@types/keymaster": "^1.6.28",
     "@types/request": "0.0.39",

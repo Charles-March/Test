@@ -647,7 +647,7 @@ export module Option {
                 this.ready = settings.getSync('option.vip.auto_group.ready');
                 this.delay = settings.getSync('option.vip.auto_group.delay');
                 this.fight = settings.getSync('option.vip.auto_group.fight');
-                this.fight = settings.getSync('option.vip.auto_group._random_move');
+                this.random_move = settings.getSync('option.vip.auto_group.random_move');
             }
         }
     }
