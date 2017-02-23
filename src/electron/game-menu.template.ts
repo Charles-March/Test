@@ -189,12 +189,30 @@ export class GameMenuTemplate {
                 ]
             },
             {
-                role: 'help',
+                label: 'Aide/Bugs',
                 submenu: [
                     {
-                        label: i18n.t('game-menu.help.about'),
+                      label: 'FàQ',
+                        click(){
+                          require('electron').shell.openExternal('http://dofustouch.no-emu.com/#faq');
+                        }
+                    },
+                    {
+                        label: 'Aide/Questions (discord)',
                         click () {
-                            require('electron').shell.openExternal('')
+                            require('electron').shell.openExternal('https://discord.gg/w2X58CX');
+                        }
+                    },
+                    {
+                        label: 'Rapport de bugs (forum)',
+                        click () {
+                            require('electron').shell.openExternal('http://forum.no-emu.com/viewforum.php?f=4');
+                        }
+                    },
+                    {
+                        label: 'Solutions aux bugs (forum)',
+                        click () {
+                            require('electron').shell.openExternal('http://forum.no-emu.com/viewforum.php?f=6');
                         }
                     }
                 ]
