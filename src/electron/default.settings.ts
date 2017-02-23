@@ -142,8 +142,9 @@ export const DefaultSettings: ISettings = {
                 leader: null,
                 members: null,
                 follow_leader: false,
+                random_move: true,
                 ready: false,
-                delay: 0,
+                delay: 1,
                 fight: false,
             }
         }

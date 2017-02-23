@@ -28,7 +28,8 @@
           "follow_leader": "Follow the leader (mebers follow the leader)",
           "ready": "Members set ready for battle automatically",
           "fight": "Enter in party fight automatically",
-          "delay": "Delay before follow (in second)"
+          "delay": "Delay before follow (in second)",
+          "random_move": "Déplacement sur des cases adjacentes (lors du suivi du meneur)"
         }
       },
       "general": {

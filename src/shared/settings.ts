@@ -71,6 +71,7 @@ export interface ISettings {
                 leader: string;
                 members: string;
                 follow_leader: boolean;
+                random_move: boolean;
                 ready: boolean;
                 delay:number;
                 fight: boolean;

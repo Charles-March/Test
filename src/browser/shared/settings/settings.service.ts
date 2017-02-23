@@ -564,6 +564,7 @@ export module Option {
             private _ready:boolean;
             private _delay: number;
             private _fight: boolean;
+            private _random_move: boolean;
 
             get active(): boolean{
                 return this._active;
@@ -628,6 +629,15 @@ export module Option {
                 this._fight = fight;
             }
 
+            get random_move(): boolean{
+                return this._random_move;
+            }
+
+            set random_move(random_move: boolean){
+                settings.setSync('option.vip.auto_group.random_move', random_move);
+                this._random_move = random_move;
+            }
+
             constructor(){
                 this.active = settings.getSync('option.vip.auto_group.active');
                 this.leader = settings.getSync('option.vip.auto_group.leader');
@@ -637,6 +647,7 @@ export module Option {
                 this.ready = settings.getSync('option.vip.auto_group.ready');
                 this.delay = settings.getSync('option.vip.auto_group.delay');
                 this.fight = settings.getSync('option.vip.auto_group.fight');
+                this.fight = settings.getSync('option.vip.auto_group._random_move');
             }
         }
     }

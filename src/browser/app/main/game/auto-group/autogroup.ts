@@ -210,12 +210,16 @@ export class AutoGroup {
                     if (direction) {
                         this.wGame.isoEngine.gotoNeighbourMap(direction, lastCellId, 144, 4);
                     } else {
-                        let step = 1;
+                        if(this.params.random_move){
+                            let step = 1;
 
-                        if (Math.round(Math.random()) == 1) {
-                            step = -1;
+                            if (Math.round(Math.random()) == 1) {
+                                step = -1;
+                            }
+                            lastCellId = lastCellId + step;
                         }
-                        this.wGame.isoEngine._movePlayerOnMap(step + lastCellId, false, null);
+
+                        this.wGame.isoEngine._movePlayerOnMap(lastCellId, false, null);
                     }
                 }, delay);
             } else if (party._leaderId === msg.actorId && party._leaderId === this.wGame.gui.playerData.id) {
