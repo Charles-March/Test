@@ -19,8 +19,7 @@
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
         "typeRoots": [
-            "node_modules/@types",
-            "typings/notification.d.ts"
+            "node_modules/@types"
         ],
         "types": [
             "node",
