@@ -20,9 +20,10 @@ export class AutoGroup {
     private wGame: any;
     private params: Option.VIP.AutoGroup;
     private events: any[];
+    private static counter: number = 1;
 
 
-    constructor(wGame: any, params: Option.VIP.AutoGroup, skipLogin:boolean=false) {
+    constructor(wGame: any, params: Option.VIP.AutoGroup, skipLogin: boolean = false) {
         this.wGame = wGame;
         this.params = params;
         this.events = [];
@@ -32,13 +33,13 @@ export class AutoGroup {
 
         if (this.params.active) {
 
+            // bind auto accept
+            this.autoAcceptPartyInvitation(skipLogin);
+
             // bind follow leader
             if (this.params.follow_leader)
                 this.followLeader(skipLogin);
 
-            // bind auto accept
-            if (this.params.fight)
-                this.autoAcceptPartyInvitation(skipLogin);
 
             // bind auto enter fight
             if (this.params.fight)
@@ -49,7 +50,7 @@ export class AutoGroup {
         }
     }
 
-    public autoMasterParty(skipLogin:boolean=false) {
+    public autoMasterParty(skipLogin: boolean = false) {
         let onCharacterSelectedSuccess = () => {
 
             setTimeout(() => {
@@ -70,7 +71,7 @@ export class AutoGroup {
             }, 3000);
         };
 
-        if(skipLogin){
+        if (skipLogin) {
             onCharacterSelectedSuccess();
         }
 
@@ -89,7 +90,7 @@ export class AutoGroup {
         this.wGame.dofus.sendMessage("PartyAcceptInvitationMessage", {partyId: partyId});
     }
 
-    public autoAcceptPartyInvitation(skipLogin:boolean=false): void {
+    public autoAcceptPartyInvitation(skipLogin: boolean = false): void {
 
         let onCharacterSelectedSuccess = () => {
 
@@ -112,7 +113,7 @@ export class AutoGroup {
             }, 2000);
         };
 
-        if(skipLogin){
+        if (skipLogin) {
             onCharacterSelectedSuccess();
         }
 
@@ -199,8 +200,11 @@ export class AutoGroup {
                 let delay = 0;
                 let max = 15;
                 let min = -15;
-                if (this.params.delay > 0)
+                if (this.params.delay > 0) {
                     delay = (this.params.delay + this.params.delay * (Math.floor(Math.random() * (max - min + 1)) + min) * 0.01) * 1000;
+                    delay = delay * AutoGroup.counter++;
+                }
+
 
                 setTimeout(() => {
                     if (direction) {
@@ -214,11 +218,13 @@ export class AutoGroup {
                         this.wGame.isoEngine._movePlayerOnMap(step + lastCellId, false, null);
                     }
                 }, delay);
+            } else if (party._leaderId === msg.actorId && party._leaderId === this.wGame.gui.playerData.id) {
+                AutoGroup.counter = 1;
             }
         }
     }
 
-    public followLeader(skipLogin:boolean=false): void {
+    public followLeader(skipLogin: boolean = false): void {
 
         let onCharacterSelectedSuccess = () => {
 
@@ -239,7 +245,7 @@ export class AutoGroup {
             }, 2000);
         };
 
-        if(skipLogin){
+        if (skipLogin) {
             onCharacterSelectedSuccess();
         }
 
@@ -250,7 +256,7 @@ export class AutoGroup {
         });
     }
 
-    public autoEnterFight(skipLogin:boolean=false) {
+    public autoEnterFight(skipLogin: boolean = false) {
 
         let onCharacterSelectedSuccess = () => {
             let joinFight = (fightId: number, fighterId: number) => {
@@ -272,10 +278,16 @@ export class AutoGroup {
             };
 
             let onPartyMemberInFightMessage = (e: any) => {
-                joinFight(e.fightId, e.memberId)
-                    .then(() => {
-                        return ready();
-                    });
+                if (this.wGame.isoEngine.mapRenderer.mapId === e.fightMap.mapId) {
+                    joinFight(e.fightId, e.memberId)
+                        .then(() => {
+                            if (this.params.ready)
+                                return ready();
+                            else
+                                return;
+                        });
+                }
+
             };
 
             setTimeout(() => {
@@ -291,7 +303,7 @@ export class AutoGroup {
             }, 2000);
         };
 
-        if(skipLogin){
+        if (skipLogin) {
             onCharacterSelectedSuccess();
         }
 
