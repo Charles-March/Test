@@ -12,7 +12,7 @@ import {ApplicationService} from "./../../../shared/electron/application.service
 import {DomSanitizer, SafeUrl, Title} from "@angular/platform-browser";
 import {AutoGroup} from "./auto-group/autogroup";
 import {Inactivity} from "./general/inactivity";
-import {HealthBar} from "./health-bar/healthbar2";
+import {HealthBar} from "./health-bar/healthbar";
 
 
 const {remote} = (<any>global).nodeRequire('electron');
