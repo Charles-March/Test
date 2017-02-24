@@ -47,6 +47,8 @@ export class Application {
                 settings.setSync('language', 'fr');
             } else if (local.search('es') !== -1) {
                 settings.setSync('language', 'es');
+            } else {
+                settings.setSync('language', 'en');
             }
         }
 
@@ -254,6 +256,8 @@ export class Application {
                     settings.setSync('language', 'fr');
                 } else if (local.search('es') !== -1) {
                     settings.setSync('language', 'es');
+                } else {
+                    settings.setSync('language', 'en');
                 }
             }
 

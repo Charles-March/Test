@@ -1,15 +1,20 @@
 # Change Log
 
 ## [TODO]
-- Fixer problème de notification
-- Traduire en espagnol
 
 
 ## [Prochainement]
-- Système multilingue
-- Fix lors du changement de raccourcis pour la monture et le koli
-- Fixer les dépendances d'angular 
 
+
+## [3.1.0] - 2017-02-23
+- Système multilingue (anglais, espagnol, français)
+- Fix lors du changement de raccourcis pour la monture et le koli
+- Les problème de notification sont résolus
+- Ajout des options VIP (auto-group, prolongation de l'inactivité)
+- Optimisation du lancement de l'application
+- Changement de serveur pour les MàJ (plus rapide)
+- Ajout d'un nouveau menu d'aide dans l'application
+- Ajout du nouveau logo de no-emu (merci à Night)
 
 ## [3.0.3] - 2017-02-07
 - fix socket hang up problem

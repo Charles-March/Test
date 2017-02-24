@@ -216,34 +216,9 @@ export class AutoGroup {
                     } else {
                         if(this.params.random_move){
 
-                            let step = 1;
+                            let steps = [-15, -1, 13, 28, 14, 1, -14, -28];
 
-                            switch(this.getRandomInt(1,8)){
-                                case 1:
-                                    step = -15;
-                                    break;
-                                case 2:
-                                    step = -1;
-                                    break;
-                                case 3:
-                                    step = 13;
-                                    break;
-                                case 4:
-                                    step = 28;
-                                    break;
-                                case 5:
-                                    step = 14;
-                                    break;
-                                case 6:
-                                    step = 1;
-                                    break;
-                                case 7:
-                                    step = -14;
-                                    break;
-                                case 8:
-                                    step = -28;
-                                    break;
-                            }
+                            let step = steps[this.getRandomInt(0,7)];
 
                             lastCellId = lastCellId + step;
                         }
