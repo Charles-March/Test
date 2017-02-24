@@ -17,7 +17,7 @@ type Direction = "top" | "bottom" | "left" | "right" | false;
 
 export class AutoGroup {
 
-    private wGame: any;
+    private wGame: any | Window;
     private params: Option.VIP.AutoGroup;
     private events: any[];
     private static counter: number = 1;
@@ -189,7 +189,7 @@ export class AutoGroup {
         return false;
     }
 
-    private getRandomInt(min:number, max:number):number {
+    private getRandomInt(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
@@ -214,11 +214,11 @@ export class AutoGroup {
                     if (direction) {
                         this.wGame.isoEngine.gotoNeighbourMap(direction, lastCellId, 144, 4);
                     } else {
-                        if(this.params.random_move){
+                        if (this.params.random_move) {
 
                             let steps = [-15, -1, 13, 28, 14, 1, -14, -28];
 
-                            let step = steps[this.getRandomInt(0,7)];
+                            let step = steps[this.getRandomInt(0, 7)];
 
                             lastCellId = lastCellId + step;
                         }

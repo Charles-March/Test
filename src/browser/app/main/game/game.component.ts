@@ -12,6 +12,7 @@ import {ApplicationService} from "./../../../shared/electron/application.service
 import {DomSanitizer, SafeUrl, Title} from "@angular/platform-browser";
 import {AutoGroup} from "./auto-group/autogroup";
 import {Inactivity} from "./general/inactivity";
+import {HealthBar} from "./health-bar/healthbar2";
 
 
 const {remote} = (<any>global).nodeRequire('electron');
@@ -41,6 +42,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     private backupMaxZoom: number;
     private autogroup: AutoGroup;
     private inactivity: Inactivity;
+    private healthbar : HealthBar;
 
     constructor(@Inject('Window') private window: Window,
                 private ipcRendererService: IpcRendererService,
@@ -79,6 +81,7 @@ export class GameComponent implements OnInit, AfterViewInit {
         if (this.applicationService.vipStatus >= 2) {
             this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup);
             this.inactivity = new Inactivity(this.tab.window, this.settingsService.option.vip.general.disable_inactivity)
+            this.healthbar = new HealthBar(this.tab.window);
         }
 
         this.ipcRendererService.on('reload-settings-done', () => {
