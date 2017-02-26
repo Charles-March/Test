@@ -18,18 +18,20 @@
         "title":"VIP",
         "general":{
           "header": "General",
-          "disable_inactivity": "Prolonge delay before decoonection for inactivity"
+          "disable-inactivity": "Prolonge delay before decoonection for inactivity",
+          "health-bar" : "Activer l'affichage des barres de vie en-dessous des combatants",
+          "health-bar-shortcut": "Raccourcis afficher/masquer barres de vie"
         },
         "auto-group":{
           "header": "Auto Group",
           "active": "Active the Auto Group",
           "leader": "Name of the leader",
           "members":"Noms des personnages du groupe (séparé par un point-virgule)",
-          "follow_leader": "Suivre le meneur (les membres suivent le meneur)",
+          "follow-leader": "Suivre le meneur (les membres suivent le meneur)",
           "ready": "Les membres passent en ready automatiquement",
           "fight": "Entrer en combat automatiquement",
           "delay": "Délai avant de suivre (en seconde)",
-          "random_move": "Déplacement sur des cases adjacentes (lors du suivi du meneur)"
+          "random-move": "Déplacement sur des cases adjacentes (lors du suivi du meneur)"
         }
       },
       "general": {

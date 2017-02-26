@@ -1,5 +1,6 @@
 import {Component, Optional, ViewEncapsulation, Inject, Input, NgZone} from '@angular/core';
 import { SettingsService } from './../../../../shared/settings/settings.service';
+import {ApplicationService} from "../../../../shared/electron/application.service";
 
 @Component({
     selector: 'option-shortcuts-interface',
@@ -12,7 +13,8 @@ import { SettingsService } from './../../../../shared/settings/settings.service'
 export class AutoGroupComponent {
 
     constructor(
-        private settingsService: SettingsService
+        private settingsService: SettingsService,
+        private applicationService: ApplicationService
     ) {
         settingsService.option.vip.autogroup.leader;
     }
