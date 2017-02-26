@@ -33,9 +33,14 @@ export class Bar {
                 this.lifeBar.style.width = Math.round(life * 100) + '%';
                 this.lifePointsEl.innerHTML = fighter.data.stats.lifePoints;
 
+                let invisible = false;
+                for (var idB in fighter.buffs) {
+                  if (fighter.buffs[idB].effect.effectId == 150) invisible = true;
+                }
+
                 let cellId = fighter.data.disposition.cellId;
 
-                if (cellId) {
+                if (cellId && !invisible) {
                     let scenePos = this.wGame.isoEngine.mapRenderer.getCellSceneCoordinate(cellId);
                     let pos = this.wGame.isoEngine.mapScene.convertSceneToCanvasCoordinate(scenePos.x, scenePos.y);
                     this.lifeBarContainer.style.left = (pos.x - 40) + 'px';
