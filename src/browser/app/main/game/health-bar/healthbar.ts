@@ -31,7 +31,9 @@ export class HealthBar {
 
     private removeOnDeath(): void {
         let onDeath = (e: any) => {
-            this.barContainer.destroyBar(e.targetId);
+            try {
+                this.barContainer.destroyBar(e.targetId);
+            } catch(ex) { console.log(ex); }
         };
 
         this.wGame.gui.on('GameActionFightDeathMessage', onDeath);
@@ -42,7 +44,9 @@ export class HealthBar {
 
     private setFightStart(): void {
         let onFightStart = (e: any) => {
-            this.fightJustStarted = true;
+            try {
+                this.fightJustStarted = true;
+            } catch(ex) { console.log(ex); }
         };
 
         this.wGame.dofus.connectionManager.on('GameFightStartingMessage', onFightStart);
@@ -53,10 +57,12 @@ export class HealthBar {
 
     private displayOnStart(): void {
         let onNewRound = (e: any) => {
-            if (this.fightJustStarted) {
-                this.fightJustStarted = false;
-                this.barContainer.fightStarted();
-            }
+            try {
+                if (this.fightJustStarted) {
+                    this.fightJustStarted = false;
+                    this.barContainer.fightStarted();
+                }
+            } catch(ex) { console.log(ex); }
         };
 
         this.wGame.dofus.connectionManager.on('GameFightNewRoundMessage', onNewRound);
@@ -67,7 +73,9 @@ export class HealthBar {
 
     private stopOnFightEnd(): void {
         let onFightEnd = (e: any) => {
-            this.barContainer.fightEnded();
+            try {
+                this.barContainer.fightEnded();
+            } catch(ex) { console.log(ex); }
         };
 
         this.wGame.dofus.connectionManager.on('GameFightEndMessage', onFightEnd);
