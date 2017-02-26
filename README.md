@@ -1,5 +1,4 @@
 # DofusTouch No-Emu v3 (Angular 2 & Typescript)
-##### **/!\ Attention** à la demande de Ankama le fichier script.js n'est plus fourni dans notre repertoire Git. Vous devez donc l'obtenir par votre propre moyen et le placer dans le repertoire src/browser.
 Jouer à DofusTouch sans emulateur grâce à un portage entiérement en javascript via [electron](electron github), disponible en open source et cross-platform (OS X, Win, Linux)
 #### DofusTouch No-Emu est un [Projet Open Source](http://openopensource.org/)
 
