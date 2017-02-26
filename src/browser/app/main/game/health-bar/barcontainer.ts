@@ -3,8 +3,11 @@ export class BarContainer {
 
     private wGame: any | Window;
     private container: HTMLDivElement;
-    private display: boolean = false;
-    private bars: Bar[] = [];
+    private displayed: boolean = false;
+    private enabled: boolean = false;
+    private isInFight = false;
+    private updateInterval: NodeJS.Timer;
+    private bars: { [fighterId: number]: Bar; } = { };
 
     constructor(wGame: Window | any) {
         this.wGame = wGame;
@@ -23,27 +26,71 @@ export class BarContainer {
     }
 
     public toggle() {
-        if (this.display) {
-            this.display = !this.display;
-            this.container.style.visibility = 'hidden';
-            this.bars.forEach((bar) => {
-                bar.destroy();
-            });
-            this.wGame.document.getElementById('lifeBars').innerHTML = '';
-        } else {
-            this.display = !this.display;
+        this.enabled = !this.enabled;
+        if (this.isInFight) {
+            if (this.enabled) this.show();
+            else this.hide();
+        }
+    }
+
+    private show() {
+        if (!this.displayed) {
+            this.displayed = true;
             this.container.style.visibility = 'visible';
 
             let fighters = this.wGame.gui.fightManager.getFighters();
             for (let index in fighters) {
                 let fighter = this.wGame.gui.fightManager.getFighter(fighters[index]);
                 if (fighter.data.alive) {
-                    this.bars.push(new Bar(fighter, this.wGame));
+                    this.bars[fighter.id] = new Bar(fighter, this.wGame);
+                }
+            }
+            this.updateInterval = setInterval(()=>{
+                this.update();
+            }, 400);
+        }
+    }
+
+    private hide() {
+        if (this.displayed) {
+            this.displayed = false;
+            this.container.style.visibility = 'hidden';
+            for (let fighterId in this.bars) {
+                this.destroyBar(fighterId);
+            }
+            this.bars = [];
+            this.wGame.document.getElementById('lifeBars').innerHTML = '';
+            clearInterval(this.updateInterval);
+        }
+    }
+
+    private update() {
+        if (this.isInFight) {
+            let fighters = this.wGame.gui.fightManager.getFighters();
+            for (let index in fighters) {
+                let fighter = this.wGame.gui.fightManager.getFighter(fighters[index]);
+                if (fighter.data.alive) {
+                    if (this.bars[fighter.id]) this.bars[fighter.id].update();
+                    else this.bars[fighter.id] = new Bar(fighter, this.wGame);
                 }
             }
         }
+    }
+
+    public destroyBar(fighterId: any) {
+        this.bars[fighterId].destroy();
+        delete this.bars[fighterId];
+    }
 
 
+    public fightStarted() {
+        this.isInFight = true;
+        if (this.enabled) this.show();
+    }
+
+    public fightEnded() {
+        this.isInFight = false;
+        if (this.enabled) this.hide();
     }
 
 
