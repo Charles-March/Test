@@ -78,8 +78,10 @@ export class BarContainer {
     }
 
     public destroyBar(fighterId: any) {
-        this.bars[fighterId].destroy();
-        delete this.bars[fighterId];
+        if (this.bars[fighterId]) {
+            this.bars[fighterId].destroy();
+            delete this.bars[fighterId];
+        }
     }
 
 
