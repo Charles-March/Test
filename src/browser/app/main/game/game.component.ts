@@ -91,6 +91,7 @@ export class GameComponent implements OnInit, AfterViewInit {
                 this.autogroup.reset();
                 this.inactivity.reset();
 
+
                 /* bind again */
                 this.inactivity = new Inactivity(this.tab.window, this.settingsService.option.vip.general.disable_inactivity);
 
@@ -98,6 +99,13 @@ export class GameComponent implements OnInit, AfterViewInit {
                     this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup, true);
                 else
                     this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup, false);
+
+                if(this.applicationService.vipStatus >= 3){
+                    this.healthbar.reset();
+
+                    /* bind again */
+                    this.healthbar = new HealthBar(this.tab.window);
+                }
             }
         });
     }

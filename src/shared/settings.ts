@@ -65,6 +65,8 @@ export interface ISettings {
         vip: {
             general:{
                 disable_inactivity: boolean;
+                health_bar: boolean;
+                health_bar_shortcut: string;
             },
             auto_group : {
                 active: boolean;

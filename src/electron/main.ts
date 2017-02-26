@@ -20,7 +20,7 @@ const optionDefinitions = [
     { name: 'update', alias: 'u', type: Boolean },
     { name: 'changelog', alias: 'l', type: Boolean },
     { name: 'relaunch', alias: 'r', type: Boolean },
-    { name: 'remote-debugging-port', type: Boolean },
+    { name: 'remote-debugging-port', type: String },
     { name: 'expose_debug_as', type: String},
     { name: 'devmode', type: Boolean},
     { name: 'skipupdate', type: Boolean}

@@ -541,6 +541,8 @@ export module Option {
     export module VIP {
         export class General {
             private _disable_inactivity: boolean;
+            private _health_bar: boolean;
+            private _health_bar_shortcut: string;
 
             get disable_inactivity(): boolean{
                 return this._disable_inactivity;
@@ -551,8 +553,28 @@ export module Option {
                 this._disable_inactivity = disable_inactivity;
             }
 
+            get health_bar(): boolean{
+                return this._health_bar;
+            }
+
+            set health_bar(health_bar: boolean){
+                settings.setSync('option.vip.general.health_bar', health_bar);
+                this._health_bar = health_bar;
+            }
+
+            get health_bar_shortcut(): string{
+                return this._health_bar_shortcut;
+            }
+
+            set health_bar_shortcut(health_bar_shortcut: string){
+                settings.setSync('option.vip.general.health_bar_shortcut', health_bar_shortcut);
+                this._health_bar_shortcut = health_bar_shortcut;
+            }
+
             constructor(){
                 this.disable_inactivity = settings.getSync('option.vip.general.disable_inactivity');
+                this.health_bar = settings.getSync('option.vip.general.health_bar');
+                this.health_bar_shortcut = settings.getSync('option.vip.general.health_bar_shortcut');
             }
         }
 

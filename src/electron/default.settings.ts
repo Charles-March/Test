@@ -136,6 +136,8 @@ export const DefaultSettings: ISettings = {
         vip: {
             general: {
                 disable_inactivity: false,
+                health_bar: true,
+                health_bar_shortcut: 'p'
             },
             auto_group: {
                 active: false,
