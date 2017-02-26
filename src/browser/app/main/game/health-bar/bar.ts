@@ -2,7 +2,6 @@ export class Bar {
 
     private fighter: any;
     private wGame: any;
-    private updateInterval: NodeJS.Timer;
 
     private lifeBarContainer : HTMLDivElement;
     private lifeBar : HTMLDivElement;
@@ -14,21 +13,16 @@ export class Bar {
 
         this.createBar();
 
-        this.updateInterval = setInterval(()=>{
-            this.updateBar();
-        }, 400);
-
     }
 
-    private updateBar(){
+    public getId(){
+        return this.fighter.id;
+    }
+
+    public update(){
         let fighter = this.wGame.gui.fightManager.getFighter(this.fighter.id);
 
-        if (!this.wGame.isoEngine.mapRenderer.isFightMode) {
-            clearInterval(this.updateInterval);
-            this.updateInterval = null;
-            this.wGame.document.getElementById('lifeBars').innerHTML = '';
-        }
-        else {
+        if (this.wGame.isoEngine.mapRenderer.isFightMode) {
 
             if (fighter.data.alive) {
                 if (!this.lifeBar || !this.lifeBarContainer || !this.lifePointsEl) {
@@ -68,10 +62,10 @@ export class Bar {
         /* lifeBar */
         this.lifeBar = document.createElement('div');
         this.lifeBar.id = 'fighterLifeBar' + this.fighter.id;
-        this.lifeBar.style.cssText = 'background-color: red; transition-duration: 300ms; height: 100%; width: ' + Math.round(life * 100) + '%;';
+        this.lifeBar.style.cssText = 'transition-duration: 300ms; height: 100%; width: ' + Math.round(life * 100) + '%;';
 
-        if (!this.wGame.gui.fightManager.isFighterOnUsersTeam(this.fighter.id))
-            this.lifeBar.style.backgroundColor = '#3ad';
+        if (this.fighter.data.teamId == 0) this.lifeBar.style.backgroundColor = 'red';
+        else this.lifeBar.style.backgroundColor = '#3ad';
         this.lifeBarContainer.appendChild(this.lifeBar);
         this.lifeBarContainer.style.left = (pos.x - 40) + 'px';
         this.lifeBarContainer.style.top = (pos.y + 10) + 'px';
@@ -89,7 +83,6 @@ export class Bar {
     }
 
     public destroy(){
-        clearInterval(this.updateInterval);
         this.lifePointsEl.parentElement.removeChild(this.lifePointsEl);
         this.lifeBar.parentElement.removeChild(this.lifeBar);
         this.lifeBarContainer.parentElement.removeChild(this.lifeBarContainer);
