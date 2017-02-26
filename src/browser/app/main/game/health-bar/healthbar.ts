@@ -13,9 +13,12 @@ export class HealthBar {
 
     constructor(wGame: any, params: Option.VIP.General, skipLogin: boolean = false) {
         this.wGame = wGame;
+        this.params = params;
         this.events = [];
 
         if (this.params.health_bar) {
+
+            console.log('start healthbar');
 
             this.shortcuts = new ShortCuts(this.wGame);
             this.barContainer = new BarContainer(this.wGame);
@@ -99,6 +102,8 @@ export class HealthBar {
 
 
     public reset() {
+        this.shortcuts.unBindAll();
+        this.barContainer.destroy();
         this.events.forEach((event) => {
             event();
         });

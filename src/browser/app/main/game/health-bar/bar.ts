@@ -34,7 +34,7 @@ export class Bar {
                 this.lifePointsEl.innerHTML = fighter.data.stats.lifePoints;
 
                 let invisible = false;
-                for (var idB in fighter.buffs) {
+                for (let idB in fighter.buffs) {
                   if (fighter.buffs[idB].effect.effectId == 150) invisible = true;
                 }
 
