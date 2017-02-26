@@ -5,27 +5,32 @@ import {BarContainer} from "./barcontainer";
 export class HealthBar {
 
     private wGame: any | Window;
+    private params: Option.VIP.General
     private shortcuts: ShortCuts;
     private barContainer: BarContainer;
     private fightJustStarted: boolean = false;
     private events: any[];
 
-    constructor(wGame: any, skipLogin: boolean = false) {
+    constructor(wGame: any, params: Option.VIP.General, skipLogin: boolean = false) {
         this.wGame = wGame;
         this.events = [];
-        this.shortcuts = new ShortCuts(this.wGame);
-        this.barContainer = new BarContainer(this.wGame);
 
-        this.removeOnDeath();
-        this.setFightStart();
-        this.displayOnStart();
-        this.stopOnFightEnd();
+        if (this.params.health_bar) {
+
+            this.shortcuts = new ShortCuts(this.wGame);
+            this.barContainer = new BarContainer(this.wGame);
+
+            this.removeOnDeath();
+            this.setFightStart();
+            this.displayOnStart();
+            this.stopOnFightEnd();
 
 
-        this.shortcuts.bind('p', () => {
-            console.log('start health bar');
-            this.barContainer.toggle();
-        });
+            this.shortcuts.bind(this.params.health_bar_shortcut, () => {
+                console.log('start health bar');
+                this.barContainer.toggle();
+            });
+        }
     }
 
 
@@ -33,7 +38,9 @@ export class HealthBar {
         let onDeath = (e: any) => {
             try {
                 this.barContainer.destroyBar(e.targetId);
-            } catch(ex) { console.log(ex); }
+            } catch (ex) {
+                console.log(ex);
+            }
         };
 
         this.wGame.gui.on('GameActionFightDeathMessage', onDeath);
@@ -46,7 +53,9 @@ export class HealthBar {
         let onFightStart = (e: any) => {
             try {
                 this.fightJustStarted = true;
-            } catch(ex) { console.log(ex); }
+            } catch (ex) {
+                console.log(ex);
+            }
         };
 
         this.wGame.dofus.connectionManager.on('GameFightStartingMessage', onFightStart);
@@ -62,7 +71,9 @@ export class HealthBar {
                     this.fightJustStarted = false;
                     this.barContainer.fightStarted();
                 }
-            } catch(ex) { console.log(ex); }
+            } catch (ex) {
+                console.log(ex);
+            }
         };
 
         this.wGame.dofus.connectionManager.on('GameFightNewRoundMessage', onNewRound);
@@ -75,7 +86,9 @@ export class HealthBar {
         let onFightEnd = (e: any) => {
             try {
                 this.barContainer.fightEnded();
-            } catch(ex) { console.log(ex); }
+            } catch (ex) {
+                console.log(ex);
+            }
         };
 
         this.wGame.dofus.connectionManager.on('GameFightEndMessage', onFightEnd);
@@ -83,7 +96,6 @@ export class HealthBar {
             this.wGame.dofus.connectionManager.removeListener('GameFightEndMessage', onFightEnd);
         });
     }
-
 
 
     public reset() {

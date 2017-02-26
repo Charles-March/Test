@@ -81,7 +81,7 @@ export class GameComponent implements OnInit, AfterViewInit {
         if (this.applicationService.vipStatus >= 2) {
             this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup);
             this.inactivity = new Inactivity(this.tab.window, this.settingsService.option.vip.general.disable_inactivity)
-            this.healthbar = new HealthBar(this.tab.window);
+            this.healthbar = new HealthBar(this.tab.window, this.settingsService.option.vip.general);
         }
 
         this.ipcRendererService.on('reload-settings-done', () => {
@@ -104,7 +104,7 @@ export class GameComponent implements OnInit, AfterViewInit {
                     this.healthbar.reset();
 
                     /* bind again */
-                    this.healthbar = new HealthBar(this.tab.window);
+                    this.healthbar = new HealthBar(this.tab.window, this.settingsService.option.vip.general);
                 }
             }
         });
