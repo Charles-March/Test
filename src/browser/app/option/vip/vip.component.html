@@ -24,6 +24,12 @@
 </template>
 
 <template #main>
+    <ngb-alert type="info" *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true"> Tu bénéficies actuellement de
+        la contre-partie <strong>{{applicationService.vipText()}}</strong>, jusqu'au {{applicationService.vipDate |
+        date}}.<br>
+        <i>Si tu as des questions n'hésites pas à te rendre sur notre <a href="" (click)="goDiscord($event)">Discord</a></i>
+    </ngb-alert>
+
     <ul class="nav nav-tabs" fxFlex>
         <li class="nav-item">
             <a class="nav-link" routerLink="/option/vip/general" routerLinkActive="active">

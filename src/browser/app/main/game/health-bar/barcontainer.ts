@@ -51,7 +51,7 @@ export class BarContainer {
         }
     }
 
-    private hide() {
+    public hide() {
         if (this.displayed) {
             this.displayed = false;
             this.container.style.visibility = 'hidden';
@@ -96,4 +96,9 @@ export class BarContainer {
     }
 
 
+    public destroy() {
+        this.hide();
+        this.container.parentElement.removeChild(this.container);
+
+    }
 }

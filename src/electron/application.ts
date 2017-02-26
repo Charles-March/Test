@@ -81,11 +81,11 @@ export class Application {
         });
     }
 
-    private static getVipStatus(): Promise<number> {
+    private static getVipStatus(): Promise<{status:number,date:number}> {
         return new Promise((resolve, reject) => {
 
             if (!settings.getSync('vip_id')) {
-                return resolve(null);
+                return resolve({status:null, date:null});
             }
 
             request.get({
@@ -94,7 +94,7 @@ export class Application {
                 if (!error && response.statusCode == 200) {
                     let bodyParse = JSON.parse(body);
 
-                    resolve(bodyParse.status);
+                    resolve(bodyParse);
                 } else {
                     reject(error);
                 }
@@ -180,7 +180,8 @@ export class Application {
         Promise.all([
             this.getRemoteVersion(),
             this.getVipStatus(),
-        ]).then(([version, vipStatus]) => {
+        ]).then(([version, vip]) => {
+            console.log(vip);
             settings.setSync('appVersion', version.appVersion);
 
             // hide slpash screen
@@ -225,7 +226,9 @@ export class Application {
                     appVersion: version.appVersion,
                     platform: process.platform,
                     language: settings.getSync('language'),
-                    vipStatus: vipStatus,
+                    vipStatus: vip.status,
+                    vipDate: vip.date,
+
                     website: this.website
                 }
             });

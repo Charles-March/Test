@@ -1,10 +1,14 @@
-import {Component, Optional, ViewEncapsulation, Inject, Input, NgZone, TemplateRef, ViewChild} from '@angular/core';
+import {
+    Component, Optional, ViewEncapsulation, Inject, Input, NgZone, TemplateRef, ViewChild,
+    OnInit
+} from '@angular/core';
 import {SettingsService} from './../../../shared/settings/settings.service';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Http, URLSearchParams} from "@angular/http";
 import {ApplicationService} from "../../../shared/electron/application.service";
 import {TranslateService} from "ng2-translate";
 
+const {shell} = (<any>global).nodeRequire('electron').remote;
 
 @Component({
     selector: 'option-shortcuts',
@@ -19,13 +23,13 @@ export class VipComponent {
     @ViewChild('modal') modalTmpl: TemplateRef<any>;
 
     private vip_id: string;
+    private staticAlertClosed: boolean;
 
     constructor(private settingsService: SettingsService,
                 private modalService: NgbModal,
                 private applicationService : ApplicationService,
                 private translate: TranslateService,
                 private http: Http) {
-        console.log(this.applicationService.vipStatus);
     }
 
     getTemplate() {
@@ -35,6 +39,11 @@ export class VipComponent {
             return this.mainTmpl;
         }
 
+    }
+
+    goDiscord(event: any){
+        shell.openExternal('https://discordapp.com/invite/rCawwmD');
+        event.preventDefault();
     }
 
     validate() {

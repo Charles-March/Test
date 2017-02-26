@@ -10,6 +10,7 @@ export class ApplicationService {
     public appVersion: string;
     public appPath: string;
     public vipStatus: number;
+    public vipDate: Date;
 
     constructor(private ipcRendererService: IpcRendererService) {
     }
@@ -21,7 +22,14 @@ export class ApplicationService {
         this.appVersion = config.appVersion;
         this.appPath = config.appPath;
         this.vipStatus = config.vipStatus;
+        this.vipDate = new Date(config.vipDate*1000);
         this.website = config.website;
+    }
+
+    public vipText (): string {
+        let status = [null, 'Tiwabbit', 'Wabbit', 'Grand Pa Wabbit', '42', 'Boss Wa Wabbit', 'Cresus MasterRace'];
+
+        return status[this.vipStatus];
     }
 
 }
