@@ -214,6 +214,26 @@ export class GameComponent implements OnInit, AfterViewInit {
         }
     }
 
+    private sendKolizeumNotif(msg: any) {
+        if (!this.tab.window.document.hasFocus()
+            && this.settingsService.option.notification.fight_turn) {
+
+
+            this.zone.run(() => {
+                this.tab.notification = true;
+            });
+
+            let turnNotif = new Notification('Un kolizéum a été trouvé !');
+
+            turnNotif.onclick = () => {
+                remote.getCurrentWindow().focus();
+                this.zone.run(() => {
+                    this.selectTab.emit(this.tab);
+                });
+            };
+        }
+    }
+
     private sendTaxCollectorNotif(tc: any) {
         if (!this.tab.window.document.hasFocus() && this.settingsService.option.notification.tax_collector) {
 
@@ -256,14 +276,20 @@ export class GameComponent implements OnInit, AfterViewInit {
             this.sendTaxCollectorNotif(tc);
         };
 
+        let onGameRolePlayArenaFightPropositionMessage = (tc: any) => {
+            this.sendKolizeumNotif(tc);
+        };
+
         this.tab.window.dofus.connectionManager.on('ChatServerMessage', onChatServerMessage);
         this.tab.window.gui.on('GameFightTurnStartMessage', onGameFightTurnStartMessage);
         this.tab.window.dofus.connectionManager.on('TaxCollectorAttackedMessage', onTaxCollectorAttackedMessage);
+        this.tab.window.dofus.connectionManager.on('GameRolePlayArenaFightPropositionMessage', onGameRolePlayArenaFightPropositionMessage);
 
         this.tab.window.gui.on("disconnect", () => {
             this.tab.window.dofus.connectionManager.removeListener('ChatServerMessage', onChatServerMessage);
             this.tab.window.gui.removeListener('GameFightTurnStartMessage', onGameFightTurnStartMessage);
             this.tab.window.dofus.connectionManager.removeListener('TaxCollectorAttackedMessage', onTaxCollectorAttackedMessage);
+            this.tab.window.dofus.connectionManager.removeListener('GameRolePlayArenaFightPropositionMessage', onGameRolePlayArenaFightPropositionMessage);
         });
 
         this.checkMaxZoom();
