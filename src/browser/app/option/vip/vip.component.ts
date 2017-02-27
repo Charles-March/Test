@@ -57,10 +57,9 @@ export class VipComponent {
             .map(res => res.json())
             .subscribe((data) => {
                 if(data.status){
-                    this.applicationService.vipStatus = data.status;
-                    this.applicationService.vipDate = data.date;
 
-                    alert(`Merci ! Votre compte VIP "${this.applicationService.vipText()}" a bien été activé ! Vous devez redemérrarer l'application pour profiter des nouvelles fonctionnalités`);
+                    let status = [null, 'Tiwabbit', 'Wabbit', 'Grand Pa Wabbit', '42', 'Boss Wa Wabbit', 'Cresus MasterRace'];
+                    alert(`Merci ! Votre compte VIP "${status[data.status]}" a bien été activé ! Vous devez redemérrarer l'application pour profiter des nouvelles fonctionnalités`);
                     this.settingsService.vip_id = this.vip_id;
                 }else{
                     alert('VIP ID non valide');
