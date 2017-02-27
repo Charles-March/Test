@@ -8,7 +8,6 @@
 ## [3.1.1] - 2017-02-27
 - Ajout de la notification de Kolizeum
 - Ajout de l'affichage des barres de vie en combat pour les VIP
-- 
 
 
 ## [3.1.0] - 2017-02-23

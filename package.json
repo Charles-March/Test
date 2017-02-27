@@ -1,6 +1,6 @@
 {
   "name": "DofusTouchNE",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Emulateur open source de dofus touch pour Linux/OS X/Window",
   "main": "out/electron/main.js",
   "scripts": {
