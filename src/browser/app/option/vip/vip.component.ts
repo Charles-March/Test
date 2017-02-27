@@ -57,7 +57,10 @@ export class VipComponent {
             .map(res => res.json())
             .subscribe((data) => {
                 if(data.status){
-                    alert(`Merci ! Votre compte VIP "${data.status}" a bien été activé ! Vous pouvez redemérrarer l'application pour profiter de nouvelles fonctionnalités`);
+                    this.applicationService.vipStatus = data.status;
+                    this.applicationService.vipDate = data.date;
+
+                    alert(`Merci ! Votre compte VIP "${this.applicationService.vipText()}" a bien été activé ! Vous devez redemérrarer l'application pour profiter des nouvelles fonctionnalités`);
                     this.settingsService.vip_id = this.vip_id;
                 }else{
                     alert('VIP ID non valide');

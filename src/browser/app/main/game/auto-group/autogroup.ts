@@ -52,23 +52,26 @@ export class AutoGroup {
 
     public autoMasterParty(skipLogin: boolean = false) {
         let onCharacterSelectedSuccess = () => {
+            try {
+                setTimeout(() => {
+                    if (this.params.leader == this.wGame.gui.playerData.characterBaseInformations.name) {
+                        console.info('start master party')
+                        let idInt = setInterval(() => {
+                            this.masterParty(this.params.members.split(';'));
+                        }, 6000);
 
-            setTimeout(() => {
-                if (this.params.leader == this.wGame.gui.playerData.characterBaseInformations.name) {
-                    console.info('start master party')
-                    let idInt = setInterval(() => {
-                        this.masterParty(this.params.members.split(';'));
-                    }, 6000);
+                        this.events.push(() => {
+                            clearInterval(idInt);
+                        });
 
-                    this.events.push(() => {
-                        clearInterval(idInt);
-                    });
-
-                    this.wGame.gui.on("disconnect", () => {
-                        clearInterval(idInt);
-                    });
-                }
-            }, 3000);
+                        this.wGame.gui.on("disconnect", () => {
+                            clearInterval(idInt);
+                        });
+                    }
+                }, 3000);
+            } catch (e) {
+                console.log(e);
+            }
         };
 
         if (skipLogin) {
@@ -94,23 +97,29 @@ export class AutoGroup {
 
         let onCharacterSelectedSuccess = () => {
 
-            let onPartyInvitationMessage = (msg: any) => {
-                if (this.params.leader === msg.fromName) {
-                    this.acceptPartyInvitation(msg.partyId);
-                }
-            };
+            try {
 
-            setTimeout(() => {
+                let onPartyInvitationMessage = (msg: any) => {
+                    if (this.params.leader === msg.fromName) {
+                        this.acceptPartyInvitation(msg.partyId);
+                    }
+                };
 
-                this.wGame.dofus.connectionManager.on('PartyInvitationMessage', onPartyInvitationMessage);
-                this.events.push(() => {
-                    this.wGame.dofus.connectionManager.removeListener('PartyInvitationMessage', onPartyInvitationMessage);
-                });
+                setTimeout(() => {
 
-                this.wGame.gui.on("disconnect", () => {
-                    this.wGame.dofus.connectionManager.removeListener('PartyInvitationMessage', onPartyInvitationMessage);
-                });
-            }, 2000);
+                    this.wGame.dofus.connectionManager.on('PartyInvitationMessage', onPartyInvitationMessage);
+                    this.events.push(() => {
+                        this.wGame.dofus.connectionManager.removeListener('PartyInvitationMessage', onPartyInvitationMessage);
+                    });
+
+                    this.wGame.gui.on("disconnect", () => {
+                        this.wGame.dofus.connectionManager.removeListener('PartyInvitationMessage', onPartyInvitationMessage);
+                    });
+                }, 2000);
+
+            } catch (e) {
+                console.log(e);
+            }
         };
 
         if (skipLogin) {
@@ -236,21 +245,27 @@ export class AutoGroup {
 
         let onCharacterSelectedSuccess = () => {
 
-            let onGameMapMovementMessage = (msg: any) => {
-                this.followFunc(msg);
-            };
+            try {
 
-            setTimeout(() => {
-                this.wGame.dofus.connectionManager.on('GameMapMovementMessage', onGameMapMovementMessage);
-                this.events.push(() => {
-                    this.wGame.dofus.connectionManager.removeListener('GameMapMovementMessage', onGameMapMovementMessage);
-                });
+                let onGameMapMovementMessage = (msg: any) => {
+                    this.followFunc(msg);
+                };
 
-                this.wGame.gui.on("disconnect", () => {
-                    this.wGame.dofus.connectionManager.removeListener('GameMapMovementMessage', onGameMapMovementMessage);
-                });
+                setTimeout(() => {
+                    this.wGame.dofus.connectionManager.on('GameMapMovementMessage', onGameMapMovementMessage);
+                    this.events.push(() => {
+                        this.wGame.dofus.connectionManager.removeListener('GameMapMovementMessage', onGameMapMovementMessage);
+                    });
 
-            }, 2000);
+                    this.wGame.gui.on("disconnect", () => {
+                        this.wGame.dofus.connectionManager.removeListener('GameMapMovementMessage', onGameMapMovementMessage);
+                    });
+
+                }, 2000);
+
+            } catch (e) {
+                console.log(e);
+            }
         };
 
         if (skipLogin) {
@@ -267,48 +282,54 @@ export class AutoGroup {
     public autoEnterFight(skipLogin: boolean = false) {
 
         let onCharacterSelectedSuccess = () => {
-            let joinFight = (fightId: number, fighterId: number) => {
-                return new Promise((resolve, reject) => {
-                    this.wGame.dofus.sendMessage("GameFightJoinRequestMessage", {fightId, fighterId});
-                    setTimeout(() => {
-                        resolve();
-                    }, 1500);
-                });
-            };
 
-            let ready = () => {
-                return new Promise((resolve, reject) => {
-                    this.wGame.dofus.sendMessage("GameFightReadyMessage", {isReady: true});
-                    setTimeout(() => {
-                        resolve();
-                    }, 200);
-                });
-            };
+            try {
+                let joinFight = (fightId: number, fighterId: number) => {
+                    return new Promise((resolve, reject) => {
+                        this.wGame.dofus.sendMessage("GameFightJoinRequestMessage", {fightId, fighterId});
+                        setTimeout(() => {
+                            resolve();
+                        }, 1500);
+                    });
+                };
 
-            let onPartyMemberInFightMessage = (e: any) => {
-                if (this.wGame.isoEngine.mapRenderer.mapId === e.fightMap.mapId) {
-                    joinFight(e.fightId, e.memberId)
-                        .then(() => {
-                            if (this.params.ready)
-                                return ready();
-                            else
-                                return;
-                        });
-                }
+                let ready = () => {
+                    return new Promise((resolve, reject) => {
+                        this.wGame.dofus.sendMessage("GameFightReadyMessage", {isReady: true});
+                        setTimeout(() => {
+                            resolve();
+                        }, 200);
+                    });
+                };
 
-            };
+                let onPartyMemberInFightMessage = (e: any) => {
+                    if (this.wGame.isoEngine.mapRenderer.mapId === e.fightMap.mapId) {
+                        joinFight(e.fightId, e.memberId)
+                            .then(() => {
+                                if (this.params.ready)
+                                    return ready();
+                                else
+                                    return;
+                            });
+                    }
 
-            setTimeout(() => {
-                this.wGame.dofus.connectionManager.on("PartyMemberInFightMessage", onPartyMemberInFightMessage);
-                this.events.push(() => {
-                    this.wGame.dofus.connectionManager.removeListener("PartyMemberInFightMessage", onPartyMemberInFightMessage);
-                });
+                };
 
-                this.wGame.gui.on("disconnect", () => {
-                    this.wGame.dofus.connectionManager.removeListener('PartyMemberInFightMessage', onPartyMemberInFightMessage);
-                });
+                setTimeout(() => {
+                    this.wGame.dofus.connectionManager.on("PartyMemberInFightMessage", onPartyMemberInFightMessage);
+                    this.events.push(() => {
+                        this.wGame.dofus.connectionManager.removeListener("PartyMemberInFightMessage", onPartyMemberInFightMessage);
+                    });
 
-            }, 2000);
+                    this.wGame.gui.on("disconnect", () => {
+                        this.wGame.dofus.connectionManager.removeListener('PartyMemberInFightMessage', onPartyMemberInFightMessage);
+                    });
+
+                }, 2000);
+
+            } catch (e) {
+                console.log(e);
+            }
         };
 
         if (skipLogin) {

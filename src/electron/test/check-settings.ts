@@ -67,12 +67,17 @@ export function checkSettings(){
         }
         return true;
     }
-    var ok = checkRecursive(sett, DefaultSettings);
+    let ok = checkRecursive(sett, DefaultSettings);
 
 
     sett.alertCounter = Math.floor(sett.alertCounter);
-    sett.option.general.resolution.x = Math.floor(sett.option.general.resolution.x);
-    sett.option.general.resolution.y = Math.floor(sett.option.general.resolution.y);
+
+    if(!sett.option.general.resolution.x || !sett.option.general.resolution.y){
+        ok = false;
+    }else{
+        sett.option.general.resolution.x = Math.floor(sett.option.general.resolution.x);
+        sett.option.general.resolution.y = Math.floor(sett.option.general.resolution.y);
+    }
 
     if (ok) console.log('check settings OK');
     else console.log('check settings FAILED');
