@@ -4,7 +4,7 @@ export class BarContainer {
     private wGame: any | Window;
     private container: HTMLDivElement;
     private displayed: boolean = false;
-    private enabled: boolean = false;
+    private enabled: boolean = true;
     private isInFight = false;
     private updateInterval: NodeJS.Timer;
     private bars: { [fighterId: number]: Bar; } = { };
