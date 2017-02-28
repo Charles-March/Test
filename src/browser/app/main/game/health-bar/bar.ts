@@ -46,7 +46,7 @@ export class Bar {
                     this.lifeBarContainer.style.left = (pos.x - 40) + 'px';
                     this.lifeBarContainer.style.top = (pos.y + 10) + 'px';
                     this.lifePointsEl.style.left = (pos.x - 40) + 'px';
-                    this.lifePointsEl.style.top = (pos.y + 20) + 'px';
+                    this.lifePointsEl.style.top = (pos.y + 9) + 'px';
                 }
             }
         }
@@ -62,7 +62,7 @@ export class Bar {
         /* lifeBarContainer */
         this.lifeBarContainer = document.createElement('div');
         this.lifeBarContainer.id = 'fighterLifeBarContainer' + this.fighter.id;
-        this.lifeBarContainer.style.cssText = 'box-sizing: border-box; border: 1px gray solid; background-color: #222; height: 10px; width: 80px; position: absolute; border-radius: 3px; overflow: hidden; transition-duration: 500ms;';
+        this.lifeBarContainer.style.cssText = 'box-sizing: border-box; border: 1px gray solid; background-color: #222; height: 13px; width: 80px; position: absolute; border-radius: 3px; overflow: hidden; transition-duration: 500ms;';
 
         /* lifeBar */
         this.lifeBar = document.createElement('div');
@@ -79,9 +79,9 @@ export class Bar {
         this.lifePointsEl = document.createElement('div');
         this.lifePointsEl.id = 'fighterLifePoints' + this.fighter.id;
         this.lifePointsEl.innerHTML = this.fighter.data.stats.lifePoints;
-        this.lifePointsEl.style.cssText = 'position: absolute; width: 80px; text-align: center; color: white; text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.9); transition-duration: 500ms;';
+        this.lifePointsEl.style.cssText = 'font-size:10px; position: absolute; width: 80px; text-align: center; color: white; text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.9); transition-duration: 500ms;';
         this.lifePointsEl.style.left = (pos.x - 40) + 'px';
-        this.lifePointsEl.style.top = (pos.y + 20) + 'px';
+        this.lifePointsEl.style.top = (pos.y + 9) + 'px';
 
         this.wGame.document.getElementById('lifeBars').appendChild(this.lifeBarContainer);
         this.wGame.document.getElementById('lifeBars').appendChild(this.lifePointsEl);
