@@ -11,7 +11,8 @@
     "notifications": {
       "fight-turn": "Inicio del torno de {{character}}",
       "private-message": "Message de {{character}}",
-      "tax-collector": "A tax collector is attacked!"
+      "tax-collector": "A tax collector is attacked!",
+      "kolizeum": "When kolizeum fight is find"
     },
     "option": {
       "vip":{

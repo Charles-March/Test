@@ -96,7 +96,8 @@
         "description": "Vous pouvez recevoir des notifications de votre jeu dofus lorsque vous êtes sur une autre application avec dofus en arrière plan. Vous pouvez être notifié :",
         "fight-turn": "En début du tour (combat)",
         "private-message": "À l'arrivé d'un message privé",
-        "tax-collector": "Quand un percepteur est attaqué"
+        "tax-collector": "Quand un percepteur est attaqué",
+        "kolizeum": "Quand un combat de kolizéum est trouvé"
       },
       "reset": "Réinitialiser",
       "save": "Valider"

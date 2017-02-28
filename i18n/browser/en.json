@@ -11,7 +11,8 @@
     "notifications": {
       "fight-turn": "Strating turn for {{character}}",
       "private-message": "Incoming message from {{character}}",
-      "tax-collector": "A tax collector is being attacked!"
+      "tax-collector": "A tax collector is being attacked!",
+      "kolizeum": "When kolizeum fight is find"
     },
     "option": {
       "vip":{
