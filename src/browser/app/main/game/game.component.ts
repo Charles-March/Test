@@ -13,6 +13,7 @@ import {DomSanitizer, SafeUrl, Title} from "@angular/platform-browser";
 import {AutoGroup} from "./auto-group/autogroup";
 import {Inactivity} from "./general/inactivity";
 import {HealthBar} from "./health-bar/healthbar";
+import {Notifications} from "./notifications/notifications";
 
 
 const {remote} = (<any>global).nodeRequire('electron');
@@ -42,7 +43,8 @@ export class GameComponent implements OnInit, AfterViewInit {
     private backupMaxZoom: number;
     private autogroup: AutoGroup;
     private inactivity: Inactivity;
-    private healthbar : HealthBar;
+    private healthbar: HealthBar;
+    private notifications: Notifications;
 
     constructor(@Inject('Window') private window: Window,
                 private ipcRendererService: IpcRendererService,
@@ -69,45 +71,53 @@ export class GameComponent implements OnInit, AfterViewInit {
 
         if (this.gameLoaded) {
             this.setEventListener();
-            this.setMod();
+
+            this.setMods();
+
+            this.ipcRendererService.on('reload-settings-done', () => {
+                this.reloadMods();
+            });
         }
 
         this.gameLoaded = true;
     }
 
-
-    private setMod(): void{
-
-        if (this.applicationService.vipStatus >= 2) {
-            this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup);
-            this.inactivity = new Inactivity(this.tab.window, this.settingsService.option.vip.general.disable_inactivity)
-            this.healthbar = new HealthBar(this.tab.window, this.settingsService.option.vip.general);
-        }
-
-        this.ipcRendererService.on('reload-settings-done', () => {
-
-            if (this.applicationService.vipStatus >= 2) {
-                /* Reset mod */
+    private reloadMods(): void {
+        switch (this.applicationService.vipStatus) {
+            case 3:
+                this.healthbar.reset();
+            case 2:
                 this.autogroup.reset();
                 this.inactivity.reset();
+            default:
+                this.notifications.removeAllListeners();
+                this.notifications.reset();
+        }
 
+        this.setMods();
+    }
 
-                /* bind again */
+    private setMods(): void {
+
+        switch (this.applicationService.vipStatus) {
+            case 3:
+                this.healthbar = new HealthBar(this.tab.window, this.settingsService.option.vip.general);
+            case 2:
+                this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup);
                 this.inactivity = new Inactivity(this.tab.window, this.settingsService.option.vip.general.disable_inactivity);
-
-                if (this.tab.isLogged)
-                    this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup, true);
-                else
-                    this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup, false);
-
-                if(this.applicationService.vipStatus >= 3){
-                    this.healthbar.reset();
-
-                    /* bind again */
-                    this.healthbar = new HealthBar(this.tab.window, this.settingsService.option.vip.general);
-                }
-            }
-        });
+            default:
+                this.notifications = new Notifications(this.tab.window, this.tab, this.settingsService.option.notification, this.translate);
+                this.notifications.on('newNotification', () => {
+                    this.zone.run(() => {
+                        this.tab.notification = true;
+                    });
+                });
+                this.notifications.on('focusTab', () => {
+                    this.zone.run(() => {
+                        this.selectTab.emit(this.tab);
+                    });
+                });
+        }
     }
 
     private setEventListener(): void {
@@ -130,7 +140,8 @@ export class GameComponent implements OnInit, AfterViewInit {
             });
 
             // bind event IG
-            this.bindEventIG();
+            //this.bindEventIG();
+            this.checkMaxZoom();
 
             // bind shortcut
             this.bindShortcuts();
@@ -169,94 +180,6 @@ export class GameComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private sendMPNotif(msg: any) {
-        if (!this.tab.window.document.hasFocus() && this.settingsService.option.notification.private_message) {
-            if (msg.channel == 9) {
-
-                this.zone.run(() => {
-                    this.tab.notification = true;
-                });
-
-                let mpNotif = new Notification(this.translate.instant('app.notifications.private-message', {character: msg.senderName}), {
-                    body: msg.content
-                });
-
-                mpNotif.onclick = () => {
-                    remote.getCurrentWindow().focus();
-                    this.zone.run(() => {
-                        this.selectTab.emit(this.tab);
-                    });
-                };
-
-
-            }
-        }
-    }
-
-    private sendFightTurnNotif(actor: any) {
-        if (!this.tab.window.document.hasFocus()
-            && this.settingsService.option.notification.fight_turn
-            && this.tab.window.gui.playerData.characterBaseInformations.id == actor.id) {
-
-
-            this.zone.run(() => {
-                this.tab.notification = true;
-            });
-
-            let turnNotif = new Notification(this.translate.instant('app.notifications.fight-turn', {character: this.tab.window.gui.playerData.characterBaseInformations.name}));
-
-            turnNotif.onclick = () => {
-                remote.getCurrentWindow().focus();
-                this.zone.run(() => {
-                    this.selectTab.emit(this.tab);
-                });
-            };
-        }
-    }
-
-    private sendKolizeumNotif(msg: any) {
-        if (!this.tab.window.document.hasFocus()
-            && this.settingsService.option.notification.fight_turn) {
-
-
-            this.zone.run(() => {
-                this.tab.notification = true;
-            });
-
-            let turnNotif = new Notification('Un kolizéum a été trouvé !');
-
-            turnNotif.onclick = () => {
-                remote.getCurrentWindow().focus();
-                this.zone.run(() => {
-                    this.selectTab.emit(this.tab);
-                });
-            };
-        }
-    }
-
-    private sendTaxCollectorNotif(tc: any) {
-        if (!this.tab.window.document.hasFocus() && this.settingsService.option.notification.tax_collector) {
-
-            let guildName = tc.guild.guildName;
-            let x = tc.worldX;
-            let y = tc.worldY;
-            let zoneName = tc.enrichData.subAreaName;
-            let tcName = tc.enrichData.firstName + " " + tc.enrichData.lastName;
-
-            let mpNotif = new Notification(this.translate.instant('app.notifications.tax-collector'), {
-                body: zoneName + ' [' + x + ', ' + y + '] : ' + guildName + ', ' + tcName
-            });
-
-            mpNotif.onclick = () => {
-                remote.getCurrentWindow().focus();
-                this.zone.run(() => {
-                    this.selectTab.emit(this.tab);
-                });
-            };
-
-        }
-    }
-
     private checkMaxZoom() {
         if (!this.backupMaxZoom) this.backupMaxZoom = this.tab.window.isoEngine.mapScene.camera.maxZoom;
         this.tab.window.isoEngine.mapScene.camera.maxZoom = Math.max(
@@ -265,35 +188,6 @@ export class GameComponent implements OnInit, AfterViewInit {
         );
     }
 
-    private bindEventIG(): void {
-        let onChatServerMessage = (msg: any) => {
-            this.sendMPNotif(msg);
-        };
-        let onGameFightTurnStartMessage = (actor: any) => {
-            this.sendFightTurnNotif(actor);
-        }
-        let onTaxCollectorAttackedMessage = (tc: any) => {
-            this.sendTaxCollectorNotif(tc);
-        };
-
-        let onGameRolePlayArenaFightPropositionMessage = (tc: any) => {
-            this.sendKolizeumNotif(tc);
-        };
-
-        this.tab.window.dofus.connectionManager.on('ChatServerMessage', onChatServerMessage);
-        this.tab.window.gui.on('GameFightTurnStartMessage', onGameFightTurnStartMessage);
-        this.tab.window.dofus.connectionManager.on('TaxCollectorAttackedMessage', onTaxCollectorAttackedMessage);
-        this.tab.window.dofus.connectionManager.on('GameRolePlayArenaFightPropositionMessage', onGameRolePlayArenaFightPropositionMessage);
-
-        this.tab.window.gui.on("disconnect", () => {
-            this.tab.window.dofus.connectionManager.removeListener('ChatServerMessage', onChatServerMessage);
-            this.tab.window.gui.removeListener('GameFightTurnStartMessage', onGameFightTurnStartMessage);
-            this.tab.window.dofus.connectionManager.removeListener('TaxCollectorAttackedMessage', onTaxCollectorAttackedMessage);
-            this.tab.window.dofus.connectionManager.removeListener('GameRolePlayArenaFightPropositionMessage', onGameRolePlayArenaFightPropositionMessage);
-        });
-
-        this.checkMaxZoom();
-    }
 
     private unBindShortcuts(): void {
         this.shortCuts.unBindAll();

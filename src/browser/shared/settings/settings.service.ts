@@ -493,6 +493,7 @@ export module Option {
         private _private_message: boolean;
         private _fight_turn: boolean;
         private _tax_collector: boolean;
+        private _kolizeum: boolean;
 
         get private_message() {
             return this._private_message;
@@ -521,10 +522,20 @@ export module Option {
             this._tax_collector = tax_collector;
         }
 
+        get kolizeum() {
+            return this._kolizeum;
+        }
+
+        set kolizeum(kolizeum: any) {
+            settings.setSync('option.notification.kolizeum', kolizeum);
+            this._kolizeum = kolizeum;
+        }
+
         constructor() {
             this.fight_turn = settings.getSync('option.notification.fight_turn');
             this.private_message = settings.getSync('option.notification.private_message');
             this.tax_collector = settings.getSync('option.notification.tax_collector');
+            this.kolizeum = settings.getSync('option.notification.kolizeum');
         }
     }
 

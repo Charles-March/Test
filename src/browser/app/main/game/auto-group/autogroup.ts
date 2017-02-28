@@ -23,7 +23,7 @@ export class AutoGroup {
     private static counter: number = 1;
 
 
-    constructor(wGame: any, params: Option.VIP.AutoGroup, skipLogin: boolean = false) {
+    constructor(wGame: any, params: Option.VIP.AutoGroup) {
         this.wGame = wGame;
         this.params = params;
         this.events = [];
@@ -34,18 +34,18 @@ export class AutoGroup {
         if (this.params.active) {
 
             // bind auto accept
-            this.autoAcceptPartyInvitation(skipLogin);
+            this.autoAcceptPartyInvitation(this.wGame.gui.isConnected);
 
             // bind follow leader
             if (this.params.follow_leader)
-                this.followLeader(skipLogin);
+                this.followLeader(this.wGame.gui.isConnected);
 
 
             // bind auto enter fight
             if (this.params.fight)
-                this.autoEnterFight(skipLogin);
+                this.autoEnterFight(this.wGame.gui.isConnected);
 
-            this.autoMasterParty(skipLogin);
+            this.autoMasterParty(this.wGame.gui.isConnected);
 
         }
     }

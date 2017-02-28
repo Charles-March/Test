@@ -28,6 +28,7 @@
             'ng2-translate': 'npm:ng2-translate/bundles/ng2-translate.umd.js',
             'async': 'npm:async/dist/async.js',
             'marked': 'npm:marked/lib/marked.js',
+            'eventemitter3': 'npm:eventemitter3/index.js',
 
             // other libraries
             'rxjs': 'npm:rxjs',

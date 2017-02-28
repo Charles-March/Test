@@ -11,7 +11,7 @@ export class HealthBar {
     private fightJustStarted: boolean = false;
     private events: any[];
 
-    constructor(wGame: any, params: Option.VIP.General, skipLogin: boolean = false) {
+    constructor(wGame: any, params: Option.VIP.General) {
         this.wGame = wGame;
         this.params = params;
         this.events = [];

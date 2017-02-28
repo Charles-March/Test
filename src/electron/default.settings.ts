@@ -131,7 +131,8 @@ export const DefaultSettings: ISettings = {
         notification: {
             private_message: true,
             fight_turn: true,
-            tax_collector: true
+            tax_collector: true,
+            kolizeum: true
         },
         vip: {
             general: {

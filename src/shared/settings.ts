@@ -61,6 +61,7 @@ export interface ISettings {
             private_message: boolean;
             fight_turn: boolean;
             tax_collector: boolean;
+            kolizeum: boolean;
         },
         vip: {
             general:{
