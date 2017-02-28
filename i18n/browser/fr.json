@@ -11,22 +11,37 @@
     "notifications": {
       "fight-turn": "Début du tour de {{character}}",
       "private-message": "Message de : {{character}}",
-      "tax-collector": "Un percepteur est attaqué !"
+      "tax-collector": "Un percepteur est attaqué !",
+      "kolizeum": "Un Kolizéum a été trouvé !"
     },
     "option": {
-      "vip":{
-        "title":"VIP",
-        "general":{
+      "vip": {
+        "title": "VIP",
+        "main": {
+          "alert": {
+            "text-1": "Tu bénéficies actuellement de la contre-partie <strong>{{status}}</strong>, jusqu'au {{date}}",
+            "text-2": "Si tu as des questions n'hésites pas à te rendre sur notre "
+          }
+        },
+        "authentication": {
+          "explanation": "Pour bénéficier des options VIP vous devez rentrer votre code dans le champ ci-dessous :",
+          "code": "Rentrez votre code :",
+          "save": "Enregistrer"
+        },
+        "general": {
           "header": "Général",
           "disable-inactivity": "Prolongé le délai avant la deconnexion pour inactivité",
-          "health-bar" : "Activer l'affichage des barres de vie en-dessous des combatants",
+          "health-bar": "Activer l'affichage des barres de vie en-dessous des combatants",
           "health-bar-shortcut": "Raccourcis afficher/masquer barres de vie"
         },
-        "auto-group":{
+        "auto-group": {
           "header": "Auto Group",
+          "explanation-1": "Les personnages du groupe doivent être amis avec le meneur pour que l'invitation soit automatique",
+          "explanation-2": "Les membres du groupe suivent le meneur que si ce dernier est sur la même carte",
+          "explanation-3": "Les membres du groupe ne peuvent pas suivre le meneur automatiquement dans une entré de donjon/maison/etc",
           "active": "Activer l'Auto Group",
           "leader": "Nom du meneur",
-          "members":"Noms des personnages du groupe (séparé par un point-virgule)",
+          "members": "Noms des personnages du groupe (séparé par un point-virgule)",
           "follow-leader": "Suivre le meneur (les membres suivent le meneur)",
           "ready": "Les membres passent en ready automatiquement",
           "fight": "Entrer en combat automatiquement",
@@ -43,52 +58,52 @@
       },
       "shortcuts": {
         "title": "Raccourcis",
-        "description1":"Vous pouvez utiliser les touches spéciales : <strong>ctrl</strong>, <strong>shift</strong>, <strong>space</strong>, <strong>alt</strong> (ctrl = cmd sur Macintosh OS X)",
-        "description2":"Pour rentrer vos raccourcis pressez simplement la combinaison de touche souhaitée en cliquant préalablement sur le champ",
+        "description1": "Vous pouvez utiliser les touches spéciales : <strong>ctrl</strong>, <strong>shift</strong>, <strong>space</strong>, <strong>alt</strong> (ctrl = cmd sur Macintosh OS X)",
+        "description2": "Pour rentrer vos raccourcis pressez simplement la combinaison de touche souhaitée en cliquant préalablement sur le champ",
         "diver": {
           "header": "Divers",
-          "end-turn":"Passer son tour (combat)",
-          "open-chat":"Ouvrir le chat"
+          "end-turn": "Passer son tour (combat)",
+          "open-chat": "Ouvrir le chat"
         },
         "interfaces": {
           "header": "Interfaces",
           "carac": "Personnage",
-          "spell":"Sorts",
-          "bag":"Inventaire",
-          "bidhouse":"Hôtel de vente",
-          "map":"Carte",
-          "friend":"Amis",
-          "book":"Quêtes",
-          "guild":"Guildes",
-          "conquest":"Kolizeum",
-          "goultine":"Shop",
-          "job":"Metiers",
-          "alliance":"Alliance",
-          "mount":"Monture",
-          "directory":"Répertoire de guilde et d'alliance",
-          "alignement":"Alignement",
-          "bestiary":"Bestiare",
-          "title":"Titres et Ornements",
-          "achievement":"Succès",
-          "almanax":"Almanax",
-          "spouse":"Conjoint",
-          "shop":"Marchand"
+          "spell": "Sorts",
+          "bag": "Inventaire",
+          "bidhouse": "Hôtel de vente",
+          "map": "Carte",
+          "friend": "Amis",
+          "book": "Quêtes",
+          "guild": "Guildes",
+          "conquest": "Kolizeum",
+          "goultine": "Shop",
+          "job": "Metiers",
+          "alliance": "Alliance",
+          "mount": "Monture",
+          "directory": "Répertoire de guilde et d'alliance",
+          "alignement": "Alignement",
+          "bestiary": "Bestiare",
+          "title": "Titres et Ornements",
+          "achievement": "Succès",
+          "almanax": "Almanax",
+          "spouse": "Conjoint",
+          "shop": "Marchand"
         },
         "items": {
           "header": "Objets",
-          "slot":"Emplacement {{x}}"
+          "slot": "Emplacement {{x}}"
         },
         "no-emu": {
           "header": "No-Emu",
-          "new-window":"Nouvelle fenêtre",
+          "new-window": "Nouvelle fenêtre",
           "new-tab": "Nouvel onglet",
-          "tab":"Onglet {{x}}",
+          "tab": "Onglet {{x}}",
           "next-tab": "Onglet suivant",
           "prev-tab": "Onglet précédent"
         },
         "spells": {
           "header": "Sorts",
-          "slot":"Emplacement {{x}}"
+          "slot": "Emplacement {{x}}"
         }
       },
       "notifications": {
@@ -103,13 +118,12 @@
       "save": "Valider"
     }
   },
-  "update":{
+  "update": {
     "title": "Mise à jour",
-    "information":{
+    "information": {
       "error": "Impossible de télécharger la mise à jour ! Veuillez réessayer ultérieurement",
       "install": "Installation de la mise à jour...",
       "start": "Début du téléchargement..."
-
     }
   }
 }

@@ -117,7 +117,7 @@ export class Notifications extends EventEmitter {
 
             this.emit('newNotification');
 
-            let kolizeumNotif = new Notification('Un kolizéum a été trouvé !');
+            let kolizeumNotif = new Notification(this.translate.instant('app.notifications.kolizeum'));
 
             kolizeumNotif.onclick = () => {
                 remote.getCurrentWindow().focus();

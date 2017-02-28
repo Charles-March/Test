@@ -1,12 +1,13 @@
 <template [ngTemplateOutlet]="getTemplate()"></template>
 
 <template #authentication>
-    <strong>Pour bénéficier des options VIP vous devez rentrer votre code dans le champ ci-dessous :</strong>
+    <strong>{{ 'app.option.vip.general.authentication.explanation' | translate }}</strong>
     <div class="form-horizontal">
         <div class="row">
             <div class="col-8">
                 <div class="form-group row">
-                    <label for="vip_id" class="col-5 col-form-label">Rentrez votre code :</label>
+                    <label for="vip_id" class="col-5 col-form-label">{{ 'app.option.vip.general.authentication.code' |
+                        translate }}</label>
                     <div class="col-7">
                         <input [(ngModel)]="vip_id" type="text" class="form-control" id="vip_id">
                     </div>
@@ -14,7 +15,9 @@
             </div>
 
             <div class="col-4">
-                <button type="submit" class="btn btn-success btn-block" (click)="validate()">Enregistrer</button>
+                <button type="submit" class="btn btn-success btn-block" (click)="validate()">{{
+                    'app.option.vip.general.authentication.save' | translate }}
+                </button>
             </div>
         </div>
     </div>
@@ -24,10 +27,10 @@
 </template>
 
 <template #main>
-    <ngb-alert type="info" *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true"> Tu bénéficies actuellement de
-        la contre-partie <strong>{{applicationService.vipText()}}</strong>, jusqu'au {{applicationService.vipDate |
-        date}}.<br>
-        <i>Si tu as des questions n'hésites pas à te rendre sur notre <a href="" (click)="goDiscord($event)">Discord</a></i>
+    <ngb-alert type="info" *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true">
+        <span [innerHTML]="'app.option.vip.main.alert.text-1' | translate:{status:applicationService.vipText(), date:applicationService.vipDate | date}"></span>
+        <br>
+        <i>{{'app.option.vip.main.alert.text-2' | translate}} <a href="" (click)="goDiscord($event)">Discord</a></i>
     </ngb-alert>
 
     <ul class="nav nav-tabs" fxFlex>

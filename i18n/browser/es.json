@@ -12,22 +12,36 @@
       "fight-turn": "Inicio del torno de {{character}}",
       "private-message": "Message de {{character}}",
       "tax-collector": "A tax collector is attacked!",
-      "kolizeum": "When kolizeum fight is find"
+      "kolizeum": "A Kolizeum has been find !"
     },
     "option": {
-      "vip":{
-        "title":"VIP",
-        "general":{
-          "header": "General",
-          "disable-inactivity": "Prolonge delay before decoonection for inactivity",
-          "health-bar" : "Activer l'affichage des barres de vie en-dessous des combatants",
+      "vip": {
+        "title": "VIP",
+        "main": {
+          "alert": {
+            "text-1": "Tu bénéficies actuellement de la contre-partie <strong>{{status}}</strong>, jusqu'au {{date}}",
+            "text-2": "Si tu as des questions n'hésites pas à te rendre sur notre "
+          }
+        },
+        "authentication": {
+          "explanation": "Pour bénéficier des options VIP vous devez rentrer votre code dans le champ ci-dessous :",
+          "code": "Rentrez votre code :",
+          "save": "Enregistrer"
+        },
+        "general": {
+          "header": "Général",
+          "disable-inactivity": "Prolongé le délai avant la deconnexion pour inactivité",
+          "health-bar": "Activer l'affichage des barres de vie en-dessous des combatants",
           "health-bar-shortcut": "Raccourcis afficher/masquer barres de vie"
         },
-        "auto-group":{
+        "auto-group": {
           "header": "Auto Group",
-          "active": "Active the Auto Group",
-          "leader": "Name of the leader",
-          "members":"Noms des personnages du groupe (séparé par un point-virgule)",
+          "explanation-1": "Les personnages du groupe doivent être amis avec le meneur pour que l'invitation soit automatique",
+          "explanation-2": "Les membres du groupe suivent le meneur que si ce dernier est sur la même carte",
+          "explanation-3": "Les membres du groupe ne peuvent pas suivre le meneur automatiquement dans une entré de donjon/maison/etc",
+          "active": "Activer l'Auto Group",
+          "leader": "Nom du meneur",
+          "members": "Noms des personnages du groupe (séparé par un point-virgule)",
           "follow-leader": "Suivre le meneur (les membres suivent le meneur)",
           "ready": "Les membres passent en ready automatiquement",
           "fight": "Entrer en combat automatiquement",
@@ -97,7 +111,8 @@
         "description": "Puede recibir las notificaciones del juego Dofus cuando esta en otra applicación. Puede ser notificado :",
         "fight-turn": "Al inicio del torno (combate)",
         "private-message": "A la llegada de un mensaje privado",
-        "tax-collector": "When a tax collector is attacked"
+        "tax-collector": "When a tax collector is attacked",
+        "kolizeum": "When kolizeum fight is find"
       },
       "reset": "Reiniciar",
       "save": "Validar"
