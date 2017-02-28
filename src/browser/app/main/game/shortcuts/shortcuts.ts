@@ -2,6 +2,7 @@ import {Option} from "../../../../shared/settings/settings.service";
 import {NgZone} from '@angular/core';
 import {TranslateService} from 'ng2-translate';
 import {Tab} from "../../tab/tab";
+import * as async from 'async';
 import {ShortCuts} from "../../../shortcuts/shortcuts";
 
 export class Shortcuts {
@@ -41,6 +42,7 @@ export class Shortcuts {
     }
 
     private bindAll(){
+
         // end turn
         this.shortcuts.bind(this.params.diver.end_turn, () => {
             this.wGame.gui.fightManager.finishTurn()
@@ -84,7 +86,7 @@ export class Shortcuts {
 
     public reset() {
         this.shortcuts.unBindAll();
-        
+
         this.events.forEach((event) => {
             event();
         });
