@@ -6,6 +6,7 @@ export const DefaultSettings: ISettings = {
     appVersion: null,
     alertCounter: 0,
     vip_id: null,
+    last_news: null,
     option: {
         general: {
             hidden_shop: false,

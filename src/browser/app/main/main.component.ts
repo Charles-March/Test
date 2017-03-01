@@ -12,8 +12,19 @@ import {ApplicationService} from "../../shared/electron/application.service";
 import {SettingsService} from "../../shared/settings/settings.service";
 import {Title} from "@angular/platform-browser";
 import {NeutrinoService} from "../../shared/electron/neutrino.service";
+import {Http} from "@angular/http";
 
 const {shell} = (<any>global).nodeRequire('electron').remote;
+
+interface INews {
+    author: string;
+    content: string;
+    date: string;
+    id: number;
+    image: string;
+    title: string;
+    display: boolean;
+}
 
 //const { ipcRenderer } = (<any>global).nodeRequire('electron');
 
@@ -26,11 +37,13 @@ const {shell} = (<any>global).nodeRequire('electron').remote;
     }
 })
 export class MainComponent implements OnInit, AfterViewInit {
-    tabs: Tab[];
+    tabs: Array<Tab>;
     activTab: Tab = null;
-    private shortCuts: ShortCuts;
 
-    @ViewChild('content') content: TemplateRef<any>;
+    private news: Array<INews> = [];
+
+    @ViewChild('tipeeeContent') tipeeeContent: TemplateRef<any>;
+    @ViewChild('newsContent') newsContent: TemplateRef<any>;
 
     constructor(@Inject('Window') private window: Window,
                 private translate: TranslateService,
@@ -40,12 +53,11 @@ export class MainComponent implements OnInit, AfterViewInit {
                 private settingsService: SettingsService,
                 private applicationService: ApplicationService,
                 private neutrinoService: NeutrinoService,
+                private http: Http,
                 private titleService: Title) {
 
         (<any>this.window).appVersion = this.applicationService.appVersion;
         (<any>this.window).buildVersion = this.applicationService.buildVersion;
-
-        this.shortCuts = new ShortCuts(this.window);
     }
 
     ngOnInit(): void {
@@ -60,15 +72,64 @@ export class MainComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
 
+        if (!this.checkTipeee()) {
+            this.checkNews();
+        }
+
+
+        this.ipcRendererService.on('open-news', () => {
+            this.displayNews();
+        });
+
+        this.settingsService.alertCounter++;
+    }
+
+    displayNews() {
+        this.http.get(`${this.applicationService.website}/news.json`)
+            .map(res => res.json().feed)
+            .subscribe((news: Array<INews>) => {
+
+                this.news = news;
+
+                this.modalService.open(this.newsContent, {size: 'lg'}).result.then((result) => {
+
+                }, (reason) => {
+
+                });
+            });
+    }
+
+    checkNews() {
+
+        this.http.get(`${this.applicationService.website}/news.json`)
+            .map(res => res.json().feed)
+            .subscribe((news: Array<INews>) => {
+
+                let last_news = Math.max.apply(Math, news.map(function (n) {
+                    return n.id;
+                }));
+
+                if (this.settingsService.last_news != last_news) {
+                    this.settingsService.last_news = last_news;
+
+                    this.displayNews();
+                }
+            });
+
+    }
+
+    checkTipeee(): boolean {
         if (this.settingsService.alertCounter % 15 === 0) {
-            this.modalService.open(this.content, {}).result.then((result) => {
+            this.modalService.open(this.tipeeeContent, {}).result.then((result) => {
 
             }, (reason) => {
 
             });
-        }
 
-        this.settingsService.alertCounter++;
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

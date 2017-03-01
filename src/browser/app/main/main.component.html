@@ -1,4 +1,4 @@
-<template #content let-c="close" let-d="dismiss">
+<template #tipeeeContent let-c="close" let-d="dismiss">
     <div class="modal-header">
         <h4 class="modal-title">{{ 'app.main.tipeee.title' | translate }}</h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -24,6 +24,38 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="tipeee()">{{ 'app.main.tipeee.link' | translate }}</button>
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">{{ 'app.main.tipeee.close' | translate }}</button>
+    </div>
+</template>
+
+
+<template #newsContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Actualités</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div *ngFor="let n of news; let i = index;">
+            <div class="card" >
+                <img class="card-img-top" [src]="n.image" alt="Card image cap">
+                <div class="card-block">
+                    <h4 class="card-title">{{n.title}}</h4>
+                    <p  *ngIf="!n.display" class="card-text">{{n.resume}}</p>
+                    <div *ngIf="n.display" [innerHTML]="n.content"></div>
+                    <a href="#" class="btn btn-primary"  [ngSwitch]="n.display" (click)="n.display = !n.display">
+                        <ng-container *ngSwitchCase="false" >Lire la suite</ng-container>
+                        <ng-container *ngSwitchCase="true" >Masquer</ng-container>
+                    </a>
+                </div>
+                <div class="card-footer text-muted">
+                    Auteur : {{n.author}}, Date : {{n.date}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="c('Close click')">{{ 'app.main.tipeee.close' | translate }}</button>
     </div>
 </template>

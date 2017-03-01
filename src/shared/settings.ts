@@ -16,6 +16,7 @@ export interface ISettings {
     appVersion: string;
     alertCounter: number;
     vip_id: string;
+    last_news: number;
     option: {
         general: IGeneral;
         shortcuts: {

@@ -697,6 +697,16 @@ export class SettingsService {
     private _alertCounter: number;
     private _language: string;
     private _vip_id: string;
+    private _last_news: number;
+
+    get last_news(): number {
+        return this._last_news;
+    }
+
+    set last_news(last_news: number) {
+        settings.setSync('last_news', last_news);
+        this._last_news = last_news;
+    }
 
     get vip_id(): string {
         return this._vip_id;
@@ -754,6 +764,7 @@ export class SettingsService {
         this._alertCounter = settings.getSync('alertCounter');
         this._language = settings.getSync('language');
         this._vip_id = settings.getSync('vip_id');
+        this._last_news = settings.getSync('last_news');
 
         this.ipcRendererService.on('reload-settings', () => {
             console.log('receive->reload-settings');
@@ -763,6 +774,7 @@ export class SettingsService {
             this._alertCounter = settings.getSync('alertCounter');
             this._language = settings.getSync('language');
             this._vip_id = settings.getSync('vip_id');
+            this._last_news = settings.getSync('last_news');
 
 
             let resetOption = new Option(); // synchronous call

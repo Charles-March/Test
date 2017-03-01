@@ -189,6 +189,35 @@ export class GameMenuTemplate {
                 ]
             },
             {
+              label: 'Communauté',
+                submenu: [
+                    {
+                        label: 'Actualités',
+                        click(item: Electron.MenuItem, focusedWindow: Electron.BrowserWindow){
+                            focusedWindow.webContents.send('open-news');
+                        }
+                    },
+                    {
+                        label: 'Forum',
+                        click(){
+                            require('electron').shell.openExternal('http://forum.no-emu.com');
+                        }
+                    },
+                    {
+                        label: 'Tipeee',
+                        click(){
+                            require('electron').shell.openExternal('https://www.tipeee.com/dtne');
+                        }
+                    },
+                    {
+                        label: 'Discord',
+                        click(){
+                            require('electron').shell.openExternal('https://discordapp.com/invite/rCawwmD');
+                        }
+                    },
+                ]
+            },
+            {
                 label: 'Aide/Bugs',
                 submenu: [
                     {

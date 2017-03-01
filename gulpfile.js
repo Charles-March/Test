@@ -4,10 +4,8 @@ const async = require('async');
 const fs = require('fs-extra')
 const typescript = require('gulp-typescript');
 const sourcemaps = require('gulp-sourcemaps');
-//const browserSync = require('browser-sync');
 const tslint = require('gulp-tslint');
 const request = require('request');
-//const reload = browserSync.reload;
 const replace = require("gulp-replace");
 const prettify = require('gulp-jsbeautifier');
 
@@ -120,17 +118,6 @@ gulp.task('copy:assets', ['clean'], function () {
 
 // TypeScript compile
 gulp.task('compile', ['clean'], function () {
-    // load the tsconfig each time as it changes!
-    //const tscConfig = JSON.parse(fs.readFileSync('./tsconfig.json', 'UTF8'));
-    /*return gulp
-     .src(paths.srcTsFiles)
-     .pipe(sourcemaps.init())
-     .pipe(typescript(tscConfig.compilerOptions))
-     .pipe(sourcemaps.write('.'))
-     .pipe(gulp.dest(paths.dist));*/
-    /*return tsProject.src()
-     .pipe(tsProject())
-     .js.pipe(gulp.dest(paths.dist));*/
 
     let tsResult = tsProject.src()
         .pipe(sourcemaps.init())
@@ -140,8 +127,6 @@ gulp.task('compile', ['clean'], function () {
     return tsResult.js
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.dist));
-
-
 });
 
 // linting
@@ -153,15 +138,6 @@ gulp.task('tslint', function () {
 
 // Run browsersync for development
 gulp.task('serve', ['build'], function () {
-    /*browserSync({
-     server: {
-     baseDir: ''
-     },
-     ghostMode: false,
-     startPath: '/build/browser'
-     });*/
-
-
     gulp.watch(paths.srcFiles, ['buildAndReload']);
 });
 
