@@ -64,6 +64,7 @@ export class VipComponent {
                 }else{
                     alert('VIP ID non valide');
                 }
+                
             });
     }
 }

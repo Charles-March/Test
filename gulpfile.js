@@ -4,10 +4,10 @@ const async = require('async');
 const fs = require('fs-extra')
 const typescript = require('gulp-typescript');
 const sourcemaps = require('gulp-sourcemaps');
-const browserSync = require('browser-sync');
+//const browserSync = require('browser-sync');
 const tslint = require('gulp-tslint');
 const request = require('request');
-const reload = browserSync.reload;
+//const reload = browserSync.reload;
 const replace = require("gulp-replace");
 const prettify = require('gulp-jsbeautifier');
 
@@ -161,9 +161,10 @@ gulp.task('serve', ['build'], function () {
      startPath: '/build/browser'
      });*/
 
+
     gulp.watch(paths.srcFiles, ['buildAndReload']);
 });
 
 gulp.task('build', ['tslint', 'clean', 'compile', 'copy:assets']);
-gulp.task('buildAndReload', ['build'], reload);
+gulp.task('buildAndReload', ['build']);
 gulp.task('default', ['build']);

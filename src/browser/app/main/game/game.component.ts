@@ -69,6 +69,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     private gameReady(): void {
 
         if (this.gameLoaded) {
+            this.tab.window.gui.loginScreen._login("username", "password", false);
             this.setEventListener();
 
             this.setMods();
