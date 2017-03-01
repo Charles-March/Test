@@ -125,6 +125,13 @@ export class GameComponent implements OnInit, AfterViewInit {
 
     private setEventListener(): void {
 
+        var canvas = this.tab.window.document.getElementById("mapScene-canvas");
+        canvas.addEventListener("webglcontextlost", (event:any) => {
+            console.log('reload webglcontext cause: webglcontextlost');
+            this.tab.window.isoEngine.background.render()
+            event.preventDefault();
+        }, false);
+
         // event -> resize window game
         this.tab.window.onresize = () => {
             this.tab.window.gui._resizeUi();
