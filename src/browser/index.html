@@ -23,14 +23,26 @@
 
     <script src="systemjs.config.js"></script>
     <script>
-        System.import('./app/main').catch(function (err) {
+        System.import('./app/main')
+            .then(function handleResolve(){
+                let loading = document.getElementById( "loading" );
+
+                setTimeout(()=>{
+                    loading
+                        .parentNode
+                        .removeChild(loading);
+                },400);
+
+
+            })
+            .catch(function (err) {
             console.error(err);
         });
     </script>
 </head>
 <body>
 <application></application>
-<div class="loading">
+<div class="loading" id="loading">
     <div class="loader"></div>
 </div>
 </body>
