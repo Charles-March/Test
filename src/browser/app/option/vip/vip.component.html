@@ -1,12 +1,12 @@
 <template [ngTemplateOutlet]="getTemplate()"></template>
 
 <template #authentication>
-    <strong>{{ 'app.option.vip.general.authentication.explanation' | translate }}</strong>
+    <strong>{{ 'app.option.vip.authentication.explanation' | translate }}</strong>
     <div class="form-horizontal">
         <div class="row">
             <div class="col-8">
                 <div class="form-group row">
-                    <label for="vip_id" class="col-5 col-form-label">{{ 'app.option.vip.general.authentication.code' |
+                    <label for="vip_id" class="col-5 col-form-label">{{ 'app.option.vip.authentication.code' |
                         translate }}</label>
                     <div class="col-7">
                         <input [(ngModel)]="vip_id" type="text" class="form-control" id="vip_id">
@@ -16,7 +16,7 @@
 
             <div class="col-4">
                 <button type="submit" class="btn btn-success btn-block" (click)="validate()">{{
-                    'app.option.vip.general.authentication.save' | translate }}
+                    'app.option.vip.authentication.save' | translate }}
                 </button>
             </div>
         </div>
