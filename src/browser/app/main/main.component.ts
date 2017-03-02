@@ -105,6 +105,10 @@ export class MainComponent implements OnInit, AfterViewInit {
             .map(res => res.json().feed)
             .subscribe((news: Array<INews>) => {
 
+                if(news.length == 0){
+                    return;
+                }
+
                 let last_news = Math.max.apply(Math, news.map(function (n) {
                     return n.id;
                 }));
