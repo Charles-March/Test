@@ -3,7 +3,12 @@
 ## [TODO]
 
 
-## [Prochainement]
+## [3.1.2] - 2017-03-03
+- Fix problem de cache avec les nouvelles versions
+- Ajout d'un menu communauté
+- Ajout d'un système de news
+- Essaie d'un système pour empecher les écrans noirs
+- Ajout de l'option de notification du Kolizéum
 
 ## [3.1.1] - 2017-02-27
 - Ajout de la notification de Kolizeum
