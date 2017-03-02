@@ -46,6 +46,11 @@ export class VipComponent {
         event.preventDefault();
     }
 
+    goTipeee(event: any){
+        shell.openExternal('https://www.tipeee.com/dtne');
+        event.preventDefault();
+    }
+
     validate() {
         /*this.modalService.open(this.modalTmpl, {}).result.then((result) => {
 
