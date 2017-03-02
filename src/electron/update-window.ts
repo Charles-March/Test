@@ -196,7 +196,7 @@ export class UpdateWindow {
     private static retrieveUpdate(): Promise<UpdateResponse> {
         return new Promise((resolve, reject) => {
 
-            let queries = 'version=' + settings.getSync('buildVersion') + '&os=' + process.platform;
+            let queries = 'version=' + settings.getSync('buildVersion') + '&os=' + process.platform+ '&time=' +new Date().getTime();
 
             let uri = `${Application.website}/update.php?${queries}`;
 

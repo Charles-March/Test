@@ -81,11 +81,11 @@ export class Application {
         });
     }
 
-    private static getVipStatus(): Promise<{status:number,date:number}> {
+    private static getVipStatus(): Promise<{status: number, date: number}> {
         return new Promise((resolve, reject) => {
 
             if (!settings.getSync('vip_id')) {
-                return resolve({status:null, date:null});
+                return resolve({status: null, date: null});
             }
 
             request.get({
@@ -126,7 +126,7 @@ export class Application {
     private static getRemoteVersion(): Promise<{appVersion: string, buildVersion: string}> {
         return new Promise((resolve, reject) => {
             request.get({
-                url: `${this.website}/version.json`,
+                url: `${this.website}/version.json?time=${new Date().getTime()}`,
                 forever: true
             }, function (error, response, body) {
 
@@ -215,6 +215,7 @@ export class Application {
                 }, () => {
                     app.exit();
                 });
+
             });
 
             ipcMain.on('load-config', (event, arg) => {
