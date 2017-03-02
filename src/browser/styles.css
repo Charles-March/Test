@@ -81,3 +81,7 @@ body,html, application {
         box-shadow: 0 2.5em 0 0;
     }
 }
+
+.loginScreen .topButtons .settingsButton {
+    visibility: hidden;
+}
