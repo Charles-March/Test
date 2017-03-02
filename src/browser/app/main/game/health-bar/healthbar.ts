@@ -20,6 +20,60 @@ export class HealthBar {
 
             console.log('start healthbar');
 
+            let healthbarCss = document.createElement('style');
+            healthbarCss.id = 'healthbarCss';
+            healthbarCss.innerHTML = `
+                .lifeBarsContainer {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    pointer-events: none;
+                    z-index: 1;
+                    visibility: hidden;
+                }
+
+                .lifeBarContainer {
+                    box-sizing: border-box;
+                    border: 1px gray solid;
+                    background-color: #222;
+                    height: 6px;
+                    width: 80px;
+                    position: absolute;
+                    border-radius: 3px;
+                    overflow: hidden;
+                    transition-duration: 500ms;
+                    margin-top: 10px;
+                }
+
+                .lifeBar {
+                    transition-duration: 300ms;
+                    height: 100%;
+                    width: 0%;
+                    background-color: #333;
+                }
+
+                .shieldBar {
+                    transition-duration: 300ms;
+                    height: 100%;
+                    width: 0%;
+                    margin-left: 50%;
+                    background-color: #944ae0;
+                    position: absolute;
+                    top: 0;
+                }
+
+                .lifePointsText {
+                    font-size: 12px;
+                    position: absolute;
+                    width: 80px;
+                    color: white;
+                    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.9);
+                    transition-duration: 500ms;
+                    margin-top: 16px;
+                    margin-left: 2px;
+                }`;
+            this.wGame.document.getElementsByTagName('head')[0].appendChild(healthbarCss);
+
             this.shortcuts = new ShortCuts(this.wGame);
             this.barContainer = new BarContainer(this.wGame);
 
@@ -108,6 +162,8 @@ export class HealthBar {
             event();
         });
         this.events = [];
+        let healthbarCss = this.wGame.document.getElementById('healthbarCss');
+        healthbarCss.parentElement.removeChild(healthbarCss);
     }
 
 }

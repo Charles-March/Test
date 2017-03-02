@@ -5,6 +5,7 @@ export class BarContainer {
     private container: HTMLDivElement;
     private displayed: boolean = false;
     private enabled: boolean = true;
+    private showLifePoints: boolean = true;
     private isInFight = false;
     private updateInterval: NodeJS.Timer;
     private bars: { [fighterId: number]: Bar; } = { };
@@ -14,19 +15,23 @@ export class BarContainer {
 
         this.container = document.createElement('div');
         this.container.id = 'lifeBars';
-        this.container.style.position = 'absolute';
-        this.container.style.top = '0';
-        this.container.style.left = '0';
-        this.container.style.zIndex = '1';
-        this.container.style.pointerEvents = 'none';
-        this.container.style.visibility = 'hidden';
+        this.container.className = 'lifeBarsContainer';
 
         this.wGame.foreground.rootElement.appendChild(this.container);
+
+        if (this.wGame.isoEngine.mapRenderer.isFightMode) this.fightStarted();
 
     }
 
     public toggle() {
-        this.enabled = !this.enabled;
+        if (!this.enabled) {
+            this.enabled = true;
+            this.showLifePoints = true;
+        }
+        else {
+            if (this.showLifePoints) this.showLifePoints = false;
+            else this.enabled = false;
+        }
         if (this.isInFight) {
             if (this.enabled) this.show();
             else this.hide();
@@ -42,7 +47,7 @@ export class BarContainer {
             for (let index in fighters) {
                 let fighter = this.wGame.gui.fightManager.getFighter(fighters[index]);
                 if (fighter.data.alive) {
-                    this.bars[fighter.id] = new Bar(fighter, this.wGame);
+                    this.bars[fighter.id] = new Bar(fighter, this, this.wGame);
                 }
             }
             this.updateInterval = setInterval(()=>{
@@ -54,7 +59,7 @@ export class BarContainer {
     public hide() {
         if (this.displayed) {
             this.displayed = false;
-            this.container.style.visibility = 'hidden';
+            this.container.style.visibility = '';
             for (let fighterId in this.bars) {
                 this.destroyBar(fighterId);
             }
@@ -71,7 +76,7 @@ export class BarContainer {
                 let fighter = this.wGame.gui.fightManager.getFighter(fighters[index]);
                 if (fighter.data.alive) {
                     if (this.bars[fighter.id]) this.bars[fighter.id].update();
-                    else this.bars[fighter.id] = new Bar(fighter, this.wGame);
+                    else this.bars[fighter.id] = new Bar(fighter, this, this.wGame);
                 }
             }
         }
@@ -93,6 +98,10 @@ export class BarContainer {
     public fightEnded() {
         this.isInFight = false;
         if (this.enabled) this.hide();
+    }
+
+    public getShowLifePoints(): any {
+        return this.showLifePoints;
     }
 
 

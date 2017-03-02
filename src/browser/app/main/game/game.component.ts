@@ -83,6 +83,8 @@ export class GameComponent implements OnInit, AfterViewInit {
 
     private reloadMods(): void {
         switch (this.applicationService.vipStatus) {
+            case 5:
+            case 4:
             case 3:
                 this.healthbar.reset();
             case 2:
@@ -100,6 +102,8 @@ export class GameComponent implements OnInit, AfterViewInit {
     private setMods(): void {
 
         switch (this.applicationService.vipStatus) {
+            case 5:
+            case 4:
             case 3:
                 this.healthbar = new HealthBar(this.tab.window, this.settingsService.option.vip.general);
             case 2:
