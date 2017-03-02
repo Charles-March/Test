@@ -53,20 +53,25 @@ export class Bar {
 
                 let cellId = fighter.data.disposition.cellId;
 
-                if (cellId && (!invisible) || this.wGame.gui.fightManager.isFighterOnUsersTeam(fighter.id)) {
-                    let scenePos = this.wGame.isoEngine.mapRenderer.getCellSceneCoordinate(cellId);
-                    let pos = this.wGame.isoEngine.mapScene.convertSceneToCanvasCoordinate(scenePos.x, scenePos.y);
-                    this.lifeBarContainer.style.left = (pos.x - this.lifeBarContainer.offsetWidth / 2) + 'px';
-                    this.lifeBarContainer.style.top = (pos.y) + 'px';
-                    this.lifeBarContainer.style.opacity = '';
-                    this.lifePointsText.style.opacity = '';
-                    if (this.container.getShowLifePoints()) {
-                        this.lifePointsText.style.display = '';
-                        this.lifePointsText.style.left = (pos.x - this.lifeBarContainer.offsetWidth / 2) + 'px';
-                        this.lifePointsText.style.top = (pos.y) + 'px';
+                if (cellId && (!invisible || this.wGame.gui.fightManager.isFighterOnUsersTeam(fighter.id))) {
+                    try {
+                        let scenePos = this.wGame.isoEngine.mapRenderer.getCellSceneCoordinate(cellId);
+                        let pos = this.wGame.isoEngine.mapScene.convertSceneToCanvasCoordinate(scenePos.x, scenePos.y);
+                        this.lifeBarContainer.style.left = (pos.x - this.lifeBarContainer.offsetWidth / 2) + 'px';
+                        this.lifeBarContainer.style.top = (pos.y) + 'px';
+                        this.lifeBarContainer.style.opacity = '';
+                        this.lifePointsText.style.opacity = '';
+                        if (this.container.getShowLifePoints()) {
+                            this.lifePointsText.style.display = '';
+                            this.lifePointsText.style.left = (pos.x - this.lifeBarContainer.offsetWidth / 2) + 'px';
+                            this.lifePointsText.style.top = (pos.y) + 'px';
+                        }
+                        else {
+                            this.lifePointsText.style.display = 'none';
+                        }
                     }
-                    else {
-                        this.lifePointsText.style.display = 'none';
+                    catch(e) {
+                        console.error(e);
                     }
                 }
                 else if (invisible) {
