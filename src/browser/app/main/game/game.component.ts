@@ -14,6 +14,7 @@ import {AutoGroup} from "./auto-group/autogroup";
 import {Inactivity} from "./general/inactivity";
 import {HealthBar} from "./health-bar/healthbar";
 import {Notifications} from "./notifications/notifications";
+import {DamageEstimator} from "./damage-estimator/damageestimator";
 
 
 const {remote} = (<any>global).nodeRequire('electron');
@@ -44,6 +45,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     private autogroup: AutoGroup;
     private inactivity: Inactivity;
     private healthbar: HealthBar;
+    private damageEstimator: DamageEstimator;
     private notifications: Notifications;
 
     constructor(@Inject('Window') private window: Window,
@@ -106,6 +108,7 @@ export class GameComponent implements OnInit, AfterViewInit {
             case 2:
                 this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup);
                 this.inactivity = new Inactivity(this.tab.window, this.settingsService.option.vip.general.disable_inactivity);
+                //this.damageEstimator = new DamageEstimator(this.tab.window, this.settingsService.option.vip.general);
             default:
                 this.notifications = new Notifications(this.tab.window, this.tab, this.settingsService.option.notification, this.translate);
                 this.notifications.on('newNotification', () => {
