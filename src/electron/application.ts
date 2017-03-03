@@ -2,6 +2,7 @@ import {ChangeLogWindow} from "./changelog-window";
 const settings = require('electron-settings');
 const i18n = require('node-translate');
 import electron = require("electron");
+const updater              = require('electron-simple-updater');
 import {app, ipcMain, dialog, BrowserWindow} from 'electron';
 import * as request from 'request';
 import {checkSettings} from './test/check-settings';
@@ -143,7 +144,6 @@ export class Application {
 
     public static run(): void {
 
-
         // skipupdate in dev mod
         if (this.cmdOptions.skipupdate) {
             ipcMain.on('load-config', (event, arg) => {
@@ -193,6 +193,63 @@ export class Application {
 
                 // start windows
                 this.addWindow();
+
+                /*updater.init({
+                    checkUpdateOnStart: true,
+                    autoDownload: true,
+                    url: 'http://api.no-emu.com/updates.json',
+                });
+
+                updater.on('update-not-available', ()=>{
+                    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+                        title: 'Téléchargemet MaJ',
+                        message: 'MaJ non Disponible !',
+                        buttons: ['Fermer']
+                    }, () => {
+
+                    });
+                });
+
+                updater.on('error', (err:any)=>{
+                    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+                        title: 'Téléchargemet MaJ',
+                        message: err.toString(),
+                        buttons: ['Fermer']
+                    }, () => {
+
+                    });
+                });
+
+                updater.on('update-available', ()=>{
+                    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+                        title: 'Téléchargemet MaJ',
+                        message: 'MaJ Disponible !',
+                        buttons: ['Fermer']
+                    }, () => {
+
+                    });
+                });
+
+
+
+                updater.on('update-downloading', ()=>{
+                    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+                        title: 'Téléchargemet MaJ',
+                        message: 'Demarrage du téléchargement',
+                        buttons: ['Fermer']
+                    }, () => {
+
+                    });
+                });
+                updater.on('update-downloaded', ()=>{
+                    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+                        title: 'Téléchargemet MaJ',
+                        message: 'Fin du téléchargement',
+                        buttons: ['Fermer']
+                    }, () => {
+
+                    });
+                });*/
 
                 // close update window
                 if (UpdateWindow.win) {

@@ -7,7 +7,7 @@ export class DamageEstimator {
     private wGame: any | Window;
     private params: Option.VIP.General
     private shortcuts: ShortCuts;
-    private barContainer: DamageContainer;
+    private damageContainer: DamageContainer;
     private fightJustStarted: boolean = false;
     private events: any[];
 
@@ -21,17 +21,14 @@ export class DamageEstimator {
             console.log('start damageEstimator');
 
             this.shortcuts = new ShortCuts(this.wGame);
-            this.barContainer = new DamageContainer(this.wGame);
+            this.damageContainer = new DamageContainer(this.wGame);
 
-            this.removeOnDeath();
+            //this.removeOnDeath();
             this.setSpellSelected();
-            this.stopOnFightEnd();
+            this.setSpellSlotDeselected();
+            //this.stopOnFightEnd();
 
-
-            this.shortcuts.bind(this.params.health_bar_shortcut, () => {
-                console.log('start damage estimator');
-                this.barContainer.toggle();
-            });
+            this.damageContainer.toggle();
         }
     }
 
@@ -39,7 +36,7 @@ export class DamageEstimator {
     private removeOnDeath(): void {
         let onDeath = (e: any) => {
             try {
-                this.barContainer.destroyBar(e.targetId);
+                this.damageContainer.destroyEstimator(e.targetId);
             } catch (ex) {
                 console.log(ex);
             }
@@ -51,11 +48,28 @@ export class DamageEstimator {
         });
     }
 
+    private setSpellSlotDeselected(): void {
+
+        let onSpellSlotDeselected = () => {
+            try {
+                console.log('onSpellSlotDeselected');
+                this.damageContainer.destroyEstimators();
+            } catch (ex) {
+                console.log(ex);
+            }
+        };
+        this.wGame.gui.on('spellSlotDeselected', onSpellSlotDeselected);
+        this.events.push(() => {
+            this.wGame.gui.removeListener('spellSlotSelected', onSpellSlotDeselected);
+        });
+    }
+
     private setSpellSelected(): void {
         let onSpellSelected = (spellId: number) => {
             try {
+                console.log('onSpellSelected');
                 let spell = this.wGame.gui.playerData.characters.mainCharacter.spellData.spells[spellId];
-                this.barContainer.display(spell);
+                this.damageContainer.display(spell);
             } catch (ex) {
                 console.log(ex);
             }
@@ -69,7 +83,7 @@ export class DamageEstimator {
     private stopOnFightEnd(): void {
         let onFightEnd = (e: any) => {
             try {
-                this.barContainer.fightEnded();
+                this.damageContainer.fightEnded();
             } catch (ex) {
                 console.log(ex);
             }
@@ -84,7 +98,7 @@ export class DamageEstimator {
 
     public reset() {
         this.shortcuts.unBindAll();
-        this.barContainer.destroy();
+        this.damageContainer.destroy();
         this.events.forEach((event) => {
             event();
         });

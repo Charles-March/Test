@@ -112,7 +112,7 @@ export class GameComponent implements OnInit, AfterViewInit {
             case 2:
                 this.autogroup = new AutoGroup(this.tab.window, this.settingsService.option.vip.autogroup);
                 this.inactivity = new Inactivity(this.tab.window, this.settingsService.option.vip.general.disable_inactivity);
-                //this.damageEstimator = new DamageEstimator(this.tab.window, this.settingsService.option.vip.general);
+                this.damageEstimator = new DamageEstimator(this.tab.window, this.settingsService.option.vip.general);
             default:
                 this.notifications = new Notifications(this.tab.window, this.tab, this.settingsService.option.notification, this.translate);
                 this.notifications.on('newNotification', () => {

@@ -4,16 +4,15 @@ export class Estimator {
     private spell: any;
     private wGame: any;
 
-    private lifeBarContainer: HTMLDivElement;
-    private lifeBar: HTMLDivElement;
-    private lifePointsEl: HTMLDivElement;
+    private estimatorContainer: HTMLDivElement;
+    private damagePoints: HTMLDivElement;
 
     constructor(fighter: any, spell: any, wGame: any | Window) {
         this.fighter = fighter;
         this.wGame = wGame;
         this.spell = spell;
 
-        this.createBar();
+        this.createEstimator();
     }
 
     public update(spell: any) {
@@ -24,17 +23,14 @@ export class Estimator {
         if (this.wGame.isoEngine.mapRenderer.isFightMode) {
 
             if (fighter.data.alive) {
-                if (!this.lifeBar || !this.lifeBarContainer || !this.lifePointsEl) {
-                    this.createBar();
+                if (!this.estimatorContainer || !this.damagePoints) {
+                    this.createEstimator();
                 }
-
-                let life = fighter.data.stats.lifePoints / fighter.data.stats.maxLifePoints;
-                this.lifeBar.style.width = Math.round(life * 100) + '%';
-                this.lifePointsEl.innerHTML = fighter.data.stats.lifePoints;
 
                 let invisible = false;
                 for (let idB in fighter.buffs) {
-                    if (fighter.buffs[idB].effect.effectId == 150) invisible = true;
+                    if (fighter.buffs[idB].effect.effectId == 150)
+                        invisible = true;
                 }
 
                 let cellId = fighter.data.disposition.cellId;
@@ -42,43 +38,52 @@ export class Estimator {
                 if (cellId && !invisible) {
                     let scenePos = this.wGame.isoEngine.mapRenderer.getCellSceneCoordinate(cellId);
                     let pos = this.wGame.isoEngine.mapScene.convertSceneToCanvasCoordinate(scenePos.x, scenePos.y);
-                    this.lifeBarContainer.style.left = (pos.x - 40) + 'px';
-                    this.lifeBarContainer.style.top = (pos.y + 10) + 'px';
-                    this.lifePointsEl.style.left = (pos.x - 40) + 'px';
-                    this.lifePointsEl.style.top = (pos.y + 9) + 'px';
+                    this.estimatorContainer.style.left = (pos.x - 40) + 'px';
+                    this.estimatorContainer.style.top = (pos.y - 80) + 'px';
+                    this.damagePoints.style.left = (pos.x - 40) + 'px';
+                    this.damagePoints.style.top = (pos.y - 81) + 'px';
                 }
             }
         }
     }
 
-    private createBar() {
+    private createEstimator() {
         /* retrieve data */
-        let life = this.fighter.data.stats.lifePoints / this.fighter.data.stats.maxLifePoints;
         let cellId = this.fighter.data.disposition.cellId;
         let scenePos = this.wGame.isoEngine.mapRenderer.getCellSceneCoordinate(cellId);
         let pos = this.wGame.isoEngine.mapScene.convertSceneToCanvasCoordinate(scenePos.x, scenePos.y);
 
         /* lifeBarContainer */
-        this.lifeBarContainer = document.createElement('div');
-        this.lifeBarContainer.id = 'fighterLifeBarContainer' + this.fighter.id;
-        this.lifeBarContainer.style.cssText = 'box-sizing: border-box; border: 1px gray solid; background-color: #222; height: 13px; width: 80px; position: absolute; border-radius: 3px; overflow: hidden; transition-duration: 500ms;';
+        if(this.wGame.document.getElementById('estimatorContainer' + this.fighter.id)){
+            this.estimatorContainer = this.wGame.document.getElementById('estimatorContainer' + this.fighter.id);
+        }else{
+            this.estimatorContainer = document.createElement('div');
+            this.estimatorContainer.id = 'estimatorContainer' + this.fighter.id;
+        }
+
+        this.estimatorContainer.style.cssText = 'box-sizing: border-box; border: 1px gray solid; background-color: #222; height: 13px; width: 80px; position: absolute; border-radius: 3px; overflow: hidden; transition-duration: 500ms;';
+        this.estimatorContainer.style.left = (pos.x - 40) + 'px';
+        this.estimatorContainer.style.top = (pos.y - 80) + 'px';
 
         /* lifePointsEl */
-        this.lifePointsEl = document.createElement('div');
-        this.lifePointsEl.id = 'fighterLifePoints' + this.fighter.id;
-        this.lifePointsEl.innerHTML = this.getEstimations(this.spell, this.fighter);
-        this.lifePointsEl.style.cssText = 'font-size:10px; position: absolute; width: 80px; text-align: center; color: white; text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.9); transition-duration: 500ms;';
-        this.lifePointsEl.style.left = (pos.x - 40) + 'px';
-        this.lifePointsEl.style.top = (pos.y + 9) + 'px';
+        if(this.wGame.document.getElementById('damagePoints' + this.fighter.id)){
+            this.damagePoints = this.wGame.document.getElementById('damagePoints' + this.fighter.id);
+        }else{
+            this.damagePoints = document.createElement('div');
+            this.damagePoints.id = 'damagePoints' + this.fighter.id;
+        }
+        this.damagePoints.innerHTML = this.getEstimations(this.spell, this.fighter);
+        this.damagePoints.style.cssText = 'font-size:10px; position: absolute; width: 80px; text-align: center; color: white; text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.9); transition-duration: 500ms;';
+        this.damagePoints.style.left = (pos.x - 40) + 'px';
+        this.damagePoints.style.top = (pos.y - 81) + 'px';
 
-        this.wGame.document.getElementById('lifeBars').appendChild(this.lifeBarContainer);
-        this.wGame.document.getElementById('lifeBars').appendChild(this.lifePointsEl);
+        this.wGame.document.getElementById('damage-estimator').appendChild(this.estimatorContainer);
+        this.wGame.document.getElementById('damage-estimator').appendChild(this.damagePoints);
     }
 
     public destroy() {
-        this.lifePointsEl.parentElement.removeChild(this.lifePointsEl);
-        this.lifeBar.parentElement.removeChild(this.lifeBar);
-        this.lifeBarContainer.parentElement.removeChild(this.lifeBarContainer);
+        this.damagePoints.parentElement.removeChild(this.damagePoints);
+        this.estimatorContainer.parentElement.removeChild(this.estimatorContainer);
     }
 
     //-------------------------------------------------------------------------------------------------
