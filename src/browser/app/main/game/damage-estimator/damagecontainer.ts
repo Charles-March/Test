@@ -18,6 +18,8 @@ export class DamageContainer {
         this.container.style.top = '0';
         this.container.style.left = '0';
         this.container.style.zIndex = '1';
+        this.container.style.width = '100%';
+        this.container.style.height = '100%';
         this.container.style.pointerEvents = 'none';
         this.container.style.visibility = 'hidden';
 

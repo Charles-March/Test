@@ -1,3 +1,9 @@
+interface IEstimation {
+    element: string;
+    max: number;
+    min: number;
+}
+
 export class Estimator {
 
     private fighter: any;
@@ -5,7 +11,6 @@ export class Estimator {
     private wGame: any;
 
     private estimatorContainer: HTMLDivElement;
-    private damagePoints: HTMLDivElement;
 
     constructor(fighter: any, spell: any, wGame: any | Window) {
         this.fighter = fighter;
@@ -23,7 +28,7 @@ export class Estimator {
         if (this.wGame.isoEngine.mapRenderer.isFightMode) {
 
             if (fighter.data.alive) {
-                if (!this.estimatorContainer || !this.damagePoints) {
+                if (!this.estimatorContainer ) {
                     this.createEstimator();
                 }
 
@@ -40,8 +45,6 @@ export class Estimator {
                     let pos = this.wGame.isoEngine.mapScene.convertSceneToCanvasCoordinate(scenePos.x, scenePos.y);
                     this.estimatorContainer.style.left = (pos.x - 40) + 'px';
                     this.estimatorContainer.style.top = (pos.y - 80) + 'px';
-                    this.damagePoints.style.left = (pos.x - 40) + 'px';
-                    this.damagePoints.style.top = (pos.y - 81) + 'px';
                 }
             }
         }
@@ -53,7 +56,7 @@ export class Estimator {
         let scenePos = this.wGame.isoEngine.mapRenderer.getCellSceneCoordinate(cellId);
         let pos = this.wGame.isoEngine.mapScene.convertSceneToCanvasCoordinate(scenePos.x, scenePos.y);
 
-        /* lifeBarContainer */
+        /* estimatorContainer */
         if(this.wGame.document.getElementById('estimatorContainer' + this.fighter.id)){
             this.estimatorContainer = this.wGame.document.getElementById('estimatorContainer' + this.fighter.id);
         }else{
@@ -61,36 +64,50 @@ export class Estimator {
             this.estimatorContainer.id = 'estimatorContainer' + this.fighter.id;
         }
 
-        this.estimatorContainer.style.cssText = 'box-sizing: border-box; border: 1px gray solid; background-color: #222; height: 13px; width: 80px; position: absolute; border-radius: 3px; overflow: hidden; transition-duration: 500ms;';
+        this.estimatorContainer.style.cssText = 'padding:3px; box-sizing: border-box; border: 1px gray solid; background-color: #222;color: white; position: absolute; border-radius: 3px; overflow: hidden; transition-duration: 500ms;';
         this.estimatorContainer.style.left = (pos.x - 40) + 'px';
         this.estimatorContainer.style.top = (pos.y - 80) + 'px';
+        this.estimatorContainer.innerHTML = '';
 
-        /* lifePointsEl */
-        if(this.wGame.document.getElementById('damagePoints' + this.fighter.id)){
-            this.damagePoints = this.wGame.document.getElementById('damagePoints' + this.fighter.id);
-        }else{
-            this.damagePoints = document.createElement('div');
-            this.damagePoints.id = 'damagePoints' + this.fighter.id;
-        }
-        this.damagePoints.innerHTML = this.getEstimations(this.spell, this.fighter);
-        this.damagePoints.style.cssText = 'font-size:10px; position: absolute; width: 80px; text-align: center; color: white; text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.9); transition-duration: 500ms;';
-        this.damagePoints.style.left = (pos.x - 40) + 'px';
-        this.damagePoints.style.top = (pos.y - 81) + 'px';
+        let estimations = this.getEstimations(this.spell, this.fighter);
+
+        estimations.forEach((estimation)=>{
+            let displayDammage = document.createElement('div');
+            displayDammage.innerHTML = `(${estimation.min} - ${estimation.max})`;
+
+
+            switch(estimation.element){
+                case 'water':
+                    displayDammage.style.color = '#668cff';
+                    break;
+                case 'fire':
+                    displayDammage.style.color = '#ff5c33';
+                    break;
+                case 'air':
+                    displayDammage.style.color = '#00e68a';
+                    break;
+                case 'earth':
+                    displayDammage.style.color = '#cc8800';
+                    break;
+            }
+
+            console.log(estimation.element);
+            this.estimatorContainer.appendChild(displayDammage);
+        });
 
         this.wGame.document.getElementById('damage-estimator').appendChild(this.estimatorContainer);
-        this.wGame.document.getElementById('damage-estimator').appendChild(this.damagePoints);
     }
 
     public destroy() {
-        this.damagePoints.parentElement.removeChild(this.damagePoints);
         this.estimatorContainer.parentElement.removeChild(this.estimatorContainer);
     }
 
     //-------------------------------------------------------------------------------------------------
 
     //obtient les estimations de dégats
-    private getEstimations(spell: any, fighter: any): string {
-        let display: string = "";
+    private getEstimations(spell: any, fighter: any): IEstimation[] {
+        let estimations : IEstimation[] = [];
+
         //pour chaque effet du sort
         for (var effectId in spell.spellLevel.effects) {
             let effect = spell.spellLevel.effects[effectId];
@@ -101,7 +118,11 @@ export class Estimator {
                 if (element != "undefined") {
                     let min = this.getMinDamageDealed(element, fighter, effect);
                     let max = this.getMaxDamageDealed(element, fighter, effect);
-                    display += "(" + min + " - " + max + ")";
+                    estimations.push({
+                        element: element,
+                        min: min,
+                        max: max,
+                    });
                 }
             }
             else {
@@ -111,7 +132,8 @@ export class Estimator {
                 console.log(spell);
             }
         }
-        return display;
+
+        return estimations;
     }
 
     /**
