@@ -120,8 +120,8 @@ export class Estimator {
                     let max = this.getMaxDamageDealed(element, fighter, effect);
                     estimations.push({
                         element: element,
-                        min: min,
-                        max: max,
+                        min: Math.max(0, min),
+                        max: Math.max(0, max),
                     });
                 }
             }
