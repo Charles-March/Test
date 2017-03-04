@@ -13,6 +13,7 @@
 // changer de map et le suivre
 
 import {Option} from "../../../../shared/settings/settings.service";
+import {EventEmitter} from 'eventemitter3';
 type Direction = "top" | "bottom" | "left" | "right" | false;
 
 export class AutoGroup {
@@ -20,6 +21,8 @@ export class AutoGroup {
     private wGame: any | Window;
     private params: Option.VIP.AutoGroup;
     private events: any[];
+    private lastLeaderCell: number = null;
+    private lock: boolean = false;
     private static counter: number = 1;
 
 
@@ -203,13 +206,30 @@ export class AutoGroup {
     }
 
     private followFunc(msg: any): void {
+        //window.isoEngine.mapRenderer.getChangeMapFlags(426)
+        // a utiliser pour check les bordures
         if (Object.keys(this.wGame.gui.playerData.partyData._partyFromId).length !== 0) {
             let party = this.wGame.gui.playerData.partyData._partyFromId[Object.keys(this.wGame.gui.playerData.partyData._partyFromId)[0]];
             if (party._leaderId === msg.actorId && party._leaderId !== this.wGame.gui.playerData.id) {
 
+                let event = new EventEmitter();
+
+                let onGameContextRemoveElementMessage = (msg: any) => {
+                    if (!this.lock && msg.id === party._leaderId) {
+                        event.once('finish', (cellId) => {
+                            this.wGame.isoEngine._movePlayerOnMap(cellId, false, null);
+                        });
+                        console.log(msg);
+                    }
+                };
+
+                this.wGame.dofus.connectionManager.once('GameContextRemoveElementMessage', onGameContextRemoveElementMessage);
+
+                // récupération de la denrière cellule
                 let lastCellId = msg.keyMovements[msg.keyMovements.length - 1];
                 let direction = this.isBorder(lastCellId);
 
+                // calcul du délai aléatoire
                 let delay = 0;
                 let max = 15;
                 let min = -15;
@@ -220,22 +240,71 @@ export class AutoGroup {
 
 
                 setTimeout(() => {
-                    if (direction) {
-                        this.wGame.isoEngine.gotoNeighbourMap(direction, lastCellId, 144, 4);
-                    } else {
-                        if (this.params.random_move) {
+                    // Si le mouvement n'est pas lock on bouge
+                    if (!this.lock) {
+                        let cellDirection = lastCellId;
+                        if (direction) {
+                            this.wGame.isoEngine.gotoNeighbourMap(direction, lastCellId, 144, 4);
+                            this.wGame.dofus.connectionManager.removeListener('GameContextRemoveElementMessage', onGameContextRemoveElementMessage);
+                        } else {
+                            if (this.params.random_move) {
 
-                            let steps = [-15, -1, 13, 28, 14, 1, -14, -28];
+                                let steps = [-15, -1, 13, 28, 14, 1, -14, -28];
 
-                            let step = steps[this.getRandomInt(0, 7)];
+                                let step = steps[this.getRandomInt(0, 7)];
 
-                            lastCellId = lastCellId + step;
+                                cellDirection = lastCellId + step;
+                            }
+
+                            this.wGame.isoEngine._movePlayerOnMap(cellDirection, false, () => {
+                                event.emit('finish', lastCellId);
+                                setTimeout(() => {
+                                    this.wGame.dofus.connectionManager.removeListener('GameContextRemoveElementMessage', onGameContextRemoveElementMessage);
+                                }, 500);
+                            });
                         }
-
-                        this.wGame.isoEngine._movePlayerOnMap(lastCellId, false, null);
                     }
+
                 }, delay);
             } else if (party._leaderId === msg.actorId && party._leaderId === this.wGame.gui.playerData.id) {
+                AutoGroup.counter = 1;
+            }
+        }
+    }
+
+    private followInteractivFunc(msg: any): void {
+        if (Object.keys(this.wGame.gui.playerData.partyData._partyFromId).length !== 0) {
+            let party = this.wGame.gui.playerData.partyData._partyFromId[Object.keys(this.wGame.gui.playerData.partyData._partyFromId)[0]];
+            if (party._leaderId === msg.entityId && party._leaderId !== this.wGame.gui.playerData.id) {
+
+                // On lock le movement pour eviter que followFunc prenne le dessus
+                this.lock = true;
+
+                let delay = 0;
+                let max = 15;
+                let min = -15;
+                if (this.params.delay > 0) {
+                    delay = (this.params.delay + this.params.delay * (Math.floor(Math.random() * (max - min + 1)) + min) * 0.01) * 1000;
+                    delay = delay * AutoGroup.counter++;
+                }
+
+                let interactive = this.wGame.isoEngine.mapRenderer.interactiveElements[msg.elemId];
+                let skillId = msg.skillId;
+                let skillInstanceUid: any = null;
+
+                for (let id in interactive.enabledSkills) {
+                    if (interactive.enabledSkills[id].skillId == skillId) {
+                        skillInstanceUid = interactive.enabledSkills[id].skillInstanceUid;
+                        break;
+                    }
+                }
+
+                setTimeout(() => {
+                    this.wGame.isoEngine.useInteractive(msg.elemId, skillInstanceUid);
+                    this.lock = false;
+                }, delay);
+
+            } else {
                 AutoGroup.counter = 1;
             }
         }
@@ -251,14 +320,24 @@ export class AutoGroup {
                     this.followFunc(msg);
                 };
 
+                let onInteractiveUsedMessage = (msg: any) => {
+                    this.followInteractivFunc(msg);
+                    //window.isoEngine.useInteractive(elemId, skillInstanceUid);
+                };
+
+
                 setTimeout(() => {
                     this.wGame.dofus.connectionManager.on('GameMapMovementMessage', onGameMapMovementMessage);
+                    this.wGame.dofus.connectionManager.on('InteractiveUsedMessage', onInteractiveUsedMessage);
+
                     this.events.push(() => {
                         this.wGame.dofus.connectionManager.removeListener('GameMapMovementMessage', onGameMapMovementMessage);
+                        this.wGame.dofus.connectionManager.removeListener('InteractiveUsedMessage', onInteractiveUsedMessage);
                     });
 
                     this.wGame.gui.on("disconnect", () => {
                         this.wGame.dofus.connectionManager.removeListener('GameMapMovementMessage', onGameMapMovementMessage);
+                        this.wGame.dofus.connectionManager.removeListener('InteractiveUsedMessage', onInteractiveUsedMessage);
                     });
 
                 }, 2000);
