@@ -213,18 +213,18 @@ export class Estimator {
 
     private effectIdToElement(effectId: number) {
         switch (effectId) {
-            case 99:
-                //dommages feu
-                return 'fire';
-            case 96:
-                //dommages eau
+            case 96://dommages eau
+            case 91://vol de vie eau
                 return 'water';
-            case 97:
-                //dommages terre
+            case 97://dommages terre
+            case 92://vol de vie terre
                 return 'earth';
-            case 98:
-                //dommages air
+            case 98://dommages air
+            case 93://vol de vie air
                 return 'air';
+            case 99://dommages feu
+            case 94://vol de vie feu
+                return 'fire';
             case 116: //perte PO
             default:
                 console.log("effectId inconnu:" + effectId);
