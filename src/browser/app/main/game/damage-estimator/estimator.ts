@@ -272,24 +272,33 @@ export class Estimator {
     }
 
 // ---- éléments ----
+
+    private getFullCharaBonusElement(characteristic:any){
+        //si element < 0 alors = 0
+        let total = this.getFullCharaBonus(characteristic);
+        if (total < 0)
+            total = 0;
+        return total;
+    }
+
     private getAgility() {
         let a = this.wGame.gui.playerData.characters.mainCharacter.characteristics.agility;
-        return this.getFullCharaBonus(a);
+        return this.getFullCharaBonusElement(a);
     }
 
     private getChance() {
         let a = this.wGame.gui.playerData.characters.mainCharacter.characteristics.chance;
-        return this.getFullCharaBonus(a);
+        return this.getFullCharaBonusElement(a);
     }
 
     private getIntelligence() {
         let a = this.wGame.gui.playerData.characters.mainCharacter.characteristics.intelligence;
-        return this.getFullCharaBonus(a);
+        return this.getFullCharaBonusElement(a);
     }
 
     private getStrength() {
         let a = this.wGame.gui.playerData.characters.mainCharacter.characteristics.strength;
-        return this.getFullCharaBonus(a);
+        return this.getFullCharaBonusElement(a);
     }
 
 // ---- dommages élémentaires ---
