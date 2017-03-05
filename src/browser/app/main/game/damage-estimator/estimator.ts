@@ -2,6 +2,7 @@ interface IEstimation {
     element: string;
     max: number;
     min: number;
+    isHeal: boolean;
 }
 
 export class Estimator {
@@ -89,6 +90,9 @@ export class Estimator {
                 case 'earth':
                     displayDammage.style.color = '#cc8800';
                     break;
+                case 'heal':
+                    displayDammage.style.color = '#cc0080';
+                    break;
             }
 
             console.log(estimation.element);
@@ -122,6 +126,7 @@ export class Estimator {
                         element: element,
                         min: Math.max(0, min),
                         max: Math.max(0, max),
+                        isHeal: false,
                     });
                 }
             }
@@ -201,13 +206,12 @@ export class Estimator {
      * effect: un des effets d'un sort
      */
     private getMinBrutDamages(element: string, effect: any) {
-        //diceNume le je minimum d'un sort
-        console.log("Math.trunc(" + this.getFactor(element) + "* " + effect.diceNum + " + " + this.getFixDamages(element) + ")");
+        //diceNume le jet minimum d'un sort
         return Math.trunc(this.getFactor(element) * effect.diceNum + this.getFixDamages(element));
     }
 
     private getMaxBrutDamages(element: string, effect: any) {
-        //diceMax le jet maximum d'un sort
+        //diceSide le jet maximum d'un sort
         return Math.trunc(this.getFactor(element) * effect.diceSide + this.getFixDamages(element));
     }
 
@@ -225,6 +229,8 @@ export class Estimator {
             case 99://dommages feu
             case 94://vol de vie feu
                 return 'fire';
+            case 108://soins
+                return 'heal';
             case 116: //perte PO
             default:
                 console.log("effectId inconnu:" + effectId);
@@ -233,7 +239,10 @@ export class Estimator {
     }
 
     private getMaxDamageDealed(element: string, fighter: any, effect: any) {
-        return Math.trunc((this.getMaxBrutDamages(element, effect) - this.getResFix(element, fighter)) * (100 - this.getPercentRes(element, fighter)) / 100);
+        if (element != "heal")
+            return Math.trunc((this.getMaxBrutDamages(element, effect) - this.getResFix(element, fighter)) * (100 - this.getPercentRes(element, fighter)) / 100);
+        else
+            return this.getMaxHeal(element, fighter, effect);
     }
 
     /**
@@ -241,9 +250,25 @@ export class Estimator {
      * Dégâts subis = Partie entière([Dégâts bruts - ​Bonus fixes] * [100 - Résistance en %]/ 100)
      */
     private getMinDamageDealed(element: string, fighter: any, effect: any) {
-        console.log("cacul " + element + ": Math.trunc((" + this.getMinBrutDamages(element, effect) + " - " + this.getResFix(element, fighter) + ") * (100 - " + this.getPercentRes(element, fighter) + ")/100)");
+        if (element != "heal")
+            return Math.trunc((this.getMinBrutDamages(element, effect) - this.getResFix(element, fighter)) * (100 - this.getPercentRes(element, fighter)) / 100);
+        else
+            return this.getMinHeal(element, fighter, effect);
+    }
 
-        return Math.trunc((this.getMinBrutDamages(element, effect) - this.getResFix(element, fighter)) * (100 - this.getPercentRes(element, fighter)) / 100);
+    /**
+     * Soins = Base * (100 + Intelligence ) / 100 + Soins
+     */
+    private getMaxHeal(element: string, fighter: any, effect: any){
+        return Math.trunc(effect.diceSide * (100 + this.getIntelligence()) / 100 + this.getHealingBonus());
+    }
+    private getMinHeal(element: string, fighter: any, effect: any){
+        return Math.trunc(effect.diceNum * (100 + this.getIntelligence()) / 100 + this.getHealingBonus());
+    }
+
+    private getHealingBonus(){
+        let h = this.wGame.gui.playerData.characters.mainCharacter.characteristics.healBonus;
+        return this.getFullCharaBonus(h);
     }
 
 //retourne le montant total de la carac (bonus inclus)
@@ -267,8 +292,9 @@ export class Estimator {
 //puissance
     private getPower() {
         let d = this.wGame.gui.playerData.characters.mainCharacter.characteristics.damagesBonusPercent;
-        let p = this.wGame.gui.playerData.characters.mainCharacter.characteristics.permanentDamagePercent;
-        return this.getFullCharaBonus(d) + this.getFullCharaBonus(p);
+        //dafuq is that: permanentDamagePercent
+        //let p = this.wGame.gui.playerData.characters.mainCharacter.characteristics.permanentDamagePercent;
+        return this.getFullCharaBonus(d);// + this.getFullCharaBonus(p);
     }
 
 // ---- éléments ----
