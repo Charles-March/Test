@@ -22,19 +22,20 @@
         </div>
     </div>
     <hr>
-    <p>Seul les tipeurs (donateurs) ont le droit d'acceder aux fonctionnalités VIP, pour faire un don rendez vous sur notre <a href="#" (click)="goTipeee($event)">Tipeee</a>.</p>
+    <p>{{'app.option.vip.main.explanation' | translate }} <a href="#" (click)="goTipeee($event)">Tipeee</a>.</p>
 
-    <strong>Liste des fonctionnalités :</strong>
+    <strong>{{'app.option.vip.main.features.title' | translate }}</strong>
     <ul>
-        <li>Auto-Group (Wabbit ou +)</li>
+        <li>{{'app.option.vip.main.features.auto-group.title' | translate }}</li>
         <ul>
-            <li>Suivre le meneur automatiquement</li>
-            <li>Création de groupe automatiquement</li>
-            <li>Rejoindre un combat de groupe automatiquement</li>
-            <li>Passer "prêt" en combat automatiquement</li>
+            <li>{{'app.option.vip.main.features.auto-group.feature-1' | translate }}</li>
+            <li>{{'app.option.vip.main.features.auto-group.feature-2' | translate }}</li>
+            <li>{{'app.option.vip.main.features.auto-group.feature-3' | translate }}t</li>
+            <li>{{'app.option.vip.main.features.auto-group.feature-4' | translate }}</li>
         </ul>
-        <li>Prolongation du délai d'inactivité (Wabbit ou +)</li>
-        <li>Affichage des barres de vies en dessous des combattants (Grand Pa Wabbit ou +)</li>
+        <li>{{'app.option.vip.main.features.inactivity.title' | translate }}</li>
+        <li>{{'app.option.vip.main.features.health-bar.title' | translate }}</li>
+        <li>{{'app.option.vip.main.features.estimator.title' | translate }}</li>
     </ul>
 
     <div hidden="true">
