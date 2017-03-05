@@ -1,18 +1,11 @@
-.ma-body {
-    margin-bottom: 30px;
-}
-
 .ma-account-name {
     margin-left: 60px;
 }
 
-.ma-right {
-    float: right;
+a:hover{
+    cursor: pointer;
 }
 
-.ma-window-number {
-    margin-left: 30px
-}
 
 .ma-add-ctn {
     height: 35px;
@@ -45,10 +38,8 @@
 
 .ma-account-form {
     margin-top: 10px;
-}
-
-.ma-add-window {
-    height: 35px;
+    background-color: #f3f3f3;
+    padding: 5px;
 }
 
 .ma-wrong {

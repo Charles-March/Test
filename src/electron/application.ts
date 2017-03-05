@@ -134,6 +134,7 @@ export class Application {
         });
 
         ipcMain.on('master-password-canceled', () => {
+            settings.setSync("option.vip.multi_account.active", false);
             Application.runFromSplashScreen();
             promptWindow.close();
         });
