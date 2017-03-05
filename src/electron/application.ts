@@ -12,6 +12,9 @@ import {GameWindow} from './game-window';
 import {UpdateWindow} from './update-window';
 import {ISettings} from "./settings";
 
+import {PromptPassword} from './prompt-password/prompt-password';
+import {Crypt} from "../shared/crypt";
+
 export class Application {
 
     public static website: string = "http://api.no-emu.com";
@@ -155,13 +158,45 @@ export class Application {
                     appVersion: settings.getSync('appVersion'),
                     platform: process.platform,
                     language: settings.getSync('language'),
-                    vip: false
+                    vip: false,
+                    masterpassword: undefined
                 }
             });
 
             this.addWindow();
             return;
         }
+
+        // If the multi account option is active : Request the master password
+        if (settings.getSync("option.vip.multi_account.active"))
+            Application.requestMasterPassword();
+        
+        // Else : run the app from splash screen
+        else
+            Application.runFromSplashScreen();
+
+    }
+
+    public static requestMasterPassword() {
+
+        let promptWindow: Electron.BrowserWindow = PromptPassword.run();
+
+        // Upon master password validated
+        // Run the application from splash ccreen
+        ipcMain.on('master-password', (event, masterpassword) => {
+            if (settings.getSync("option.vip.multi_account.master_password") != Crypt.createHash(masterpassword))
+                PromptPassword.displayWrongPassword(promptWindow);
+            else {
+                Application.runFromSplashScreen(masterpassword);
+                promptWindow.close();
+            }
+        });
+
+
+
+    }
+
+    public static runFromSplashScreen(masterpassword: string = undefined) {
 
         // create splash screen
         let splash = new electron.BrowserWindow({
@@ -191,8 +226,12 @@ export class Application {
             // run update
             UpdateWindow.run().then(() => {
 
-                // start windows
-                this.addWindow();
+                // If the multi account is active, open multi windows
+                if (settings.getSync("option.vip.multi_account.active"))
+                    this.addMultiWindows();
+                
+                else
+                    this.addWindow();
 
                 /*updater.init({
                     checkUpdateOnStart: true,
@@ -276,7 +315,6 @@ export class Application {
             });
 
             ipcMain.on('load-config', (event, arg) => {
-
                 event.returnValue = {
                     gamePath: app.getPath('userData') + '/game',
                     appPath: Application.appPath,
@@ -286,6 +324,7 @@ export class Application {
                     language: settings.getSync('language'),
                     vipStatus: vip.status,
                     vipDate: vip.date,
+                    masterpassword: masterpassword,
 
                     website: this.website
                 }
@@ -343,5 +382,24 @@ export class Application {
 
         // add the game window
         this.gameWindows.push(gWindow);
+    }
+
+    public static addMultiWindows(): void {
+
+        // Retrieve windows from settings
+        let windows = settings.getSync("option.vip.multi_account.windows");
+
+        let windowsCount = 0;
+        // Event fired when a main.component is initiated
+        ipcMain.on('window-ready', (event, arg) => {
+            windowsCount += 1; // Increment windows at each event
+            if (windowsCount == windows.length) // When all windows have responded
+                for (let i in windows)
+                    this.gameWindows[i].win.webContents.send('accounts', windows[i]);
+        });
+
+        for (let i in windows) {
+            this.addWindow();
+        }
     }
 }

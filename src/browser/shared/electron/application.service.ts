@@ -11,6 +11,7 @@ export class ApplicationService {
     public appPath: string;
     public vipStatus: number;
     public vipDate: Date;
+    public masterpassword: string;
 
     constructor(private ipcRendererService: IpcRendererService) {
     }
@@ -24,6 +25,7 @@ export class ApplicationService {
         this.vipStatus = config.vipStatus;
         this.vipDate = new Date(config.vipDate*1000);
         this.website = config.website;
+        this.masterpassword = config.masterpassword;
     }
 
     public vipText (): string {

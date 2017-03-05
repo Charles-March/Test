@@ -76,6 +76,13 @@ export class GameComponent implements OnInit, AfterViewInit {
 
             this.setMods();
 
+            // If the tab has credentials, connect the account
+            // Then delete credentials
+            if (this.tab.credentials) {
+                this.connectAccount();
+                delete(this.tab.credentials);
+            }
+
             this.ipcRendererService.on('reload-settings-done', () => {
                 this.reloadMods();
             });
@@ -184,5 +191,12 @@ export class GameComponent implements OnInit, AfterViewInit {
             this.backupMaxZoom,
             this.backupMaxZoom + (this.tab.window.isoEngine.mapScene.canvas.height / 800 - 1)
         );
+    }
+
+    // Connect the account to the last character connected
+    private connectAccount() {
+        this.tab.window.gui.loginScreen._connectMethod = "lastCharacter";
+        let credentials = this.tab.credentials;
+        this.tab.window.gui.loginScreen._login(credentials.account_name, credentials.password, false);
     }
 }
