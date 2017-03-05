@@ -120,8 +120,8 @@ export class Estimator {
                     let max = this.getMaxDamageDealed(element, fighter, effect);
                     estimations.push({
                         element: element,
-                        min: min,
-                        max: max,
+                        min: Math.max(0, min),
+                        max: Math.max(0, max),
                     });
                 }
             }
@@ -213,18 +213,18 @@ export class Estimator {
 
     private effectIdToElement(effectId: number) {
         switch (effectId) {
-            case 99:
-                //dommages feu
-                return 'fire';
-            case 96:
-                //dommages eau
+            case 96://dommages eau
+            case 91://vol de vie eau
                 return 'water';
-            case 97:
-                //dommages terre
+            case 97://dommages terre
+            case 92://vol de vie terre
                 return 'earth';
-            case 98:
-                //dommages air
+            case 98://dommages air
+            case 93://vol de vie air
                 return 'air';
+            case 99://dommages feu
+            case 94://vol de vie feu
+                return 'fire';
             case 116: //perte PO
             default:
                 console.log("effectId inconnu:" + effectId);
@@ -272,24 +272,33 @@ export class Estimator {
     }
 
 // ---- éléments ----
+
+    private getFullCharaBonusElement(characteristic:any){
+        //si element < 0 alors = 0
+        let total = this.getFullCharaBonus(characteristic);
+        if (total < 0)
+            total = 0;
+        return total;
+    }
+
     private getAgility() {
         let a = this.wGame.gui.playerData.characters.mainCharacter.characteristics.agility;
-        return this.getFullCharaBonus(a);
+        return this.getFullCharaBonusElement(a);
     }
 
     private getChance() {
         let a = this.wGame.gui.playerData.characters.mainCharacter.characteristics.chance;
-        return this.getFullCharaBonus(a);
+        return this.getFullCharaBonusElement(a);
     }
 
     private getIntelligence() {
         let a = this.wGame.gui.playerData.characters.mainCharacter.characteristics.intelligence;
-        return this.getFullCharaBonus(a);
+        return this.getFullCharaBonusElement(a);
     }
 
     private getStrength() {
         let a = this.wGame.gui.playerData.characters.mainCharacter.characteristics.strength;
-        return this.getFullCharaBonus(a);
+        return this.getFullCharaBonusElement(a);
     }
 
 // ---- dommages élémentaires ---
