@@ -1,4 +1,4 @@
-import {ISettings} from './../shared/settings';
+import {ISettings} from './settings';
 
 export const DefaultSettings: ISettings = {
     language: null,
@@ -139,7 +139,8 @@ export const DefaultSettings: ISettings = {
             general: {
                 disable_inactivity: false,
                 health_bar: true,
-                health_bar_shortcut: 'p'
+                health_bar_shortcut: 'p',
+                estimator: true
             },
             auto_group: {
                 active: false,

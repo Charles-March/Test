@@ -1,15 +1,3 @@
-export interface IGeneral {
-    hidden_shop: boolean;
-    hidden_tabs: boolean;
-    stay_connected: boolean;
-    resolution: {
-        x: number;
-        y: number;
-    }
-}
-
-
-
 export interface ISettings {
     language: string;
     buildVersion: string;
@@ -18,7 +6,15 @@ export interface ISettings {
     vip_id: string;
     last_news: number;
     option: {
-        general: IGeneral;
+        general: {
+            hidden_shop: boolean;
+            hidden_tabs: boolean;
+            stay_connected: boolean;
+            resolution: {
+                x: number;
+                y: number;
+            }
+        }
         shortcuts: {
             no_emu: {
                 new_tab: string;
@@ -69,6 +65,7 @@ export interface ISettings {
                 disable_inactivity: boolean;
                 health_bar: boolean;
                 health_bar_shortcut: string;
+                estimator: boolean;
             },
             auto_group : {
                 active: boolean;

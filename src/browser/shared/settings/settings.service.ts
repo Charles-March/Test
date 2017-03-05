@@ -554,6 +554,16 @@ export module Option {
             private _disable_inactivity: boolean;
             private _health_bar: boolean;
             private _health_bar_shortcut: string;
+            private _estimator: boolean;
+
+            get estimator(): boolean{
+                return this._estimator;
+            }
+
+            set estimator(estimator: boolean){
+                settings.setSync('option.vip.general.estimator', estimator);
+                this._estimator = estimator;
+            }
 
             get disable_inactivity(): boolean{
                 return this._disable_inactivity;
@@ -586,6 +596,7 @@ export module Option {
                 this.disable_inactivity = settings.getSync('option.vip.general.disable_inactivity');
                 this.health_bar = settings.getSync('option.vip.general.health_bar');
                 this.health_bar_shortcut = settings.getSync('option.vip.general.health_bar_shortcut');
+                this.estimator = settings.getSync('option.vip.general.estimator');
             }
         }
 

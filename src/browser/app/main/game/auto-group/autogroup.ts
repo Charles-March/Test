@@ -21,7 +21,6 @@ export class AutoGroup {
     private wGame: any | Window;
     private params: Option.VIP.AutoGroup;
     private events: any[];
-    private lastLeaderCell: number = null;
     private lock: boolean = false;
     private static counter: number = 1;
 
@@ -136,7 +135,7 @@ export class AutoGroup {
     }
 
     public getPartyMembers(): Array<string> {
-        let party = new Array();
+        let party = [];
         //si dans un groupe
         if (Object.keys(this.wGame.gui.playerData.partyData._partyFromId).length !== 0) {
             //recup des membres du grp

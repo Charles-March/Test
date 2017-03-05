@@ -1,4 +1,4 @@
-import {ISettings} from "../../shared/settings";
+import {ISettings} from "../settings";
 import {DefaultSettings} from '../default.settings';
 const settings = require('electron-settings');
 

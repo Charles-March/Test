@@ -8,7 +8,6 @@ export class DamageEstimator {
     private params: Option.VIP.General
     private shortcuts: ShortCuts;
     private damageContainer: DamageContainer;
-    private fightJustStarted: boolean = false;
     private events: any[];
 
     constructor(wGame: any, params: Option.VIP.General) {
@@ -16,7 +15,7 @@ export class DamageEstimator {
         this.params = params;
         this.events = [];
 
-        if (this.params.health_bar) {
+        if (this.params.estimator) {
 
             console.log('start damageEstimator');
 

@@ -10,7 +10,7 @@ import {checkSettings} from './test/check-settings';
 import {DefaultSettings} from './default.settings';
 import {GameWindow} from './game-window';
 import {UpdateWindow} from './update-window';
-import {ISettings} from "../shared/settings";
+import {ISettings} from "./settings";
 
 export class Application {
 
