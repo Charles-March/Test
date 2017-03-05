@@ -19,34 +19,55 @@
         "title": "VIP",
         "main": {
           "alert": {
-            "text-1": "Tu bénéficies actuellement de la contre-partie <strong>{{status}}</strong>, jusqu'au {{date}}",
-            "text-2": "Si tu as des questions n'hésites pas à te rendre sur notre "
+            "text-1": "You currently benefit from the <strong>{{status}}</strong> counterpart, until {{date}}",
+            "text-2": "If you have any questions do not hesitate to go on our "
+          },
+          "explanation" : "Only Tipeur (donors) have the right to access to the VIP features, to make a donation go on our ",
+          "features" : {
+            "title": "List of features :",
+            "auto-group":{
+              "title":"Auto-Group (Wabbit or +)",
+              "feature-1" : "Follow the leader automatically",
+              "feature-2" : "Group creation automatically",
+              "feature-3" : "Join a group fight automatically",
+              "feature-4" : "Skip \"ready \" in battle automatically"
+            },
+            "inactivity":{
+              "title" : "Extension of idle time before disconnection (Wabbit or +)"
+            },
+            "estimator":{
+              "title" : "Estimator of spell damage in battle (Wabbit or +)"
+            },
+            "health-bar" : {
+              "title": "Displaying the life bars below the fighters (Grand Pa Wabbit or +)"
+            }
           }
         },
         "authentication": {
-          "explanation": "Pour bénéficier des options VIP vous devez rentrer votre code dans le champ ci-dessous :",
-          "code": "Rentrez votre code :",
-          "save": "Enregistrer"
+          "explanation": "To benefit from the VIP options you must enter your code in the field below :",
+          "code": "Enter yout code :",
+          "save": "Save"
         },
         "general": {
-          "header": "Général",
-          "disable-inactivity": "Prolongé le délai avant la deconnexion pour inactivité",
-          "health-bar": "Activer l'affichage des barres de vie en-dessous des combatants",
-          "health-bar-shortcut": "Raccourcis afficher/masquer barres de vie"
+          "header": "General",
+          "disable-inactivity": "Extended deadline for disconnection for inactivity",
+          "health-bar": "Activate the display of the life bars below the fighters",
+          "health-bar-shortcut": "Shortcuts show/hide life bars",
+          "estimator": "Enable Estimating Spell Damage in battle"
         },
         "auto-group": {
           "header": "Auto Group",
-          "explanation-1": "Les personnages du groupe doivent être amis avec le meneur pour que l'invitation soit automatique",
-          "explanation-2": "Les membres du groupe suivent le meneur que si ce dernier est sur la même carte",
-          "explanation-3": "Les membres du groupe ne peuvent pas suivre le meneur automatiquement dans une entré de donjon/maison/etc",
-          "active": "Activer l'Auto Group",
-          "leader": "Nom du meneur",
-          "members": "Noms des personnages du groupe (séparé par un point-virgule)",
-          "follow-leader": "Suivre le meneur (les membres suivent le meneur)",
-          "ready": "Les membres passent en ready automatiquement",
-          "fight": "Entrer en combat automatiquement",
-          "delay": "Délai avant de suivre (en seconde)",
-          "random-move": "Déplacement sur des cases adjacentes (lors du suivi du meneur)"
+          "warning": "/!\\ Care, the auto-group can be considered as a bot by other players, use it in moderation and in unpopulated areas",
+          "explanation-1": "The characters in the group must be friends with the leader so that the invitation is automatic",
+          "explanation-2": "The members of the group follow the leader only if the latter is on the same map",
+          "active": "Enable Auto Group",
+          "leader": "Name of the leader",
+          "members": "Names of characters (exactname) in the group (separated by a semicolon)",
+          "follow-leader": "Follow the leader (the members follow the leader)",
+          "ready": "Members skip ready automatically",
+          "fight": "Enter battle automatically",
+          "delay": "Time to follow (in seconds)",
+          "random-move": "Move on adjacent squares (when following the leader)"
         }
       },
       "general": {

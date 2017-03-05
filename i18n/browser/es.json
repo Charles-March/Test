@@ -21,6 +21,26 @@
           "alert": {
             "text-1": "Tu bénéficies actuellement de la contre-partie <strong>{{status}}</strong>, jusqu'au {{date}}",
             "text-2": "Si tu as des questions n'hésites pas à te rendre sur notre "
+          },
+          "explanation" : "Seul les tipeurs (donateurs) ont le droit d'acceder aux fonctionnalités VIP, pour faire un don rendez vous sur notre",
+          "features" : {
+            "title": "Liste des fonctionnalités :",
+            "auto-group":{
+              "title":"Auto-Group (Wabbit ou +)",
+              "feature-1" : "Suivre le meneur automatiquement",
+              "feature-2" : "Création de groupe automatiquement",
+              "feature-3" : "Rejoindre un combat de groupe automatiquement",
+              "feature-4" : "Passer \"prêt\" en combat automatiquement"
+            },
+            "inactivity":{
+              "title" : "Prolongation du délai d'inactivité (Wabbit ou +)"
+            },
+            "estimator":{
+              "title" : "Estimateur des dégats des sorts en combat (Wabbit ou +)"
+            },
+            "health-bar" : {
+              "title": "Affichage des barres de vies en dessous des combattants (Grand Pa Wabbit ou +)"
+            }
           }
         },
         "authentication": {
@@ -32,13 +52,14 @@
           "header": "Général",
           "disable-inactivity": "Prolongé le délai avant la deconnexion pour inactivité",
           "health-bar": "Activer l'affichage des barres de vie en-dessous des combatants",
-          "health-bar-shortcut": "Raccourcis afficher/masquer barres de vie"
+          "health-bar-shortcut": "Raccourcis afficher/masquer barres de vie",
+          "estimator": "Activer l'estimation des dégats des sorts en combat"
         },
         "auto-group": {
           "header": "Auto Group",
+          "warning": "/!\\ Attention l'auto-group peut être considéré comme un bot pour les autres joueurs, utilisez le avec modération et dans des zones non peuplés",
           "explanation-1": "Les personnages du groupe doivent être amis avec le meneur pour que l'invitation soit automatique",
           "explanation-2": "Les membres du groupe suivent le meneur que si ce dernier est sur la même carte",
-          "explanation-3": "Les membres du groupe ne peuvent pas suivre le meneur automatiquement dans une entré de donjon/maison/etc",
           "active": "Activer l'Auto Group",
           "leader": "Nom du meneur",
           "members": "Noms des personnages du groupe (séparé par un point-virgule)",

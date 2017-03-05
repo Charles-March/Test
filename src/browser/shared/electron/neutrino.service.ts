@@ -8,7 +8,11 @@ type Event = "TIPEEE" | "OK";
 export class NeutrinoService {
 
     constructor(){
-        neutrino.init("SyxamT87ux");
+        try {
+            neutrino.init("SyxamT87ux");
+        } catch(e){
+            //console.log(e);
+        }
     }
 
     emit(event:Event):void{
