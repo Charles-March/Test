@@ -32,6 +32,7 @@
     "bootstrap": "^4.0.0-alpha.5",
     "command-line-args": "^3.0.5",
     "core-js": "^2.4.1",
+    "crypto": "^0.0.3",
     "decompress": "^4.0.0",
     "decompress-targz": "^4.0.0",
     "decompress-unzip": "^4.0.1",

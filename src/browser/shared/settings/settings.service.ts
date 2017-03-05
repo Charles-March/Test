@@ -542,10 +542,12 @@ export module Option {
     export class VIP {
         public general: VIP.General;
         public autogroup: VIP.AutoGroup;
+        public multiaccount: VIP.MultiAccount;
 
         constructor() {
             this.general = new VIP.General();
             this.autogroup = new VIP.AutoGroup();
+            this.multiaccount = new VIP.MultiAccount();
         }
     }
 
@@ -692,6 +694,45 @@ export module Option {
                 this.delay = settings.getSync('option.vip.auto_group.delay');
                 this.fight = settings.getSync('option.vip.auto_group.fight');
                 this.random_move = settings.getSync('option.vip.auto_group.random_move');
+            }
+        }
+
+        export class MultiAccount {
+            private _active: boolean;
+            private _master_password: string;
+            private _windows: {account_name_encrypted: string, password_encrypted: string}[][];
+
+            get active(): boolean {
+                return this._active;
+            }
+
+            set active(active: boolean) {
+                settings.setSync('option.vip.multi_account.active', active);
+                this._active = active;
+            }
+
+            get master_password(): string {
+                return this._master_password;
+            }
+
+            set master_password(active: string) {
+                settings.setSync('option.vip.multi_account.master_password', active);
+                this._master_password = active;
+            }
+
+            get windows(): {account_name_encrypted: string, password_encrypted: string}[][] {
+                return this._windows;
+            }
+
+            set windows(windows: {account_name_encrypted: string, password_encrypted: string}[][]) {
+                settings.setSync('option.vip.multi_account.windows', windows);
+                this._windows = windows;
+            }
+
+            constructor(){
+                this.active = settings.getSync('option.vip.multi_account.active');
+                this.master_password = settings.getSync('option.vip.multi_account.master_password');
+                this.windows = settings.getSync('option.vip.multi_account.windows');
             }
         }
     }

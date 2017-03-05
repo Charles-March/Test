@@ -76,6 +76,11 @@ export interface ISettings {
                 ready: boolean;
                 delay:number;
                 fight: boolean;
+            },
+            multi_account : {
+                active: boolean;
+                master_password: string;
+                windows: {account_name_encrypted: string, password_encrypted: string}[][];
             }
         }
     }

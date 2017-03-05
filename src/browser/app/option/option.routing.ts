@@ -13,7 +13,7 @@ import {NotificationComponent} from "./notification/notification.component";
 import {VipComponent} from "./vip/vip.component";
 import {GeneralComponent as VipGeneralComponent} from "./vip/general/general.component";
 import {AutoGroupComponent} from "./vip/auto-group/auto-group.component";
-
+import {MultiAccountComponent} from "./vip/multi-account/multi-account.component";
 
 const routes: Routes = [
     {
@@ -53,6 +53,7 @@ const routes: Routes = [
                     {path: '', redirectTo: 'general', pathMatch: 'full'},
                     {path: 'general', component: VipGeneralComponent},
                     {path: 'auto-group', component: AutoGroupComponent},
+                    {path: 'multi-account', component: MultiAccountComponent},
                 ]
             },
         ]

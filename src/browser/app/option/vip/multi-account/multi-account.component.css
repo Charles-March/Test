@@ -1,0 +1,64 @@
+.ma-body {
+    margin-bottom: 30px;
+}
+
+.ma-account-name {
+    margin-left: 60px;
+}
+
+.ma-right {
+    float: right;
+}
+
+.ma-window-number {
+    margin-left: 30px
+}
+
+.ma-add-ctn {
+    height: 35px;
+}
+
+.ma-delete-window {
+    height: 22px;
+    margin-top: 8px !important;
+}
+
+.ma-delete-window:hover {
+    height: 21px;
+    margin-top: 9px !important;
+    cursor: pointer;
+}
+
+.ma-flex-right {
+    margin-left: auto;
+    margin-right: 30px
+}
+
+.ma-link {
+    color: cornflowerblue !important;
+}
+
+.ma-link:hover {
+    color: dodgerblue !important;
+    cursor: pointer !important;
+}
+
+.ma-account-form {
+    margin-top: 10px;
+}
+
+.ma-add-window {
+    height: 35px;
+}
+
+.ma-wrong {
+    border: solid 1px darkred;
+}
+
+.ma-wrong-password-tip {
+    color: darkred
+}
+
+.ma-success-password-tip {
+    color: forestgreen;
+}

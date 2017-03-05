@@ -28,6 +28,8 @@ interface INews {
 
 //const { ipcRenderer } = (<any>global).nodeRequire('electron');
 
+import {Crypt} from "../utils/crypt";
+
 @Component({
     selector: 'main',
     templateUrl: 'app/main/main.component.html',
@@ -67,7 +69,14 @@ export class MainComponent implements OnInit, AfterViewInit {
 
         this.setEventListener();
 
-        this.addTab();
+        // If the multi-account option is enabled
+        // Just send an event to say that this window is ready
+        if (this.settingsService.option.vip.multiaccount.active)
+            this.ipcRendererService.send("window-ready");
+        
+        // Else just open a basic tab
+        else
+            this.addTab();
     }
 
     ngAfterViewInit() {
@@ -144,6 +153,36 @@ export class MainComponent implements OnInit, AfterViewInit {
         this.selectTab(tab);
     }
 
+    // This function will create one tab for each account
+    // @param accounts: Array of encrypted accounts to load
+    addMultiAccountTabs(accounts: {account_name_encrypted: string, password_encrypted: string}[]) {
+
+        // If there is no account 
+        if (!accounts || accounts.length <= 0) {
+            this.addTab();
+            return;
+        }
+
+        let tab: Tab;
+
+        // Decrypt credentials for each accounts
+        // Open Tab for each accounts
+        for (let i in accounts) {
+            
+            let credentials = {
+                account_name: Crypt.decrypt(accounts[i].account_name_encrypted, this.applicationService.masterpassword),
+                password: Crypt.decrypt(accounts[i].password_encrypted, this.applicationService.masterpassword),
+            };
+
+            tab = new Tab(credentials);
+
+            this.tabService.addTab(tab);
+        }
+
+        // Open the last tab
+        this.selectTab(tab);
+    }
+
     removeTab(tab: Tab): void {
 
         if (this.activTab !== null && tab.id === this.activTab.id) {
@@ -197,6 +236,11 @@ export class MainComponent implements OnInit, AfterViewInit {
                         break;
                 }
             }
+        });
+
+        // When accounts are sent, open them
+        this.ipcRendererService.on('accounts', (event: Event, accounts: any) => {
+            this.addMultiAccountTabs(accounts);
         });
     }
 

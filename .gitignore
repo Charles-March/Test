@@ -8,6 +8,7 @@ jspm_packages
 link-checker-results.txt
 **/*npm-debug.log.*
 
+yarn.lock
 
 !karma*.js
 !protractor*.js

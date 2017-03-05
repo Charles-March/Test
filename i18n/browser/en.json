@@ -47,6 +47,27 @@
           "fight": "Entrer en combat automatiquement",
           "delay": "Délai avant de suivre (en seconde)",
           "random-move": "Déplacement sur des cases adjacentes (lors du suivi du meneur)"
+        },
+        "multi-account": {
+          "header": "Multi Account",
+          "active": "Activate Multi Account",
+          "window": "Window",
+          "delete-window": "Delete window",
+          "add-window": "Add Window",
+          "delete-account": "delete",
+          "modify-account": "modify",
+          "add": "Add",
+          "modify": "Modify",
+          "account-name": "Account name",
+          "password": "Password",
+          "modify_password": "Modify password",
+          "configure_password": "Configure password",
+          "password_configured": "Password configured",
+          "ancient_password": "Ancient password",
+          "wrong_ancient_password": "Invalid ancient password",
+          "new_password": "New password",
+          "cancel": "Cancel",
+          "configure": "Configure"
         }
       },
       "general": {

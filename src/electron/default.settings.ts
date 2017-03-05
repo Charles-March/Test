@@ -151,6 +151,11 @@ export const DefaultSettings: ISettings = {
                 ready: false,
                 delay: 1,
                 fight: false,
+            },
+            multi_account: {
+                active: false,
+                master_password: "",
+                windows: [[]],
             }
         }
     }

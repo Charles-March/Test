@@ -1,0 +1,69 @@
+<div class="form-horizontal ma-body">
+    <ng-container *ngIf="true || applicationService.vipStatus >= 2">
+        <div class="row">
+            <div class="col-8">
+                <div class="form-check mb-2 mr-sm-2 mb-sm-0 col">
+                    <label class="form-check-label">
+                        <h3><input [(ngModel)]="settingsService.option.vip.multiaccount.active"
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    (change)="toggleMultiAccountActive()"> {{ 'app.option.vip.multi-account.active' | translate}}</h3>
+                    </label>
+                </div>
+            </div>
+            <div class="col-4">
+                <a *ngIf="hasPassword() && !newPasswordForm" class="ma-right ma-link" (click)="openNewPasswordForm()">{{ 'app.option.vip.multi-account.modify_password' | translate}}</a>
+                <a *ngIf="!hasPassword() && !newPasswordForm" class="ma-right ma-link" (click)="openNewPasswordForm()">{{ 'app.option.vip.multi-account.configure_password' | translate}}</a>
+                <div *ngIf="successModifyPassword" class="ma-success-password-tip ma-right">{{ 'app.option.vip.multi-account.password_configured' | translate}}</div>
+            </div>
+            <div *ngIf="newPasswordForm" class="ma-account-form row col-12">
+                <div *ngIf="hasPassword()" class="col-6">
+                    <h6>{{ 'app.option.vip.multi-account.ancient_password' | translate}}</h6>
+                    <input type="password" [ngClass]="{'ma-wrong': wrongAncientPassword}" class="form-control" name="ancient_password" [(ngModel)]="newPasswordForm.ancient_password">
+                    <div *ngIf="wrongAncientPassword" class="ma-wrong-password-tip">{{ 'app.option.vip.multi-account.wrong_acient_password' | translate}}t</div>
+                </div>
+                <div class="col-6">
+                    <h6>{{ 'app.option.vip.multi-account.new_password' | translate}}</h6>
+                    <input type="password" class="form-control" name="new_password" [(ngModel)]="newPasswordForm.new_password">
+                </div>
+                <div class="ma-flex-right mt-2 mr-0">
+                    <button class="btn btn-secondary" (click)="resetNewPassword()">{{ 'app.option.vip.multi-account.cancel' | translate}}</button>
+                    <button *ngIf="hasPassword()" class="btn btn-secondary ml-3" (click)="setNewPassword()">{{ 'app.option.vip.multi-account.modify' | translate}}</button>
+                    <button *ngIf="!hasPassword()" class="btn btn-secondary ml-3" (click)="setNewPassword()">{{ 'app.option.vip.multi-account.configure' | translate}}</button>
+                </div>
+            </div>
+            <div class="col-12">
+                <div *ngFor="let window of windows; let i = index">
+                    <hr>
+                    <div class="row">
+                        <h3 class="ma-window-number">{{ 'app.option.vip.multi-account.window' | translate}} #{{i + 1}}</h3>
+                        <a class="btn btn-danger btn-sm ma-flex-right ma-delete-window" (click)="deleteWindow(i)">{{ 'app.option.vip.multi-account.delete-window' | translate}}</a>
+                    </div>
+                    <div *ngFor="let account of window; let j = index" class="row">
+                        <h6 class="ma-account-name">{{Crypt().decrypt(account.account_name_encrypted, applicationService.masterpassword)}}</h6>
+                        <h6 class="ma-flex-right">
+                            <a class="ma-link" (click)="deleteAccount(i, j)">{{ 'app.option.vip.multi-account.delete-account' | translate}}</a>
+                            -
+                            <a class="ma-link" (click)="openModifyAccount(i, j, account.account_name_encrypted)">{{ 'app.option.vip.multi-account.modify-account' | translate}}</a>
+                        </h6>
+                    </div>
+                    <div *ngIf="!(windowIndexNewAccount === i)" class="row ma-add-ctn"><button class="btn btn-secondary ma-flex-right" (click)="openAddAccount(i)">{{ 'app.option.vip.multi-account.add' | translate}}</button></div>
+                    <div class="ma-account-form row" *ngIf="windowIndexNewAccount === i || (openedModifyAccount && openedModifyAccount.window_index === i)">
+                        <div class="form-group col-6">
+                            <h6>{{ 'app.option.vip.multi-account.account-name' | translate}}</h6>
+                            <input type="text" class="form-control" name="account_name_{{i}}" [(ngModel)]="new_account.account_name">
+                        </div>
+                        <div class="form-group col-6">
+                            <h6>{{ 'app.option.vip.multi-account.password' | translate}}</h6>
+                            <input type="password" class="form-control" name="password_{{i}}" [(ngModel)]="new_account.password">
+                        </div>
+                        <button *ngIf="windowIndexNewAccount === i" class="right ma-flex-right" (click)="addAccount()">{{ 'app.option.vip.multi-account.add' | translate}}</button>
+                        <button *ngIf="openedModifyAccount && openedModifyAccount.window_index === i" class="right ma-flex-right" (click)="modifyAccount(i, openedModifyAccount.account_index)">{{ 'app.option.vip.multi-account.modify' | translate}}</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="row ma-add-window"><button class="btn btn-secondary right ma-flex-right" (click)="addWindow()">{{ 'app.option.vip.multi-account.add-window' | translate}}</button></div>
+            </div>
+        </div>
+    </ng-container>
+</div>

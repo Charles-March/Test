@@ -47,6 +47,27 @@
           "fight": "Entrer en combat automatiquement",
           "delay": "Délai avant de suivre (en seconde)",
           "random-move": "Déplacement sur des cases adjacentes (lors du suivi du meneur)"
+        },
+        "multi-account": {
+          "header": "Multi Comptes",
+          "active": "Activer le Multi Comptes",
+          "window": "Fenêtre",
+          "delete-window": "Supprimer la fenêtre",
+          "add-window": "Ajouter une fenêtre",
+          "delete-account": "supprimer",
+          "modify-account": "modifier",
+          "add": "Ajouter",
+          "modify": "Modifier",
+          "account-name": "Nom de compte",
+          "password": "Mot de passe",
+          "modify_password": "Modifier le mot de passe",
+          "configure_password": "Configurer le mot de passe",
+          "password_configured": "Mot de passe configuré",
+          "ancient_password": "Ancien mot de passe",
+          "wrong_ancient_password": "Ancien mot de passe invlalide",
+          "new_password": "Nouveau mot de passe",
+          "cancel": "Fermer",
+          "configure": "Configurer"
         }
       },
       "general": {

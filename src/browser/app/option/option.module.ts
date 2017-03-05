@@ -23,6 +23,7 @@ import {VipComponent} from "./vip/vip.component";
 import {AutoGroupComponent} from "./vip/auto-group/auto-group.component";
 import {GeneralComponent as VipGeneralComponent} from "./vip/general/general.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {MultiAccountComponent} from "./vip/multi-account/multi-account.component";
 
 @NgModule({
     imports: [
@@ -47,7 +48,8 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
         NotificationComponent,
         VipComponent,
         AutoGroupComponent,
-        VipGeneralComponent
+        VipGeneralComponent,
+        MultiAccountComponent
     ]
 })
 export class OptionModule {
