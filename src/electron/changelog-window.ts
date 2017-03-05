@@ -32,7 +32,6 @@ export class ChangeLogWindow {
                 return event.preventDefault();
             });
 
-
             this.win.show();
         }else{
             this.win.show();

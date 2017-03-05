@@ -1,3 +1,4 @@
+import {Application} from "../application";
 const settings = require('electron-settings');
 import electron = require("electron");
 import {BrowserWindow} from 'electron';
@@ -7,7 +8,7 @@ export class PromptPassword {
     // Prompt a window to request the master password for multi account
     public static run(): Electron.BrowserWindow {
 
-        let promptWindow: Electron.BrowserWindow
+        let promptWindow: Electron.BrowserWindow;
         
         promptWindow = new BrowserWindow({
             width: 400,
@@ -20,7 +21,7 @@ export class PromptPassword {
             frame: true
         });
         
-        promptWindow.loadURL(`file://${__dirname}/prompt-password.html`);
+        promptWindow.loadURL(`file://${Application.appPath}/out/electron/prompt-password/prompt-password.html`);
         
         promptWindow.show();
         promptWindow.setMenu(null);

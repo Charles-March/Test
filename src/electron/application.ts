@@ -14,6 +14,7 @@ import {ISettings} from "./settings";
 
 import {PromptPassword} from './prompt-password/prompt-password';
 import {Crypt} from "../shared/crypt";
+import {SplashWindow} from "./splash-window";
 
 export class Application {
 
@@ -68,23 +69,6 @@ export class Application {
         return this;
     }
 
-    private static getAppVersion(): Promise<string> {
-        return new Promise((resolve, reject) => {
-            request.get({
-                url: 'https://itunes.apple.com/lookup?id=1041406978',
-                forever: true
-            }, function (error, response, body) {
-
-                if (!error && response.statusCode == 200) {
-                    let bodyParse = JSON.parse(body);
-                    resolve(bodyParse.results[0].version);
-                } else {
-                    reject(error);
-                }
-            });
-        });
-    }
-
     private static getVipStatus(): Promise<{status: number, date: number}> {
         return new Promise((resolve, reject) => {
 
@@ -99,27 +83,6 @@ export class Application {
                     let bodyParse = JSON.parse(body);
 
                     resolve(bodyParse);
-                } else {
-                    reject(error);
-                }
-            });
-        });
-    }
-
-    private static getBuildVersion(): Promise<string> {
-        return new Promise((resolve, reject) => {
-
-            request.get({
-                url: 'https://proxyconnection.touch.dofus.com/build/script.js',
-                forever: true
-            }, (error, response, body) => {
-
-                if (!error && response.statusCode == 200) {
-                    const regex = /.*buildVersion=("|')([0-9]*\.[0-9]*\.[0-9]*)("|')/g;
-                    let m: RegExpExecArray;
-
-                    m = regex.exec(body.substring(1, 10000));
-                    resolve(m[2]);
                 } else {
                     reject(error);
                 }
@@ -144,28 +107,7 @@ export class Application {
         });
     }
 
-
     public static run(): void {
-
-        // skipupdate in dev mod
-        if (this.cmdOptions.skipupdate) {
-            ipcMain.on('load-config', (event, arg) => {
-
-                event.returnValue = {
-                    gamePath: app.getPath('userData') + '/game',
-                    appPath: Application.appPath,
-                    buildVersion: settings.getSync('buildVersion'),
-                    appVersion: settings.getSync('appVersion'),
-                    platform: process.platform,
-                    language: settings.getSync('language'),
-                    vip: false,
-                    masterpassword: undefined
-                }
-            });
-
-            this.addWindow();
-            return;
-        }
 
         // If the multi account option is active : Request the master password
         if (settings.getSync("option.vip.multi_account.active"))
@@ -174,7 +116,6 @@ export class Application {
         // Else : run the app from splash screen
         else
             Application.runFromSplashScreen();
-
     }
 
     public static requestMasterPassword() {
@@ -192,24 +133,16 @@ export class Application {
             }
         });
 
-
-
+        ipcMain.on('master-password-canceled', () => {
+            Application.runFromSplashScreen();
+            promptWindow.close();
+        });
     }
 
     public static runFromSplashScreen(masterpassword: string = undefined) {
 
         // create splash screen
-        let splash = new electron.BrowserWindow({
-            width: 250,
-            height: 250,
-            center: true,
-            movable: true,
-            alwaysOnTop: true,
-            resizable: false,
-            frame: false,
-            transparent: true
-        });
-        splash.loadURL(`file://${Application.appPath}/out/browser/splash.html#/`);
+        let splash = SplashWindow.run();
 
         // retrieve remote version
         Promise.all([
@@ -222,73 +155,14 @@ export class Application {
             // hide slpash screen
             splash.hide();
 
-
             // run update
             UpdateWindow.run().then(() => {
 
                 // If the multi account is active, open multi windows
                 if (settings.getSync("option.vip.multi_account.active"))
                     this.addMultiWindows();
-                
                 else
                     this.addWindow();
-
-                /*updater.init({
-                    checkUpdateOnStart: true,
-                    autoDownload: true,
-                    url: 'http://api.no-emu.com/updates.json',
-                });
-
-                updater.on('update-not-available', ()=>{
-                    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
-                        title: 'Téléchargemet MaJ',
-                        message: 'MaJ non Disponible !',
-                        buttons: ['Fermer']
-                    }, () => {
-
-                    });
-                });
-
-                updater.on('error', (err:any)=>{
-                    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
-                        title: 'Téléchargemet MaJ',
-                        message: err.toString(),
-                        buttons: ['Fermer']
-                    }, () => {
-
-                    });
-                });
-
-                updater.on('update-available', ()=>{
-                    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
-                        title: 'Téléchargemet MaJ',
-                        message: 'MaJ Disponible !',
-                        buttons: ['Fermer']
-                    }, () => {
-
-                    });
-                });
-
-
-
-                updater.on('update-downloading', ()=>{
-                    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
-                        title: 'Téléchargemet MaJ',
-                        message: 'Demarrage du téléchargement',
-                        buttons: ['Fermer']
-                    }, () => {
-
-                    });
-                });
-                updater.on('update-downloaded', ()=>{
-                    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
-                        title: 'Téléchargemet MaJ',
-                        message: 'Fin du téléchargement',
-                        buttons: ['Fermer']
-                    }, () => {
-
-                    });
-                });*/
 
                 // close update window
                 if (UpdateWindow.win) {
@@ -325,7 +199,6 @@ export class Application {
                     vipStatus: vip.status,
                     vipDate: vip.date,
                     masterpassword: masterpassword,
-
                     website: this.website
                 }
             });
