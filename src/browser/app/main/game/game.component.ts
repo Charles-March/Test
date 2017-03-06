@@ -78,10 +78,8 @@ export class GameComponent implements OnInit, AfterViewInit {
 
             // If the tab has credentials, connect the account
             // Then delete credentials
-            if (this.tab.credentials) {
+            if (this.tab.credentials)
                 this.connectAccount();
-                delete(this.tab.credentials);
-            }
 
             this.ipcRendererService.on('reload-settings-done', () => {
                 this.reloadMods();
@@ -195,8 +193,11 @@ export class GameComponent implements OnInit, AfterViewInit {
 
     // Connect the account to the last character connected
     private connectAccount() {
-        this.tab.window.gui.loginScreen._connectMethod = "lastCharacter";
-        let credentials = this.tab.credentials;
-        this.tab.window.gui.loginScreen._login(credentials.account_name, credentials.password, false);
+        setTimeout(() => {
+            let credentials = this.tab.credentials;
+            delete(this.tab.credentials);
+            this.tab.window.gui.loginScreen._connectMethod = "lastCharacter";
+            this.tab.window.gui.loginScreen._login(credentials.account_name, credentials.password, false);
+        }, this.tab.id * 500);
     }
 }
