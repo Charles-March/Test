@@ -1,0 +1,40 @@
+<div class="form-horizontal">
+    <ng-container *ngIf="applicationService.vipStatus >= 2">
+        <div class="form-group row">
+            <div class="col-offset-3 col-10">
+                <div class="checkbox">
+                    <label>
+                        <input [(ngModel)]="settingsService.option.vip.general.disable_inactivity" type="checkbox">
+                        {{'app.option.vip.general.disable-inactivity' | translate }}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-offset-3 col-10">
+                <div class="checkbox">
+                    <label>
+                        <input [(ngModel)]="settingsService.option.vip.general.estimator" type="checkbox">
+                        {{'app.option.vip.general.estimator' | translate }}
+                    </label>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <hr>
+    <ng-container *ngIf="applicationService.vipStatus >= 3">
+        <div class="form-group row">
+            <div class="col-offset-3 col-10">
+                <div class="checkbox">
+                    <label>
+                        <input [(ngModel)]="settingsService.option.vip.general.health_bar" class="checkbox"
+                               type="checkbox"> {{ 'app.option.vip.general.health-bar' | translate }}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <option-shortcuts-input id="health_bar_shortcut"
+                                name="{{ 'app.option.vip.general.health-bar-shortcut' | translate }}"
+                                [(model)]="settingsService.option.vip.general.health_bar_shortcut"></option-shortcuts-input>
+    </ng-container>
+</div>

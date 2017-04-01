@@ -1,0 +1,110 @@
+import {Component, OnInit, NgZone, OnDestroy}      from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
+import {IpcRendererService} from "./../../shared/electron/ipcrenderer.service";
+import {Title} from "@angular/platform-browser";
+import {TranslateModule, TranslateService} from "ng2-translate";
+
+
+const progress = (<any>global).nodeRequire('request-progress');
+const request = (<any>global).nodeRequire('request');
+const fs = (<any>global).nodeRequire('fs');
+
+@Component({
+    moduleId: module.id,
+    selector: 'update',
+    templateUrl: 'update.component.html',
+    styleUrls: ['update.component.css']
+})
+export class UpdateComponent implements OnInit, OnDestroy {
+
+    private progress: number = 0;
+    private savePath: string;
+    private saveFile: any;
+    private remoteUrl: string;
+    private informations: string;
+    private sub: Subscription;
+
+    constructor(private route: ActivatedRoute,
+                private translate: TranslateService,
+                private router: Router,
+                private zone: NgZone,
+                private ipcRendererService: IpcRendererService,
+                private titleService: Title) {}
+
+    ngOnInit() {
+
+        this.translate.get('update.title').subscribe((res: string) => {
+            this.titleService.setTitle(res);
+        });
+
+        this.translate.get('update.information.start').subscribe((res: string) => {
+            this.informations = res;
+        });
+
+        this.sub = this.route.params.subscribe(params => {
+            // Defaults to 0 if no query param provided.
+            this.savePath = decodeURIComponent(params['savePath']);
+            this.remoteUrl = decodeURIComponent(params['remoteUrl']);
+
+            this.saveFile = fs.createWriteStream(this.savePath);
+
+            this.download();
+        });
+    }
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
+    }
+
+    download() {
+        progress(request(this.remoteUrl), {})
+            .on('progress', (state: any) => {
+                this.zone.run(() => {
+                    this.progress = Math.round(state.percent * 100);
+                    this.informations = this.formatUnit(state.size.transferred) + ' / ' + this.formatUnit(state.size.total);
+                });
+            })
+            .on('error', (err: any) => {
+                console.log(err);
+                this.zone.run(() => {
+                    this.translate.get('update.information.error').subscribe((res: string) => {
+                        this.informations = res;
+                    });
+                });
+            })
+            .on('end', () => {
+                this.zone.run(() => {
+                    this.progress = 100;
+                });
+            })
+            .pipe(this.saveFile);
+
+        this.saveFile.addListener('finish', () => {
+            this.zone.run(() => {
+                this.install();
+            });
+        });
+    }
+
+    install() {
+        this.translate.get('update.information.install').subscribe((res: string) => {
+            this.informations = res;
+        });
+
+        // call electron to install the update
+        this.ipcRendererService.send('install-update');
+    }
+
+    formatUnit(count: number): string {
+        if (count >= 1000000) {
+            return (Math.round((count / 1000000) * 100) / 100) + ' Mb';
+        }
+        else if (count >= 1000) {
+            return (Math.round((count / 1000) * 100) / 100) + ' Kb';
+        }
+        else {
+            return (Math.round(count * 100) / 100) + ' B';
+        }
+    }
+}

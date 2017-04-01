@@ -1,0 +1,72 @@
+<div class="form-horizontal">
+    <ng-container *ngIf="applicationService.vipStatus >= 2">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-inline">
+                    <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+                        <label class="form-check-label">
+                            <h3><input [(ngModel)]="settingsService.option.vip.autogroup.active"
+                                       class="form-check-input"
+                                       type="checkbox"> {{ 'app.option.vip.auto-group.active' | translate }}</h3>
+                        </label>
+                    </div>
+                </div>
+                <hr>
+                <ul>
+                    <li><strong>{{ 'app.option.vip.auto-group.warning' | translate }}</strong></li>
+                    <li>{{ 'app.option.vip.auto-group.explanation-1' | translate }}</li>
+                    <li>{{ 'app.option.vip.auto-group.explanation-2' | translate }}</li>
+                </ul>
+                <div class="form-check">
+                    <label for="leader"> {{ 'app.option.vip.auto-group.leader' | translate }}</label>
+                    <input type="text" [(ngModel)]="settingsService.option.vip.autogroup.leader" class="form-control"
+                           id="leader">
+                </div>
+                <div class="form-group">
+                    <label for="members">{{ 'app.option.vip.auto-group.members' | translate }}</label>
+                    <textarea type="text" [(ngModel)]="settingsService.option.vip.autogroup.members"
+                              class="form-control"
+                              id="members" placeholder="Nyom;Jonquille;Kokillette"></textarea>
+                </div>
+            </div>
+            <hr>
+            <div class="col-12">
+                <div class="form-inline">
+                    <div class="form-check mr-sm-4">
+                        <label class="form-check-label">
+                            <input [(ngModel)]="settingsService.option.vip.autogroup.ready" class="form-check-input"
+                                   type="checkbox"> {{ 'app.option.vip.auto-group.ready' | translate }}
+                        </label>
+                    </div>
+                    <div class="form-check mr-sm-4">
+                        <label class="form-check-label">
+                            <input [(ngModel)]="settingsService.option.vip.autogroup.fight" class="form-check-input"
+                                   type="checkbox"> {{ 'app.option.vip.auto-group.fight' | translate }}
+                        </label>
+                    </div>
+                    <div class="form-check mr-sm-4">
+                        <label class="form-check-label">
+                            <input [(ngModel)]="settingsService.option.vip.autogroup.follow_leader"
+                                   class="form-check-input"
+                                   type="checkbox"> {{ 'app.option.vip.auto-group.follow-leader' | translate }}
+                        </label>
+                    </div>
+                    <div class="form-check mr-sm-4">
+                        <label class="form-check-label">
+                            <input [(ngModel)]="settingsService.option.vip.autogroup.random_move"
+                                   class="form-check-input"
+                                   type="checkbox"> {{ 'app.option.vip.auto-group.random-move' | translate }}
+                        </label>
+                    </div>
+                </div>
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label for="delay">{{ 'app.option.vip.auto-group.delay' | translate }}</label>
+                        <input [(ngModel)]="settingsService.option.vip.autogroup.delay" type="number" id="delay"
+                               class="form-control mx-sm-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>

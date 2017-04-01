@@ -1,0 +1,63 @@
+body,html, application {
+    padding:0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+
+.loading {
+    opacity: 1;
+
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: white;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+}
+
+
+.loader,
+.loading:before,
+.loading:after {
+    border-radius: 50%;
+    font-size: 15px;
+    width: 2em;
+    height: 2em;
+    top: (50% - 5em);
+    left: calc(50% - 5em);
+    animation-fill-mode: both;
+    animation: load7 1s infinite ease;
+    animation-direction: alternate;
+    transform: scale(0);
+    background-color: #222;
+    margin: 0 0.5em;
+}
+.loader {
+    position: relative;
+    text-indent: -9999em;
+    animation-delay: 0.2s;
+}
+.loading:before,
+.loading:after {
+    content: '';
+    position: relative;
+}
+.loading:before {
+}
+.loading:after {
+    animation-delay: 0.4s;
+}
+@keyframes load7 {
+    0%, 20% {
+        transform: scale(0);
+    }
+    100% {
+         transform: scale(1);
+    }
+}

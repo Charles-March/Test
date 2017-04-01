@@ -1,0 +1,22 @@
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-6">
+            <option-shortcuts-input id="new-window" name="{{ 'app.option.shortcuts.no-emu.new-window' | translate }}"
+                                    [(model)]="settingsService.option.shortcuts.no_emu.new_window"></option-shortcuts-input>
+            <option-shortcuts-input id="new-tab" name="{{ 'app.option.shortcuts.no-emu.new-tab' | translate }}"
+                                    [(model)]="settingsService.option.shortcuts.no_emu.new_tab"></option-shortcuts-input>
+            <hr>
+            <option-shortcuts-input *ngFor="let i of range(1,5)" id="tab{{i}}" name="{{ 'app.option.shortcuts.no-emu.tab' | translate:{x:i} }}"
+                                    [(model)]="settingsService.option.shortcuts.no_emu.tabs[i-1]"></option-shortcuts-input>
+        </div>
+        <div class="col-6">
+            <option-shortcuts-input id="next-tab" name="{{ 'app.option.shortcuts.no-emu.next-tab' | translate }}"
+                                    [(model)]="settingsService.option.shortcuts.no_emu.next_tab"></option-shortcuts-input>
+            <option-shortcuts-input id="prev-tab" name="{{ 'app.option.shortcuts.no-emu.prev-tab' | translate }}"
+                                    [(model)]="settingsService.option.shortcuts.no_emu.prev_tab"></option-shortcuts-input>
+            <hr>
+            <option-shortcuts-input *ngFor="let i of range(6,10)" id="tab{{i}}" name="{{ 'app.option.shortcuts.no-emu.tab' | translate:{x:i} }}"
+                                    [(model)]="settingsService.option.shortcuts.no_emu.tabs[i-1]"></option-shortcuts-input>
+        </div>
+    </div>
+</div>
